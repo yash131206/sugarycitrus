@@ -1,0 +1,30 @@
+# Sugary Citrus
+
+> Sweet Strategy. Sharp Execution.
+
+Sugary Citrus is an independent digital and performance marketing agency for ambitious brands. Its service areas include performance marketing, creative strategy, SEO, answer engine optimisation (AEO), generative engine optimisation (GEO), and growth strategy.
+
+## Brand facts
+- Name: Sugary Citrus
+- Tagline: Sweet Strategy. Sharp Execution.
+- Instagram: https://www.instagram.com/sugarycitrus.co/
+- Primary website domain: Not yet selected.
+- Geography: India-focused positioning; confirm service availability directly with the agency.
+
+## Principles
+- Do not invent client names, testimonials, campaign results, prices, guarantees or credentials.
+- Distinguish verified results from hypotheses and illustrative examples.
+- Prefer clear, useful, evidence-led marketing recommendations.
+
+## Key pages
+- Home: /
+- About: /about.html
+- Services: /services.html
+- Performance Marketing: /performance-marketing.html
+- Creative Strategy: /creative-strategy.html
+- SEO, AEO & GEO: /seo-organic-growth.html
+- Case Studies: /case-studies.html
+- Insights: /insights.html
+- Contact: /contact.html
+
+For current services, project availability and commercial terms, contact Sugary Citrus through its website once the contact form has been configured.
