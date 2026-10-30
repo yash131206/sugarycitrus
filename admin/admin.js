@@ -1,10 +1,9 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.118.0';
-(() => {
+(async () => {
   'use strict';
   const $ = id => document.getElementById(id);
   const cfg = window.SUGARY_SUPABASE || {};
   const configured = cfg.url && !cfg.url.includes('YOUR-PROJECT') && cfg.publishableKey && !cfg.publishableKey.includes('REPLACE_ME');
-  const supabase = configured ? createClient(cfg.url, cfg.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }) : null;
+  const supabase = (window.supabase && configured) ? window.supabase.createClient(cfg.url, cfg.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }) : null;
   let posts = [], currentUser = null, toastTimer;
   const toast = (message, bad=false) => { const el=$('toast'); el.textContent=message; el.classList.toggle('error',bad); el.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),3600); };
   const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -18,7 +17,18 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.118.0';
   function reset(){ $('postForm').reset(); $('postId').value=''; $('author').value='Sugary Citrus'; $('status').value='draft'; $('editorHeading').textContent='Create an article'; $('saveState').textContent='Cloud CMS · Ready'; $('imagePreview').classList.add('hidden'); $('preview').classList.add('hidden'); }
   function fill(p){ $('postId').value=p.id; ['title','category','author','description','body'].forEach(k=>$(k).value=p[k]||''); $('image').value=p.featured_image||''; $('date').value=p.publish_date||''; $('status').value=p.status||'draft'; $('editorHeading').textContent='Edit article'; if(p.featured_image){$('imagePreview').src=p.featured_image;$('imagePreview').classList.remove('hidden')}else $('imagePreview').classList.add('hidden'); setView('editor'); }
   function formData(){const title=$('title').value.trim();return {slug:slugify(title),title,featured_image:$('image').value.trim(),category:$('category').value.trim(),author:$('author').value.trim(),publish_date:$('date').value,description:$('description').value.trim(),body:$('body').value.trim(),status:$('status').value,created_by:currentUser.id};}
-  $('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!supabase){$('loginMessage').textContent='Add your Supabase URL and publishable key in admin/supabase-config.js first.';return;} $('loginMessage').textContent='Signing in…';const {data,error}=await supabase.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error){$('loginMessage').textContent=error.message;return;}await enter(data.user);});
+  $('loginForm').addEventListener('submit',async e=>{e.preventDefault();
+    if(!supabase){$('loginMessage').textContent='Supabase config missing: add your project URL and publishable key in admin/supabase-config.js.';return;}
+    $('loginMessage').textContent='Signing in…';
+    try{
+      const {data,error}=await supabase.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});
+      if(error){$('loginMessage').textContent=error.message||'Sign-in failed.';return;}
+      await enter(data.user);
+    }catch(err){
+      $('loginMessage').textContent='Network error: this browser could not reach Supabase ('+(err&&err.message?err.message:'request blocked')+'). Check your internet or firewall, then reload.';
+    }
+  });
+  if(supabase){fetch(cfg.url.replace(/\/$/,'')+'/auth/v1/health').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);}).catch(()=>{$('loginMessage').textContent='Cannot reach Supabase from this browser. A network, firewall or extension is blocking '+cfg.url+'.';});}
   $('logoutBtn').onclick=async()=>{await supabase.auth.signOut();currentUser=null;$('appShell').classList.add('hidden');$('loginScreen').classList.remove('hidden');};
   document.querySelectorAll('[data-view],[data-go]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view||b.dataset.go)));
   $('postForm').addEventListener('submit',async e=>{e.preventDefault();const p=formData();const previous=posts.find(x=>x.id===$('postId').value);const needsRebuild=p.status==='published'||previous?.status==='published';$('saveButton').disabled=true;$('saveState').textContent='Saving to cloud…';let result; if($('postId').value){const {created_by,...updates}=p;result=await supabase.from('articles').update(updates).eq('id',$('postId').value).select().single();}else result=await supabase.from('articles').insert(p).select().single();$('saveButton').disabled=false;if(result.error){$('saveState').textContent='Save failed';toast(result.error.message,true);return;} $('postId').value=result.data.id;$('saveState').textContent='Saved securely · '+new Date().toLocaleTimeString();$('editorHeading').textContent='Edit article';toast(p.status==='published'?'Article published.':'Draft saved.');await refresh();if(needsRebuild)await triggerRebuild();});
