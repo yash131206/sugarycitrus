@@ -15,9 +15,9 @@ async function loadLatest(){
     }
   }catch(e){console.error('Latest insights error:',e);}
   if(!data.length){
-    target.innerHTML='<div class="latest-empty">No articles published yet. Once you publish from the Content Studio, the newest three show up here automatically. <a class="text-link" href="insights.html">Open insights '+ARROW+'</a></div>';
+    target.innerHTML='<div class="latest-empty">No articles published yet. Once you publish from the Content Studio, the newest three show up here automatically. <a class="text-link" href="insights">Open insights '+ARROW+'</a></div>';
     return;
   }
-  target.innerHTML=data.map(p=>`<a class="blog-card" href="articles/${encodeURIComponent(p.slug)}.html"><div class="blog-image">${p.featured_image?`<img src="${esc(p.featured_image)}" alt="${esc(p.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`:'✳'}</div><div class="blog-body"><small>${esc(p.category)} · ${esc(p.publish_date)}</small><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><span class="text-link">Read article ${ARROW}</span></div></a>`).join('');
+  target.innerHTML=data.map(p=>`<a class="blog-card" href="articles/${encodeURIComponent(p.slug)}"><div class="blog-image">${p.featured_image?`<img src="${esc(p.featured_image)}" alt="${esc(p.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`:'✳'}</div><div class="blog-body"><small>${esc(p.category)} · ${esc(p.publish_date)}</small><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><span class="text-link">Read article ${ARROW}</span></div></a>`).join('');
 }
 loadLatest();

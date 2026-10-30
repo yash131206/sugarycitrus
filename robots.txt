@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Sitemap: https://YOUR-DOMAIN/sitemap.xml
+Disallow: /api/
+Sitemap: https://yash131206.github.io/sugary-citrus-website-v2/sitemap.xml
