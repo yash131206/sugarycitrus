@@ -767,3 +767,31 @@ html[data-theme="dark"] .article-meta{color:var(--muted)}
 /* the footer card is dark in both themes */
 .footer-card .footer-col a,.footer-card .footer-col p,.footer-card .footer-bottom,
 .footer-card .footer-bottom span,.footer-card .footer-meta{color:#F6F0E4}
+
+/* ---- v9.2: two strips crossing like an X, opposite directions ---- */
+.ticker--back{
+  position:absolute;left:0;right:0;
+  bottom:auto;top:-16px;
+  transform:rotate(1.2deg) scale(1.02);
+  background:rgba(255,85,32,.55);
+  padding:14px 0;
+  z-index:0;
+}
+.ticker--back .ticker-track{animation-direction:reverse;animation-duration:34s;opacity:.75}
+.ticker{position:relative;z-index:1}
+@media(max-width:850px){
+  .ticker--back{top:-11px;padding:12px 0}
+}
+.ticker--back{top:-30px;background:rgba(255,85,32,.42)}
+.ticker--back .ticker-track{opacity:.62}
+@media(max-width:850px){.ticker--back{top:-22px}}
+/* stronger crossing so the two strips read as an X */
+.ticker-stack{overflow:visible;padding:18px 0 4px}
+.ticker-stack .ticker{transform:rotate(-2.2deg) scale(1.03)}
+.ticker--back{transform:rotate(2.2deg) scale(1.03);top:-18px}
+@media(max-width:850px){
+  .ticker-stack .ticker{transform:rotate(-2deg) scale(1.04)}
+  .ticker--back{transform:rotate(2deg) scale(1.04);top:-14px}
+}
+.ticker--back{top:-26px}
+@media(max-width:850px){.ticker--back{top:-20px}}
