@@ -795,3 +795,7 @@ html[data-theme="dark"] .article-meta{color:var(--muted)}
 }
 .ticker--back{top:-26px}
 @media(max-width:850px){.ticker--back{top:-20px}}
+
+/* small breathing gap between the two ticker strips */
+.ticker--back{top:-58px}
+@media(max-width:850px){.ticker--back{top:-50px}}
