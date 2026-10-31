@@ -451,3 +451,24 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .nav-wrap .nav{width:calc(100% - 28px);padding:12px 12px 12px 14px}
 }
 .footer-bottom,.footer-bottom span,.footer-tagline{font-weight:700}
+
+/* ---- v7.5: near-transparent glass nav ---- */
+:root{--nav-bg:rgba(249,242,228,.14);--nav-border:rgba(27,27,27,.10)}
+html[data-theme="dark"]{--nav-bg:rgba(17,16,14,.22);--nav-border:rgba(243,237,225,.12)}
+.nav{
+  background:var(--nav-bg);
+  border-color:var(--nav-border);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  backdrop-filter:blur(22px) saturate(150%);
+  box-shadow:0 8px 30px rgba(27,27,27,.06);
+}
+html[data-theme="dark"] .nav{box-shadow:0 8px 30px rgba(0,0,0,.28)}
+/* keep the wordmark and icons legible over whatever scrolls behind */
+.nav .brand-word,.nav .nav-links a,.nav .theme-toggle,.nav .menu-toggle{text-shadow:0 1px 0 rgba(249,242,228,.35)}
+html[data-theme="dark"] .nav .brand-word,
+html[data-theme="dark"] .nav .nav-links a,
+html[data-theme="dark"] .nav .theme-toggle,
+html[data-theme="dark"] .nav .menu-toggle{text-shadow:0 1px 0 rgba(0,0,0,.35)}
+/* keep the pill edge readable at very low fill */
+:root{--nav-border:rgba(27,27,27,.16)}
+html[data-theme="dark"]{--nav-border:rgba(243,237,225,.20)}
