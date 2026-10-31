@@ -441,3 +441,13 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .content-section{padding-top:34px;padding-bottom:clamp(44px,7vw,64px)}
   .section-head{margin-bottom:30px}
 }
+
+/* ---- v7.4: nav proportions + bold footer bar ---- */
+@media(max-width:850px){
+  .nav-wrap .nav{width:calc(100% - 34px);padding:14px 14px 14px 17px;border-radius:17px}
+  .nav-wrap{top:16px}
+}
+@media(max-width:400px){
+  .nav-wrap .nav{width:calc(100% - 28px);padding:12px 12px 12px 14px}
+}
+.footer-bottom,.footer-bottom span,.footer-tagline{font-weight:700}
