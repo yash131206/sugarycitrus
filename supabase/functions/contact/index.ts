@@ -459,72 +459,97 @@ Deno.serve(async (req: Request) => {
   const service = (data.service || "").trim();
   const company = (data.company || "").trim();
   const subject = `New enquiry — ${(company || name).slice(0, 70)}${service ? ` (${service})` : ""}`;
+  const LOGO = "https://yash131206.github.io/sugarycitrus/assets/logo-mark.png";
 
-  const row = (label: string, value: string, href = "") => `
-    <tr>
-      <td style="padding:0 0 14px;width:132px;vertical-align:top;font:600 10px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8b867c">${esc(label)}</td>
-      <td style="padding:0 0 14px;vertical-align:top;font:400 15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1B1B1B">${
-        href ? `<a href="${esc(href)}" style="color:#D8410F;text-decoration:none">${esc(value)}</a>` : esc(value) || "—"
-      }</td>
-    </tr>`;
+  const detail = (label: string, value: string, href = "") => `
+        <tr>
+          <td class="label" style="width:118px;padding:0 0 12px;font:600 10px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8B867C;vertical-align:top">${label}</td>
+          <td class="ink" style="padding:0 0 12px;font:400 14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1B1B1B">${
+            href ? `<a href="${esc(href)}" style="color:#D8410F;text-decoration:none">${esc(value)}</a>` : esc(value)
+          }</td>
+        </tr>`;
 
   const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New enquiry</title></head>
-<body style="margin:0;padding:0;background:#F4EEE2;">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>${esc(subject)}</title>
+<style>
+  :root { color-scheme: light dark; supported-color-schemes: light dark; }
+  @media (prefers-color-scheme: dark) {
+    .page { background:#0D0C0B !important; }
+    .card { background:#161514 !important; border-color:#2A2825 !important; }
+    .bar  { background:#0D0C0B !important; }
+    .ink  { color:#F9F2E4 !important; }
+    .muted { color:#9A948A !important; }
+    .label { color:#7D776E !important; }
+    .body-text { color:#DCD6CA !important; }
+    .msg-box { background:#1D1B19 !important; border-color:#2A2825 !important; border-left-color:#FF5520 !important; }
+    .btn-primary { background:#FF5520 !important; }
+    .btn-primary a { color:#11100E !important; }
+    .btn-ghost { border-color:#3A3733 !important; }
+    .btn-ghost a { color:#F9F2E4 !important; }
+    .foot { color:#57534C !important; }
+    .foot-rule { border-top-color:#2A2825 !important; }
+  }
+</style></head>
+<body class="page" style="margin:0;padding:0;background:#F4EEE2;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0">New enquiry from ${esc(name)}${company ? ` · ${esc(company)}` : ""}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EEE2;padding:28px 12px">
-  <tr><td align="center">
-    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border:1px solid #E6DED0;border-radius:18px;overflow:hidden">
-      <tr><td style="background:#1B1B1B;padding:22px 28px">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-          <td style="font:800 19px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.4px;color:#F9F2E4">
-            sugary<span style="color:#FF5520">citrus.</span>
-          </td>
-          <td align="right" style="font:400 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:#A9A398">${esc(when)} IST</td>
-        </tr></table>
-      </td></tr>
-      <tr><td style="height:4px;background:#FF5520;font-size:0;line-height:0">&nbsp;</td></tr>
-      <tr><td style="padding:30px 28px 8px">
-        <div style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:#FF5520">New enquiry</div>
-        <h1 style="margin:12px 0 6px;font:700 26px/1.25 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.6px;color:#1B1B1B">${esc(name)}</h1>
-        <p style="margin:0 0 24px;font:400 14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#6c6862">${
-          company ? `From ${esc(company)}` : "Sent from the website contact form"
-        }</p>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-          ${row("Email", email, `mailto:${email}`)}
-          ${company ? row("Company", company) : ""}
-          ${service ? row("Needs help with", service) : ""}
-        </table>
-        <div style="margin:6px 0 24px;padding:16px 18px;background:#FBF6EC;border-left:3px solid #FF5520;border-radius:0 10px 10px 0">
-          <div style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8b867c;margin-bottom:8px">Message</div>
-          <div style="font:400 15px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#33302B;white-space:pre-wrap">${esc(message)}</div>
-        </div>
-        <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px"><tr>
-          <td style="border-radius:100px;background:#1B1B1B">
-            <a href="mailto:${esc(email)}?subject=Re:%20${encodeURIComponent(subject)}" style="display:inline-block;padding:13px 24px;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#F9F2E4;text-decoration:none;border-radius:100px">Reply to ${esc(name.split(" ")[0])} &rarr;</a>
-          </td>
-          <td style="width:10px"></td>
-          <td style="border-radius:100px;border:1px solid #E6DED0">
-            <a href="https://yash131206.github.io/sugarycitrus/admin/" style="display:inline-block;padding:13px 22px;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1B1B1B;text-decoration:none;border-radius:100px">Open studio</a>
-          </td>
-        </tr></table>
-      </td></tr>
-      <tr><td style="padding:18px 28px 24px;border-top:1px solid #EFE8DC">
-        <p style="margin:0;font:400 11px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#9a948a">
-          Sent from the Sugary Citrus website contact form. Reply to this email to answer ${esc(name.split(" ")[0])} directly.
-        </p>
-      </td></tr>
-    </table>
-    <p style="margin:14px 0 0;font:400 10px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#B4ADA1">Sugary Citrus · Sweet Strategy. Sharp Execution.</p>
-  </td></tr>
-</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="page" style="background:#F4EEE2;padding:28px 12px">
+<tr><td align="center">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="card" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E6DED0;border-radius:18px;overflow:hidden">
+    <tr><td class="bar" style="background:#1B1B1B;padding:20px 26px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td style="vertical-align:middle">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="padding-right:9px"><img src="${LOGO}" width="18" height="29" alt="Sugary Citrus" style="display:block;border:0;outline:none;text-decoration:none"></td>
+            <td style="font:800 19px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.4px;color:#F9F2E4;vertical-align:middle">sugary<span style="color:#FF5520">citrus.</span></td>
+          </tr></table>
+        </td>
+        <td align="right" style="font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#A9A398;vertical-align:middle">${esc(when)} IST</td>
+      </tr></table>
+    </td></tr>
+    <tr><td style="height:4px;background:#FF5520;font-size:0;line-height:0">&nbsp;</td></tr>
+    <tr><td style="padding:28px 26px 0">
+      <div style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:#FF5520">New enquiry</div>
+      <h1 class="ink" style="margin:13px 0 5px;font:700 27px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.7px;color:#1B1B1B">${esc(name)}</h1>
+      <p class="muted" style="margin:0 0 22px;font:400 13px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#6C6862">${
+        [company, service].filter(Boolean).map(esc).join(" &middot; ") || "Sent from the website contact form"
+      }</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        ${detail("Email", email, `mailto:${email}`)}
+        ${company ? detail("Company", company) : ""}
+        ${service ? detail("Service", service) : ""}
+      </table>
+    </td></tr>
+    <tr><td style="padding:10px 26px 0">
+      <div class="msg-box" style="background:#FBF6EC;border:1px solid #F0E6D6;border-left:3px solid #FF5520;border-radius:0 12px 12px 0;padding:16px 18px">
+        <div class="label" style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#8B867C;margin-bottom:9px">Message</div>
+        <div class="body-text" style="font:400 15px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#33302B;white-space:pre-wrap">${esc(message)}</div>
+      </div>
+    </td></tr>
+    <tr><td style="padding:22px 26px 26px">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td class="btn-primary" style="border-radius:100px;background:#1B1B1B">
+          <a href="mailto:${esc(email)}?subject=Re:%20${encodeURIComponent(subject)}" style="display:inline-block;padding:13px 24px;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#F9F2E4;text-decoration:none;border-radius:100px">Reply to ${esc(name.split(" ")[0])} &rarr;</a>
+        </td>
+        <td width="10"></td>
+        <td class="btn-ghost" style="border-radius:100px;border:1px solid #E6DED0">
+          <a href="https://yash131206.github.io/sugarycitrus/admin/" style="display:inline-block;padding:12px 20px;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1B1B1B;text-decoration:none;border-radius:100px">Open studio</a>
+        </td>
+      </tr></table>
+    </td></tr>
+    <tr><td class="foot-rule" style="padding:16px 26px 22px;border-top:1px solid #EFE8DC">
+      <p class="foot" style="margin:0;font:400 10px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#A9A398">Sent from the Sugary Citrus website &middot; Sweet Strategy. Sharp Execution.</p>
+    </td></tr>
+  </table>
+</td></tr></table>
 </body></html>`;
 
   const text = [
     `New enquiry — ${name}`,
     company ? `Company: ${company}` : "",
     `Email: ${email}`,
-    service ? `Needs help with: ${service}` : "",
+    service ? `Service: ${service}` : "",
     "",
     message,
     "",
