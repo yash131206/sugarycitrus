@@ -1,11 +1,11 @@
 /* Email endpoint for the contact form.
-   Option A (easiest, no server): Web3Forms — paste your access key below.
-     Get one free at https://web3forms.com (enter the inbox email, copy the key).
-   Option B: your own endpoint (Vercel function / Cloudflare Worker / Formspree).
-     Set endpoint to the full URL; it must accept JSON POST and return 2xx.
-   Leave both empty and the form falls back to a mailto: link. */
+   Option A — Resend via the Cloudflare Worker in workers/contact (recommended).
+     Deploy it, then paste the Worker URL below.
+   Option B — Web3Forms: paste the access key from https://web3forms.com
+   Option C — any endpoint that accepts a JSON POST and returns 2xx.
+   Leave everything empty and the form shows a "not connected" message. */
 window.SUGARY_CONTACT = {
-  web3formsKey: '',
-  endpoint: '',
-  fallbackEmail: ''
+  endpoint: '',          // e.g. 'https://sugarycitrus-contact.you.workers.dev'
+  web3formsKey: '',      // e.g. 'a1b2c3d4-....'
+  fallbackEmail: ''      // optional mailto: fallback
 };

@@ -290,3 +290,6 @@ html[data-theme="dark"] .faq-answer p{color:#B7B1A6}
 html[data-theme="dark"] .select-trigger{background:rgba(255,255,255,.04)}
 html[data-theme="dark"] .select-menu{background:#1A1917;box-shadow:0 20px 50px rgba(0,0,0,.6)}
 html[data-theme="dark"] .select-menu [role="option"][aria-selected="true"]{background:rgba(255,85,32,.22)}
+.faq-blurb{color:#6c6862;margin:0 0 18px;font-size:14px}
+html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
+.page-hero--compact{min-height:0;padding-bottom:40px}
