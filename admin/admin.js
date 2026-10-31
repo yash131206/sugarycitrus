@@ -45,9 +45,9 @@ $('audioFile') && $('audioFile').addEventListener('change', async e => {
     toast('Uploading audio…');
     const ext = (file.name.split('.').pop() || 'mp3').toLowerCase();
     const path = `audio/${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/, ''))}.${ext}`;
-    const { error } = await supabase.storage.from('cms-images').upload(path, file, { cacheControl: '31536000', upsert: false, contentType: file.type });
+    const { error } = await supabase.storage.from('cms-audio').upload(path, file, { cacheControl: '31536000', upsert: false, contentType: file.type || 'audio/mpeg' });
     if (error) throw error;
-    const { data } = supabase.storage.from('cms-images').getPublicUrl(path);
+    const { data } = supabase.storage.from('cms-audio').getPublicUrl(path);
     $('audio').value = data.publicUrl;
     toast('Audio uploaded');
   } catch (err) {
