@@ -673,3 +673,16 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
 .audio-card .audio-label span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .audio-card audio{flex:1 1 260px;height:36px;min-width:0}
 html[data-theme="dark"] .audio-card{background:#1A1917;border-color:var(--line)}
+
+/* ---- v8.6: trim the gaps under the ticker and on contact ---- */
+.ticker + .section{padding-top:clamp(26px,4vw,40px)}
+@media(max-width:850px){
+  .hero{padding-bottom:22px}
+  .page-hero{padding-bottom:16px}
+  .contact-grid{gap:16px}
+  .contact-grid h2{margin-bottom:10px}
+}
+@media(max-width:850px){
+  .ticker{margin-bottom:clamp(16px,3vw,26px)}
+  .content-section{padding-top:14px}
+}
