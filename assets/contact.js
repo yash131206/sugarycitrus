@@ -54,3 +54,53 @@
     }
   });
 })();
+
+/* brand-coloured dropdown */
+(function () {
+  document.querySelectorAll('[data-select]').forEach(function (root) {
+    const trigger = root.querySelector('.select-trigger');
+    const valueEl = root.querySelector('.select-value');
+    const menu = root.querySelector('.select-menu');
+    const input = root.querySelector('input[type="hidden"]');
+    if (!trigger || !menu || !input) return;
+    const options = [...menu.querySelectorAll('[role="option"]')];
+
+    function open() {
+      root.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      const sel = options.find(o => o.getAttribute('aria-selected') === 'true') || options[0];
+      if (sel) sel.focus();
+    }
+    function close() {
+      root.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+    function choose(opt) {
+      options.forEach(o => o.setAttribute('aria-selected', o === opt ? 'true' : 'false'));
+      input.value = opt.dataset.value;
+      valueEl.textContent = opt.dataset.value;
+      close();
+      trigger.focus();
+    }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      root.classList.contains('is-open') ? close() : open();
+    });
+    options.forEach(function (opt) {
+      opt.addEventListener('click', function () { choose(opt); });
+      opt.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(opt); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); (opt.nextElementSibling || options[0]).focus(); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); (opt.previousElementSibling || options[options.length - 1]).focus(); }
+        if (e.key === 'Escape') { close(); trigger.focus(); }
+      });
+    });
+    trigger.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      if (e.key === 'Escape') close();
+    });
+    document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  });
+})();
