@@ -1,6 +1,6 @@
 ---
 title: Why Indian D2C brands are missing from AI answers (and how to fix it in 2026)
-featured_image: 
+featured_image: https://yash131206.github.io/sugarycitrus/assets/covers/aeo-geo-indian-d2c-brands-2026-1600.jpg
 category: SEO / AEO / GEO
 author: Sugary Citrus
 publish_date: 2026-10-31
