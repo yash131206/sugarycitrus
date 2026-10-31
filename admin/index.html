@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#1b1b1b">
-<title>Content Studio · Sugary Citrus</title><link rel="stylesheet" href="admin.css?v=8.4">
+<title>Content Studio · Sugary Citrus</title><link rel="stylesheet" href="admin.css?v=8.5">
 </head>
 <body class="cms-body">
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -24,7 +24,7 @@
     <section id="viewEditor" class="cms-view hidden"><section class="panel editor-panel"><div class="panel-head"><div><span class="eyebrow">CONTENT EDITOR</span><h2 id="editorHeading">Create an article</h2></div><span class="save-state" id="saveState">Cloud CMS · Ready</span></div>
       <form id="postForm"><input type="hidden" id="postId"><div class="form-grid">
         <label class="wide">TITLE<input id="title" required maxlength="180" placeholder="A clear, useful article title"></label>
-        <label>FEATURED IMAGE<div class="upload-row"><input id="image" type="url" placeholder="https://... image URL"><label class="upload-button" for="imageFile">Upload</label><input id="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/avif" hidden></div><img id="imagePreview" class="image-preview hidden" alt="Featured image preview"></label>
+        <label>FEATURED IMAGE<div class="upload-row"><input id="image" type="url" placeholder="https://... image URL"><label class="upload-button" for="imageFile">Upload</label><input id="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/avif" hidden></div><img id="imagePreview" class="image-preview hidden" alt="Featured image preview"></label><label>AUDIO VERSION (optional)<div class="upload-row"><input id="audio" type="url" placeholder="https://... mp3 or m4a URL"><label class="upload-button" for="audioFile">Upload</label><input id="audioFile" type="file" accept="audio/mpeg,audio/mp4,audio/aac,audio/wav" hidden></div></label>
         <label>CATEGORY<input id="category" required placeholder="Performance Marketing"></label>
         <label>AUTHOR<input id="author" value="Sugary Citrus" required></label><label>PUBLISH DATE<input id="date" type="date" required></label>
         <label class="wide">DESCRIPTION<textarea id="description" rows="2" maxlength="180" required placeholder="A concise summary for search and social previews"></textarea></label>
@@ -35,5 +35,5 @@
     <footer>© <span id="year"></span> SUGARY CITRUS · PRIVATE CONTENT WORKSPACE</footer>
   </main>
 </div>
-<script defer src="../assets/vendor/supabase.js?v=8.4"></script><script defer src="supabase-config.js?v=8.4"></script><script type="module" src="admin.js?v=8.4"></script>
+<script defer src="../assets/vendor/supabase.js?v=8.5"></script><script defer src="supabase-config.js?v=8.5"></script><script type="module" src="admin.js?v=8.5"></script>
 </body></html>
