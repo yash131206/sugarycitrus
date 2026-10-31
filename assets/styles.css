@@ -213,3 +213,13 @@ html[data-theme="dark"] .faq-item h3,
 html[data-theme="dark"] .content-section h2,
 html[data-theme="dark"] .content-section h3{color:var(--ink)}
 @media(max-width:850px){.theme-toggle{width:34px;height:34px}}
+
+/* ---- mobile nav ordering (v5.0) ---- */
+@media(max-width:850px){
+  .nav{gap:8px}
+  .brand{order:0;margin-right:auto}
+  .theme-toggle{order:1;width:32px;height:32px;border-color:transparent;margin-left:0}
+  .menu-toggle{order:2;display:block;font-size:21px;line-height:1;padding:2px 4px}
+  .nav-links{order:3}
+  .nav-cta{order:4}
+}
