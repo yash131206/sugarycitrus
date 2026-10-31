@@ -588,3 +588,8 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
   .nav-wrap .nav-links a{padding:11px 2px}
   .nav-wrap .nav-links.open{margin-top:10px}
 }
+
+/* ---- v8.0: eyebrows carry weight ---- */
+.eyebrow{font-weight:700}
+.eyebrow b,.eyebrow strong{font-weight:800}
+@media(max-width:850px){.eyebrow{font-weight:700;letter-spacing:.10em}}
