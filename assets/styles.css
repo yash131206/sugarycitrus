@@ -882,3 +882,17 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
   .wave{width:100%;flex-basis:100%}
   .wave-bars i{max-width:3px}
 }
+
+/* waveform: keep the bars inside the card on every width */
+.wave-bars{overflow:hidden;gap:2px}
+.wave-bars i{flex:1 1 0;min-width:0;max-width:4px}
+.wave-time{position:relative;z-index:1}
+@media(max-width:640px){
+  .audio-card{flex-wrap:wrap}
+  .audio-card .audio-label{flex:1 1 100%;min-width:0;margin-bottom:2px}
+  .wave{flex:1 1 100%;width:100%;gap:10px}
+  .wave-bars{gap:1px}
+  .wave-bars i{max-width:3px;border-radius:1px}
+  .wave-play{width:34px;height:34px}
+  .wave-time{font-size:10px}
+}
