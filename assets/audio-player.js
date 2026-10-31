@@ -1,10 +1,10 @@
-/* Sugary Citrus audio player — pure CSS dot wave.
-   Layout: label on the left; time and speed top-right; play button and the
-   dot wave on the same row underneath. Dots before the playhead turn orange,
-   the rest stay faint, and the row breathes while the audio is playing. */
+/* Sugary Citrus audio player.
+   The wave is a dot grid that reacts to the real audio spectrum: each column of
+   dots follows one frequency band of the playing audio. Time and speed sit
+   opposite the label; the play button shares the row with the wave. */
 (function () {
+  var COLS = 30;
   var ROWS = 2;
-  var PER_ROW = 30;
   var SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
   function fmt(sec) {
@@ -14,9 +14,6 @@
   }
 
   function build(card, audio) {
-    var wrap = document.createElement('div');
-    wrap.className = 'wave';
-
     var meta = document.createElement('div');
     meta.className = 'wave-meta';
 
@@ -53,10 +50,22 @@
     stage.setAttribute('aria-label', 'Seek');
     stage.tabIndex = 0;
 
-    var dots = document.createElement('div');
-    dots.className = 'wave-dots';
-    stage.appendChild(dots);
-    var all = [];
+    var grid = document.createElement('div');
+    grid.className = 'wave-spectrum';
+    var dots = [];
+    for (var r = 0; r < ROWS; r++) {
+      var line = document.createElement('div');
+      line.className = 'wave-spectrum-row';
+      var rowDots = [];
+      for (var c = 0; c < COLS; c++) {
+        var d = document.createElement('i');
+        line.appendChild(d);
+        rowDots.push(d);
+      }
+      grid.appendChild(line);
+      dots.push(rowDots);
+    }
+    stage.appendChild(grid);
 
     var fill = document.createElement('span');
     fill.className = 'wave-line';
@@ -66,11 +75,11 @@
     row.appendChild(play);
     row.appendChild(stage);
 
-    /* label and meta share the first row; play + wave sit underneath */
     card.appendChild(meta);
     card.appendChild(row);
 
     var knownDuration = 0;
+    var ctx = null, analyser = null, source = null, data = null, raf = null;
 
     function progress() {
       var d = audio.duration || knownDuration || 0;
@@ -87,17 +96,84 @@
       progress();
     }
 
-    play.addEventListener('click', function () { audio.paused ? audio.play() : audio.pause(); });
+    function setupAnalyser() {
+      if (ctx) return true;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      try {
+        ctx = new AC();
+        source = ctx.createMediaElementSource(audio);
+        analyser = ctx.createAnalyser();
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.75;
+        data = new Uint8Array(analyser.frequencyBinCount);
+        source.connect(analyser);
+        analyser.connect(ctx.destination);
+        return true;
+      } catch (err) {
+        ctx = null;
+        return false;
+      }
+    }
+
+    var peak = 40;
+
+    function draw() {
+      raf = requestAnimationFrame(draw);
+      if (!analyser) return;
+      analyser.getByteFrequencyData(data);
+      var bins = data.length;
+      for (var c = 0; c < COLS; c++) {
+        // spread the low-to-mid bins across the columns, skipping the empty top end
+        var idx = Math.min(bins - 1, Math.floor(Math.pow(c / COLS, 1.45) * (bins * 0.55)));
+        var raw = data[idx];
+        peak = Math.max(peak * 0.985, raw, 30);
+        // tilt: lift the quieter high bands so the whole row moves, like a real spectrum display
+        var tilt = 1 + (c / COLS) * 2.2;
+        var v = Math.min(1, (raw / peak) * tilt);
+        var scale = 0.55 + v * 1.15;
+        var op = 0.35 + v * 0.65;
+        var top = dots[0][c], bottom = dots[1][c];
+        top.style.transform = 'scale(' + scale.toFixed(3) + ')';
+        top.style.opacity = op.toFixed(3);
+        bottom.style.transform = 'scale(' + (scale * 0.82).toFixed(3) + ')';
+        bottom.style.opacity = (op * 0.8).toFixed(3);
+      }
+    }
+
+    function stopDraw() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+      for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+          dots[r][c].style.transform = '';
+          dots[r][c].style.opacity = '';
+        }
+      }
+    }
+
+    play.addEventListener('click', function () {
+      if (audio.paused) {
+        if (setupAnalyser() && ctx.state === 'suspended') ctx.resume();
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+
     audio.addEventListener('play', function () {
-      wrap.classList.add('is-playing');
+      card.classList.add('is-playing');
       play.setAttribute('aria-label', 'Pause audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+      if (setupAnalyser()) { if (ctx.state === 'suspended') ctx.resume(); if (!raf) draw(); }
     });
     audio.addEventListener('pause', function () {
-      wrap.classList.remove('is-playing');
+      card.classList.remove('is-playing');
       play.setAttribute('aria-label', 'Play audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+      stopDraw();
     });
+    audio.addEventListener('ended', function () { stopDraw(); progress(); });
     audio.addEventListener('timeupdate', progress);
     audio.addEventListener('loadedmetadata', function () { knownDuration = audio.duration || knownDuration; progress(); });
 
@@ -109,40 +185,6 @@
     });
 
     progress();
-
-    var base = (function () {
-      var scripts = document.getElementsByTagName('script');
-      for (var i = 0; i < scripts.length; i++) {
-        var src = scripts[i].src || '';
-        if (src.indexOf('audio-player.js') !== -1) return src.replace(/audio-player\.js.*$/, '');
-      }
-      return 'assets/';
-    })();
-
-    function loadScript(src) {
-      return new Promise(function (res, rej) {
-        var el = document.createElement('script');
-        el.src = src; el.onload = res; el.onerror = rej;
-        document.head.appendChild(el);
-      });
-    }
-
-    var anim = null;
-    (window.lottie ? Promise.resolve() : loadScript(base + 'vendor/lottie.min.js'))
-      .then(function () { return fetch(base + 'audio/wave-dots.json').then(function (r) { return r.json(); }); })
-      .then(function (data) {
-        if (!window.lottie) throw new Error('no lottie');
-        stage.classList.add('has-lottie');
-        anim = window.lottie.loadAnimation({
-          container: dots, renderer: 'svg', loop: true, autoplay: false,
-          animationData: data, rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
-        });
-        if (!audio.paused) anim.play();
-        audio.addEventListener('play', function () { anim.setDirection(1); anim.play(); });
-        audio.addEventListener('pause', function () { anim.pause(); });
-        audio.addEventListener('ended', function () { anim.goToAndStop(0, true); });
-      })
-      .catch(function () { stage.classList.remove('has-lottie'); });
   }
 
   function init() {
