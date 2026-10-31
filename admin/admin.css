@@ -11,3 +11,27 @@
   .app-shell .side-link span{display:block;font-size:8px;letter-spacing:.08em;text-transform:uppercase}
   .app-shell .status-select select{width:100%}
 }
+
+/* ---- mobile layout hardening (v4.1) ---- */
+html,body{max-width:100%;overflow-x:hidden}
+@media(max-width:900px){
+  .app-shell .main{margin-left:84px;max-width:none;padding:18px 12px 30px}
+  .app-shell .panel{padding:16px;border-radius:15px}
+  .app-shell .post-item{grid-template-columns:1fr;gap:10px;align-items:flex-start}
+  .app-shell .post-tools{flex-wrap:wrap;gap:8px;width:100%}
+  .app-shell .post-tools .ghost{flex:1 1 auto;padding:10px 8px;font-size:11px;text-align:center;justify-content:center}
+  .app-shell .side-link:before{display:none}
+  .app-shell .library-actions{flex-wrap:wrap;gap:8px}
+  .app-shell .editor-actions{flex-wrap:wrap}
+  .app-shell .editor-actions .primary,.app-shell .editor-actions .ghost{flex:1 1 44%;justify-content:center}
+  .app-shell .stats{grid-template-columns:1fr 1fr}
+  .app-shell .topbar h1{font-size:22px;line-height:1.15}
+  .app-shell .save-state{display:block;margin-top:8px}
+}
+@media(max-width:560px){
+  .toast{left:12px;right:12px;top:auto;bottom:16px;transform:translateY(10px);text-align:center}
+  .toast.show{transform:translateY(0)}
+  .app-shell .main{margin-left:78px;padding:16px 10px 26px}
+  .app-shell .sidebar{width:78px;padding:18px 4px}
+  .app-shell .side-link span{font-size:7.5px}
+}
