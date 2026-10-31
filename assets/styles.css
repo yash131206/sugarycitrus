@@ -369,3 +369,16 @@ html[data-theme="dark"] .process article{background:#1A1917;border-color:var(--l
 html[data-theme="dark"] .process article:hover{box-shadow:0 16px 40px rgba(0,0,0,.5)}
 @media(max-width:1080px){.process{grid-template-columns:repeat(2,1fr)}.process article:nth-child(2n){border-right:1px solid var(--line);margin-right:0;padding-right:var(--space-5)}}
 @media(max-width:560px){.process{grid-template-columns:1fr}.process article{min-height:0}}
+
+/* ---- wordmark in caps (v6.6) ---- */
+.brand{letter-spacing:0}
+.brand-word{font-weight:800;font-size:15.5px;line-height:1;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.brand-word em{font-style:normal;color:var(--orange)}
+.brand span:not(.brand-word):not(.brand-mark){color:inherit}
+html[data-theme="dark"] .brand-word{color:var(--ink)}
+@media(max-width:400px){.brand-word{font-size:13.5px;letter-spacing:.02em}}
+.brand .brand-mark{color:var(--ink)}
+.brand .brand-word{color:var(--ink)}
+.brand .brand-word em{color:var(--orange)}
+html[data-theme="dark"] .brand .brand-mark,
+html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
