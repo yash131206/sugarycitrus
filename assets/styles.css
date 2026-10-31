@@ -847,3 +847,38 @@ html[data-theme="dark"] .ticker--back{background:var(--orange)}
 .ticker-track{animation-direction:normal;opacity:1}
 .ticker-track span,.ticker-track i svg{opacity:1}
 @media(max-width:850px){.ticker{margin:18px 0 24px;transform:rotate(-1.2deg) scale(1.02)}}
+
+/* ---- v10.2: brand waveform audio player ---- */
+.audio-card{display:flex;align-items:center;gap:16px;flex-wrap:nowrap}
+.audio-card .audio-label{flex:0 0 auto;min-width:132px}
+.wave{display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0}
+.wave-play{
+  flex:0 0 auto;width:38px;height:38px;border-radius:50%;
+  background:var(--orange);color:#1B1B1B;border:0;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .18s ease,background .18s ease;
+}
+.wave-play:hover{transform:scale(1.06)}
+.wave-play svg{display:block;margin-left:1px}
+.wave-bars{
+  flex:1 1 auto;min-width:0;height:38px;display:flex;align-items:center;gap:2px;
+  cursor:pointer;outline:none;
+}
+.wave-bars:focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:6px}
+.wave-bars i{
+  flex:1 1 0;min-width:2px;max-width:5px;border-radius:2px;
+  background:rgba(27,27,27,.18);
+  transition:background .12s linear,height .3s ease;
+}
+.wave-bars i.is-played{background:var(--orange)}
+html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
+.wave-time{
+  flex:0 0 auto;font:600 11px var(--mono);letter-spacing:.04em;
+  color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+@media(max-width:640px){
+  .audio-card{flex-wrap:wrap;gap:12px}
+  .audio-card .audio-label{min-width:0}
+  .wave{width:100%;flex-basis:100%}
+  .wave-bars i{max-width:3px}
+}

@@ -35,7 +35,7 @@
 
       var audio = document.createElement('audio');
       audio.controls = true;
-      audio.preload = 'none';
+      audio.preload = 'metadata';
       audio.src = url;
 
       card.appendChild(label);
