@@ -398,3 +398,28 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .nav-wrap{top:14px}
 }
 @media(max-width:400px){.nav{width:calc(100% - 24px);padding:8px 10px 8px 12px}}
+
+/* ---- v7.2 fixes ---- */
+/* ticker star was collapsing to zero width inside the flex row */
+.ticker-track i svg{width:1em;height:1em;flex:0 0 auto}
+.ticker-track i{flex:0 0 auto}
+
+/* nav: wider on phones, and this rule is last so it wins */
+@media(max-width:850px){
+  .nav-wrap .nav{width:calc(100% - 16px);padding:9px 12px 9px 15px;border-radius:16px}
+}
+@media(max-width:400px){
+  .nav-wrap .nav{width:calc(100% - 12px);padding:8px 10px 8px 12px}
+}
+
+/* footer bar: copyright and tagline on one line, edges aligned */
+.footer-bottom{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:12px}
+.footer-tagline{margin-left:auto;text-align:right;white-space:nowrap}
+@media(max-width:640px){
+  .footer-bottom{flex-wrap:nowrap;gap:8px;font-size:8.5px;letter-spacing:.05em}
+  .footer-tagline{font-size:8.5px;letter-spacing:.05em}
+}
+@media(max-width:360px){
+  .footer-bottom{font-size:8px;letter-spacing:.02em}
+  .footer-tagline{font-size:8px;letter-spacing:.02em}
+}
