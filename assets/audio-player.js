@@ -113,11 +113,17 @@
       // average the low-mid bands: that is where speech energy lives
       var sum = 0, n = 0;
       for (var i = 1; i < 24 && i < data.length; i++) { sum += data[i]; n++; }
-      var target = n ? (sum / n) / 255 : 0;
-      level = level * 0.72 + target * 0.28;            // smooth it out
-      var speed = 0.35 + level * 2.6;                   // quiet = slow, loud = fast
-      if (anim) anim.setSpeed(Math.min(3.2, speed));
-      if (lottieBox) lottieBox.style.transform = 'scale(' + (1 + level * 0.10).toFixed(3) + ')';
+      var target = n ? Math.min(1, ((sum / n) / 255) * 2.8) : 0;  // gain: speech sits low, lift it
+      level = level * 0.55 + target * 0.45;             // quick enough to feel live
+      var speed = 0.25 + level * 3.4;                   // quiet = slow, loud = fast
+      if (anim) anim.setSpeed(Math.max(0.15, Math.min(3.6, speed)));
+      if (lottieBox) {
+        // the dots stretch and brighten with the voice, like a real meter
+        var sy = (0.72 + level * 0.95).toFixed(3);
+        var sx = (1 + level * 0.06).toFixed(3);
+        lottieBox.style.transform = 'scaleX(' + sx + ') scaleY(' + sy + ')';
+        lottieBox.style.opacity = (0.62 + level * 0.38).toFixed(3);
+      }
     }
 
     function stopDraw() {

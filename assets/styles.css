@@ -1064,3 +1064,4 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
   mask-image:linear-gradient(to bottom,transparent 0%,#000 26%,#000 74%,transparent 100%);
 }
 @media(max-width:700px){.audio-card .wave-stage{height:56px}}
+.wave-lottie{transform-origin:center center;transition:opacity .1s linear}
