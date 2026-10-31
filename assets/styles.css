@@ -472,3 +472,34 @@ html[data-theme="dark"] .nav .menu-toggle{text-shadow:0 1px 0 rgba(0,0,0,.35)}
 /* keep the pill edge readable at very low fill */
 :root{--nav-border:rgba(27,27,27,.16)}
 html[data-theme="dark"]{--nav-border:rgba(243,237,225,.20)}
+
+/* ---- v7.7: outline buttons, boxed arrows, tighter section gaps ---- */
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;margin-top:22px;
+  padding:11px 18px;border:1px solid var(--line);border-radius:100px;
+  font-size:12.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);
+  text-decoration:none;transition:background .2s,border-color .2s,color .2s,transform .2s;
+}
+.btn-outline:hover{background:var(--ink);color:var(--cream);border-color:var(--ink);transform:translateY(-1px)}
+.btn-outline--sm{margin-top:0;padding:9px 14px;font-size:11.5px}
+html[data-theme="dark"] .btn-outline{border-color:rgba(243,237,225,.22)}
+html[data-theme="dark"] .btn-outline:hover{background:var(--cream);color:#11100E;border-color:var(--cream)}
+
+/* small boxed chips around every redirect arrow */
+.ico-arrow{
+  width:1em;height:1em;padding:.34em;box-sizing:content-box;
+  border:1px solid rgba(27,27,27,.20);border-radius:.42em;
+  display:inline-flex;align-items:center;justify-content:center;
+  vertical-align:-.28em;flex:0 0 auto;transition:border-color .2s,background .2s;
+}
+a:hover .ico-arrow,.btn-outline:hover .ico-arrow{border-color:currentColor}
+.button .ico-arrow,.btn-primary .ico-arrow{border-color:rgba(249,242,228,.45)}
+html[data-theme="dark"] .ico-arrow{border-color:rgba(243,237,225,.24)}
+html[data-theme="dark"] .button .ico-arrow{border-color:rgba(17,16,14,.35)}
+
+/* the two big gaps from the screenshots */
+@media(max-width:850px){
+  .section{padding:clamp(34px,5.5vw,50px) 0}
+  .manifesto{padding:clamp(40px,6vw,60px) 0}
+  .content-section{padding-top:28px;padding-bottom:clamp(34px,5.5vw,50px)}
+}
