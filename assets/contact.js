@@ -423,7 +423,11 @@
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload)
         });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (!res.ok) {
+          let detail = '';
+          try { const body = await res.json(); detail = body.error || ''; } catch (e) {}
+          throw new Error(detail || 'HTTP ' + res.status);
+        }
         form.reset();
         say('Thanks — your enquiry is in. We reply within two working days.');
       } catch (err) {
