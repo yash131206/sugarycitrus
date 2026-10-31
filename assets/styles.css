@@ -223,3 +223,22 @@ html[data-theme="dark"] .content-section h3{color:var(--ink)}
   .nav-links{order:3}
   .nav-cta{order:4}
 }
+
+/* ---- contact form card (v5.2) ---- */
+.form-card{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,3vw,38px);box-shadow:0 18px 50px rgba(27,27,27,.06)}
+.form-card-head{margin-bottom:24px}
+.form-card-head h3{font-size:clamp(22px,2.4vw,30px);letter-spacing:-.035em;line-height:1.1;margin:12px 0 8px}
+.form-card-head p{font-size:13px;color:var(--muted);margin:0}
+.form-card .form{gap:18px}
+.form-card .form input,.form-card .form textarea,.form-card .form select{
+  background:rgba(27,27,27,.03);border:1px solid var(--line);border-radius:12px;padding:13px 14px;transition:border-color .2s,background .2s}
+.form-card .form input:focus,.form-card .form textarea:focus,.form-card .form select:focus{border-color:var(--orange);background:transparent}
+.form-card .form textarea{min-height:130px}
+.form-card .form .button{width:100%;justify-content:center;margin-top:6px}
+.form-card #form-status{margin:2px 0 0;min-height:16px}
+html[data-theme="dark"] .form-card{background:#1A1917;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+html[data-theme="dark"] .form-card .form input,
+html[data-theme="dark"] .form-card .form textarea,
+html[data-theme="dark"] .form-card .form select{background:rgba(255,255,255,.04)}
+@media(max-width:850px){.form-card{border-radius:20px;padding:20px 18px}}
+.form-card .form .button{font-size:13px;letter-spacing:.01em}
