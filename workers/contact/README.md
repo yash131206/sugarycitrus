@@ -2,6 +2,11 @@
 
 Sends the website enquiry form to your inbox through Resend.
 
+## 0. Which address receives enquiries
+`wrangler.toml` sends every enquiry to `yashsharma96971@outlook.com`.
+Sign up to Resend with **that same address** — on the free plan, before a domain is
+verified, Resend will only deliver to the address that owns the account.
+
 ## 1. Get a Resend API key
 1. Sign in at https://resend.com and open **API Keys**.
 2. **Create API Key** → name it `sugarycitrus-website`, permission **Sending access**.

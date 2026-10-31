@@ -3,7 +3,7 @@ main = "worker.js"
 compatibility_date = "2026-01-01"
 
 [vars]
-TO_EMAIL = "yashsharma96972@gmail.com"
+TO_EMAIL = "yashsharma96971@outlook.com"
 FROM_EMAIL = "Sugary Citrus <onboarding@resend.dev>"
 ALLOWED_ORIGIN = "https://yash131206.github.io"
 SEND_AUTOREPLY = "false"
