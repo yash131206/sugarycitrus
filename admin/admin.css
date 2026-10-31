@@ -35,3 +35,8 @@ html,body{max-width:100%;overflow-x:hidden}
   .app-shell .sidebar{width:78px;padding:18px 4px}
   .app-shell .side-link span{font-size:7.5px}
 }
+
+/* file inputs stay hidden; the Upload label is the trigger */
+.upload-row input[type="file"]{display:none !important}
+.upload-row{gap:8px}
+.upload-row .upload-button{flex:0 0 auto;white-space:nowrap}
