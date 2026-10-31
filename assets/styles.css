@@ -382,3 +382,6 @@ html[data-theme="dark"] .brand-word{color:var(--ink)}
 .brand .brand-word em{color:var(--orange)}
 html[data-theme="dark"] .brand .brand-mark,
 html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
+
+/* ---- wordmark: title case (v6.8) ---- */
+.brand-word{text-transform:none;letter-spacing:-.02em;font-size:17px}

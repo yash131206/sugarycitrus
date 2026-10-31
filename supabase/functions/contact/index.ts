@@ -502,7 +502,7 @@ Deno.serve(async (req: Request) => {
         <td style="vertical-align:middle">
           <table role="presentation" cellpadding="0" cellspacing="0"><tr>
             <td style="padding-right:9px"><img src="${LOGO}" width="18" height="29" alt="Sugary Citrus" style="display:block;border:0;outline:none;text-decoration:none"></td>
-            <td style="font:800 16px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#F9F2E4;vertical-align:middle">SUGARY <span style="color:#FF5520">CITRUS</span></td>
+            <td style="font:800 16px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.2px;color:#F9F2E4;vertical-align:middle">Sugary <span style="color:#FF5520">Citrus</span></td>
           </tr></table>
         </td>
         <td align="right" style="font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#A9A398;vertical-align:middle">${esc(when)} IST</td>
