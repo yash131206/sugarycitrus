@@ -442,7 +442,7 @@ Deno.serve(async (req: Request) => {
   const { data: rows, error: cfgError } = await supabase
     .from("private_config")
     .select("key, value")
-    .in("key", ["resend_api_key", "to_email", "from_email"]);
+    .in("key", ["resend_api_key", "to_email", "from_email", "send_autoreply"]);
 
   if (cfgError) return json({ error: "Server configuration unreadable" }, 500, headers);
 
@@ -577,6 +577,110 @@ Deno.serve(async (req: Request) => {
     const detail = await res.text();
     console.error("Resend error", res.status, detail);
     return json({ error: "Email service rejected the message" }, 502, headers);
+  }
+
+  // confirmation to the person who wrote in (never blocks the enquiry)
+  if (cfg.send_autoreply !== "false") {
+    try {
+      const confirmHtml = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>We have your enquiry</title>
+<style>
+  :root { color-scheme: light dark; supported-color-schemes: light dark; }
+  @media (prefers-color-scheme: dark) {
+    .page { background:#0D0C0B !important; }
+    .card { background:#161514 !important; border-color:#2A2825 !important; }
+    .bar { background:#0D0C0B !important; }
+    .ink { color:#F9F2E4 !important; }
+    .muted { color:#9A948A !important; }
+    .body-text { color:#DCD6CA !important; }
+    .quote { background:#1D1B19 !important; border-color:#2A2825 !important; border-left-color:#FF5520 !important; }
+    .btn { background:#FF5520 !important; }
+    .btn a { color:#11100E !important; }
+    .foot { color:#57534C !important; }
+    .foot-rule { border-top-color:#2A2825 !important; }
+  }
+</style></head>
+<body class="page" style="margin:0;padding:0;background:#F4EEE2;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="page" style="background:#F4EEE2;padding:28px 12px">
+<tr><td align="center">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="card" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #E6DED0;border-radius:18px;overflow:hidden">
+    <tr><td class="bar" style="background:#1B1B1B;padding:20px 26px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td style="vertical-align:middle">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="padding-right:9px"><img src="${LOGO}" width="18" height="29" alt="Sugary Citrus" style="display:block;border:0"></td>
+            <td style="font:800 16px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.2px;color:#F9F2E4;vertical-align:middle">Sugary <span style="color:#FF5520">Citrus</span></td>
+          </tr></table>
+        </td>
+      </tr></table>
+    </td></tr>
+    <tr><td style="height:4px;background:#FF5520;font-size:0;line-height:0">&nbsp;</td></tr>
+    <tr><td style="padding:30px 26px 0">
+      <div style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:#FF5520">Enquiry received</div>
+      <h1 class="ink" style="margin:13px 0 10px;font:700 26px/1.22 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.6px;color:#1B1B1B">Thanks, ${esc(name.split(" ")[0])} — we have your note.</h1>
+      <p class="muted" style="margin:0 0 20px;font:400 15px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#6C6862">
+        A real person reads every enquiry here. We will reply within two working days, usually with a couple of questions or a short call invite.
+      </p>
+      <div class="quote" style="margin:0 0 22px;padding:15px 17px;background:#FBF6EC;border:1px solid #F0E6D6;border-left:3px solid #FF5520;border-radius:0 12px 12px 0">
+        <div style="font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#8B867C;margin-bottom:8px">What you sent us</div>
+        <div class="body-text" style="font:400 14px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#33302B;white-space:pre-wrap">${esc(message)}</div>
+      </div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font:400 14px/1.8 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#33302B" class="body-text">
+        <tr><td style="padding:0 0 6px"><strong class="ink" style="color:#1B1B1B">1.</strong> We read it and check the fit.</td></tr>
+        <tr><td style="padding:0 0 6px"><strong class="ink" style="color:#1B1B1B">2.</strong> You hear back within two working days.</td></tr>
+        <tr><td style="padding:0 0 6px"><strong class="ink" style="color:#1B1B1B">3.</strong> If it is a fit, we book a 30-minute call.</td></tr>
+      </table>
+      <p class="muted" style="margin:20px 0 24px;font:400 13px/1.7 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#6C6862">
+        Need to add something? Just reply to this email.
+      </p>
+    </td></tr>
+    <tr><td style="padding:0 26px 28px">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td class="btn" style="border-radius:100px;background:#1B1B1B">
+          <a href="https://yash131206.github.io/sugarycitrus/" style="display:inline-block;padding:13px 24px;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#F9F2E4;text-decoration:none;border-radius:100px">Back to the site &rarr;</a>
+        </td>
+      </tr></table>
+    </td></tr>
+    <tr><td class="foot-rule" style="padding:16px 26px 22px;border-top:1px solid #EFE8DC">
+      <p class="foot" style="margin:0;font:400 10px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#A9A398">You are receiving this because you used the contact form on sugarycitrus · Sweet Strategy. Sharp Execution.</p>
+    </td></tr>
+  </table>
+</td></tr></table>
+</body></html>`;
+
+      const confirmText = [
+        `Thanks, ${name.split(" ")[0]} — we have your note.`,
+        "",
+        "A real person reads every enquiry. We reply within two working days.",
+        "",
+        "What you sent us:",
+        message,
+        "",
+        "Need to add something? Just reply to this email.",
+        "",
+        "Sugary Citrus · Sweet Strategy. Sharp Execution."
+      ].join("\n");
+
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${cfg.resend_api_key}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: cfg.from_email || "Sugary Citrus <onboarding@resend.dev>",
+          to: [email],
+          reply_to: cfg.to_email || undefined,
+          subject: "We have your enquiry — Sugary Citrus",
+          html: confirmHtml,
+          text: confirmText
+        })
+      });
+    } catch (err) {
+      console.error("Auto-reply failed", err);
+    }
   }
 
   return json({ ok: true }, 200, headers);

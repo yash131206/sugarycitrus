@@ -429,7 +429,8 @@
           throw new Error(detail || 'HTTP ' + res.status);
         }
         form.reset();
-        say('Thanks — your enquiry is in. We reply within two working days.');
+        say('Thanks — your enquiry is in. Taking you to the confirmation page…');
+        setTimeout(function () { location.href = 'thank-you'; }, 700);
       } catch (err) {
         say('Sorry, that did not send (' + err.message + '). Email us directly instead.', true);
       } finally {
