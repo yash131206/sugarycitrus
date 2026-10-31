@@ -1,6 +1,4 @@
-const cfg=window.SUGARY_SUPABASE||{};
-const ready=cfg.url&&!cfg.url.includes('YOUR-PROJECT')&&cfg.publishableKey&&!cfg.publishableKey.includes('REPLACE_ME');
-const supabase=(window.supabase&&ready)?window.supabase.createClient(cfg.url,cfg.publishableKey):null;
+const supabase=await window.getSupabase();
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ARROW='<svg class="ico-arrow" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>';
 async function loadLatest(){
