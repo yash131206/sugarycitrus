@@ -8,3 +8,22 @@ if('IntersectionObserver' in window){
   setTimeout(revealAll,1200);
 }else{revealAll();}
 document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+
+/* theme toggle */
+(function(){
+  var btn=document.querySelector('.theme-toggle');
+  var root=document.documentElement;
+  function sync(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    if(btn){btn.setAttribute('aria-pressed',dark?'true':'false');btn.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}
+    var meta=document.querySelector('meta[name="theme-color"]');
+    if(meta)meta.setAttribute('content',dark?'#11100E':'#F9F2E4');
+  }
+  sync();
+  if(btn){btn.addEventListener('click',function(){
+    var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+    sync();
+  });}
+})();
