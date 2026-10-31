@@ -799,3 +799,45 @@ html[data-theme="dark"] .article-meta{color:var(--muted)}
 /* small breathing gap between the two ticker strips */
 .ticker--back{top:-58px}
 @media(max-width:850px){.ticker--back{top:-50px}}
+
+/* ---- v9.7: ticker strips, eyebrow rhythm, button sizing ---- */
+
+/* two parallel strips, same angle, uniform gap, opposite directions */
+.ticker-stack{padding:14px 0 0}
+.ticker-stack .ticker{transform:rotate(-2.2deg) scale(1.03)}
+.ticker--back{
+  position:absolute;left:0;right:0;
+  top:-64px;
+  transform:rotate(-2.2deg) scale(1.03);
+  background:var(--orange);
+  opacity:1;
+  padding:14px 0;
+  z-index:0;
+}
+.ticker--back .ticker-track{animation-direction:reverse;animation-duration:34s;opacity:1}
+.ticker--back .ticker-track span,
+.ticker--back .ticker-track i svg{opacity:.55}
+html[data-theme="dark"] .ticker--back{background:var(--orange)}
+@media(max-width:850px){
+  .ticker--back{top:-56px;padding:12px 0}
+}
+
+/* consistent breathing room under every eyebrow */
+.eyebrow{margin-bottom:14px}
+.eyebrow + h1,.eyebrow + h2,.eyebrow + h3{margin-top:6px}
+.section-head .eyebrow{margin-bottom:14px}
+.article .eyebrow{margin-bottom:14px}
+
+/* buttons: one size across phone, tablet and desktop */
+.button{font-size:12.5px;padding:13px 22px}
+.btn-outline{font-size:12.5px;padding:11px 18px}
+.btn-outline--sm{font-size:11.5px;padding:9px 15px}
+.post-body .btn-outline,.blog-body .btn-outline{align-self:flex-start;width:auto}
+@media(max-width:1080px){
+  .button{font-size:12.5px;padding:13px 22px}
+  .btn-outline{font-size:12.5px;padding:11px 18px}
+}
+@media(max-width:850px){
+  .button{font-size:12px;padding:12px 20px}
+  .btn-outline{font-size:12px;padding:10px 16px}
+}
