@@ -1,6 +1,16 @@
 const nav=document.querySelector('.nav-links');const toggle=document.querySelector('.menu-toggle');
 if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open?'true':'false');});}
-document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{if(nav)nav.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');}));
+function closeNav(){if(nav)nav.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');}
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',closeNav));
+// tapping anywhere outside the menu closes it
+document.addEventListener('click',e=>{
+  if(!nav||!nav.classList.contains('open'))return;
+  const navEl=document.querySelector('.nav');
+  if(navEl&&navEl.contains(e.target))return;
+  closeNav();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+window.addEventListener('resize',()=>{if(window.innerWidth>850)closeNav();});
 const revealAll=()=>document.querySelectorAll('.reveal:not(.visible)').forEach(el=>el.classList.add('visible'));
 if('IntersectionObserver' in window){
   const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -4% 0px'});

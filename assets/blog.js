@@ -9,10 +9,10 @@ function srcset(url){
   return `${m[1]}-480.${ext} 480w, ${m[1]}-900.${ext} 900w, ${m[1]}-1600.${ext} 1600w`;
 }
 function media(url,title,sizes){
-  if(!url)return '<div class="post-media post-media--empty" aria-hidden="true"><span>✳</span></div>';
+  if(!url)return '<div class="post-media post-media--empty" aria-hidden="true"><span><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span></div>';
   const ss=srcset(url);
   const dims=ss?' width="1600" height="900"':'';
-  return `<div class="post-media"><img src="${esc(url)}"${ss?` srcset="${esc(ss)}" sizes="${sizes}"`:''}${dims} alt="${esc(title)}" loading="lazy" decoding="async" onerror="this.style.display='none';this.parentNode.classList.add('post-media--empty');this.parentNode.innerHTML='<span>✳</span>'"></div>`;
+  return `<div class="post-media"><img src="${esc(url)}"${ss?` srcset="${esc(ss)}" sizes="${sizes}"`:''}${dims} alt="${esc(title)}" loading="lazy" decoding="async" onerror="this.style.display='none';this.parentNode.classList.add('post-media--empty');this.parentNode.innerHTML='<span><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg></span>'"></div>`;
 }
 function readTime(body){
   const words=String(body||'').trim().split(/\s+/).length;

@@ -385,3 +385,16 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
 
 /* ---- wordmark: title case (v6.8) ---- */
 .brand-word{text-transform:none;letter-spacing:-.02em;font-size:17px}
+
+/* ---- v7.1: nav sizing, bold menu, svg ticker stars ---- */
+.ticker-track i{display:inline-flex;align-items:center;font-style:normal;font-size:20px;line-height:1;color:var(--ink)}
+.ticker-track i svg{display:block}
+@media(max-width:850px){
+  .nav{width:calc(100% - 32px);padding:9px 12px 9px 15px;border-radius:16px}
+  .nav-links{width:100%;padding:14px 18px 18px;gap:4px}
+  .nav-links a{font-weight:700;font-size:14px;letter-spacing:-.01em;padding:11px 2px;border-bottom:1px solid var(--line);width:100%}
+  .nav-links a:last-child{border-bottom:0}
+  .nav-links a.active{color:var(--orange)}
+  .nav-wrap{top:14px}
+}
+@media(max-width:400px){.nav{width:calc(100% - 24px);padding:8px 10px 8px 12px}}
