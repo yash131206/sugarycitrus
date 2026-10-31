@@ -663,7 +663,7 @@ Deno.serve(async (req: Request) => {
         "Sugary Citrus · Sweet Strategy. Sharp Execution."
       ].join("\n");
 
-      await fetch("https://api.resend.com/emails", {
+      const confirmRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${cfg.resend_api_key}`,
@@ -678,6 +678,10 @@ Deno.serve(async (req: Request) => {
           text: confirmText
         })
       });
+      if (!confirmRes.ok) {
+        const why = await confirmRes.text();
+        console.error("Confirmation email rejected", confirmRes.status, why.slice(0, 300));
+      }
     } catch (err) {
       console.error("Auto-reply failed", err);
     }
