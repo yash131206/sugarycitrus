@@ -722,3 +722,48 @@ html[data-theme="dark"] .ticker--back{background:rgba(255,85,32,.18)}
   .ticker-stack{margin-bottom:clamp(16px,3vw,26px)}
   .ticker--back{bottom:calc(100% + 6px);padding:12px 0}
 }
+
+/* ---- v9.0: grey text becomes theme-aware (white on dark, ink on light) ---- */
+:root{--muted:#57544E}
+html[data-theme="dark"]{--muted:#F1EBE0}
+/* the footer card is dark in both themes, so its greys read white */
+.footer-card .footer-col a,
+.footer-card .footer-col p,
+.footer-card .footer-bottom,
+.footer-card .footer-bottom span,
+.footer-card .footer-meta{color:rgba(249,242,228,.94)}
+.footer-card .footer-col h4{color:var(--orange)}
+.footer-card .footer-bottom{border-top-color:rgba(249,242,228,.18)}
+/* any element left with an inline grey picks up the theme instead */
+[style*="color:#aaa49a"],[style*="color:#a29c92"],[style*="color:#8b867c"]{color:var(--muted) !important}
+html[data-theme="dark"] [style*="color:#aaa49a"],
+html[data-theme="dark"] [style*="color:#a29c92"],
+html[data-theme="dark"] [style*="color:#8b867c"]{color:#F1EBE0 !important}
+/* body copy that was grey sits at full contrast too */
+.article-body p,.post-body p,.blog-body p,.service-card p{color:var(--muted)}
+
+/* grey body text follows the theme: ink on cream, near-white on dark */
+:root{--muted:#4E4A44}
+html[data-theme="dark"]{--muted:#F1EBE0}
+.section-head p,.hero-copy p,.manifesto p,.faq-blurb,.intro,.article-body p,.post-body p,
+.blog-body p,.service-card p,.contact-grid p,.faq-answer p,.process p,.related-links a,
+.cta-band p,.page-hero p,.article-meta,.footer-col p{color:var(--muted)}
+html[data-theme="dark"] .section-head p,
+html[data-theme="dark"] .hero-copy p,
+html[data-theme="dark"] .manifesto p,
+html[data-theme="dark"] .faq-blurb,
+html[data-theme="dark"] .intro,
+html[data-theme="dark"] .article-body p,
+html[data-theme="dark"] .post-body p,
+html[data-theme="dark"] .blog-body p,
+html[data-theme="dark"] .service-card p,
+html[data-theme="dark"] .contact-grid p,
+html[data-theme="dark"] .faq-answer p,
+html[data-theme="dark"] .process p,
+html[data-theme="dark"] .related-links a,
+html[data-theme="dark"] .cta-band p,
+html[data-theme="dark"] .page-hero p,
+html[data-theme="dark"] .article-meta{color:var(--muted)}
+/* the footer card is dark in both themes */
+.footer-card .footer-col a,.footer-card .footer-col p,.footer-card .footer-bottom,
+.footer-card .footer-bottom span,.footer-card .footer-meta{color:#F6F0E4}
