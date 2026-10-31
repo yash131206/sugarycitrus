@@ -1042,3 +1042,10 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 @media (prefers-reduced-motion: reduce){
   .wave-spectrum-row i{transition:none;transform:none!important;opacity:.9!important}
 }
+
+/* ---- v11.3: the Lottie dot animation, reacting to the audio ---- */
+.wave-lottie{position:absolute;inset:0;transition:transform .12s linear;transform-origin:center}
+.wave-lottie svg{width:100%!important;height:100%!important;display:block}
+.wave-spectrum{display:none}
+.wave-stage{height:44px}
+@media(max-width:700px){.wave-stage{height:38px}}

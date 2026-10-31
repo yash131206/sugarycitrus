@@ -50,22 +50,9 @@
     stage.setAttribute('aria-label', 'Seek');
     stage.tabIndex = 0;
 
-    var grid = document.createElement('div');
-    grid.className = 'wave-spectrum';
-    var dots = [];
-    for (var r = 0; r < ROWS; r++) {
-      var line = document.createElement('div');
-      line.className = 'wave-spectrum-row';
-      var rowDots = [];
-      for (var c = 0; c < COLS; c++) {
-        var d = document.createElement('i');
-        line.appendChild(d);
-        rowDots.push(d);
-      }
-      grid.appendChild(line);
-      dots.push(rowDots);
-    }
-    stage.appendChild(grid);
+    var lottieBox = document.createElement('div');
+    lottieBox.className = 'wave-lottie';
+    stage.appendChild(lottieBox);
 
     var fill = document.createElement('span');
     fill.className = 'wave-line';
@@ -116,40 +103,29 @@
       }
     }
 
-    var peak = 40;
+    var anim = null;
+    var level = 0;
 
     function draw() {
       raf = requestAnimationFrame(draw);
       if (!analyser) return;
       analyser.getByteFrequencyData(data);
-      var bins = data.length;
-      for (var c = 0; c < COLS; c++) {
-        // spread the low-to-mid bins across the columns, skipping the empty top end
-        var idx = Math.min(bins - 1, Math.floor(Math.pow(c / COLS, 1.45) * (bins * 0.55)));
-        var raw = data[idx];
-        peak = Math.max(peak * 0.985, raw, 30);
-        // tilt: lift the quieter high bands so the whole row moves, like a real spectrum display
-        var tilt = 1 + (c / COLS) * 2.2;
-        var v = Math.min(1, (raw / peak) * tilt);
-        var scale = 0.55 + v * 1.15;
-        var op = 0.35 + v * 0.65;
-        var top = dots[0][c], bottom = dots[1][c];
-        top.style.transform = 'scale(' + scale.toFixed(3) + ')';
-        top.style.opacity = op.toFixed(3);
-        bottom.style.transform = 'scale(' + (scale * 0.82).toFixed(3) + ')';
-        bottom.style.opacity = (op * 0.8).toFixed(3);
-      }
+      // average the low-mid bands: that is where speech energy lives
+      var sum = 0, n = 0;
+      for (var i = 1; i < 24 && i < data.length; i++) { sum += data[i]; n++; }
+      var target = n ? (sum / n) / 255 : 0;
+      level = level * 0.72 + target * 0.28;            // smooth it out
+      var speed = 0.35 + level * 2.6;                   // quiet = slow, loud = fast
+      if (anim) anim.setSpeed(Math.min(3.2, speed));
+      if (lottieBox) lottieBox.style.transform = 'scale(' + (1 + level * 0.10).toFixed(3) + ')';
     }
 
     function stopDraw() {
       if (raf) cancelAnimationFrame(raf);
       raf = null;
-      for (var r = 0; r < ROWS; r++) {
-        for (var c = 0; c < COLS; c++) {
-          dots[r][c].style.transform = '';
-          dots[r][c].style.opacity = '';
-        }
-      }
+      level = 0;
+      if (anim) anim.setSpeed(1);
+      if (lottieBox) lottieBox.style.transform = '';
     }
 
     play.addEventListener('click', function () {
@@ -165,12 +141,14 @@
       card.classList.add('is-playing');
       play.setAttribute('aria-label', 'Pause audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+      if (anim) anim.play();
       if (setupAnalyser()) { if (ctx.state === 'suspended') ctx.resume(); if (!raf) draw(); }
     });
     audio.addEventListener('pause', function () {
       card.classList.remove('is-playing');
       play.setAttribute('aria-label', 'Play audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+      if (anim) anim.pause();
       stopDraw();
     });
     audio.addEventListener('ended', function () { stopDraw(); progress(); });
@@ -185,6 +163,35 @@
     });
 
     progress();
+
+    var base = (function () {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var src = scripts[i].src || '';
+        if (src.indexOf('audio-player.js') !== -1) return src.replace(/audio-player\.js.*$/, '');
+      }
+      return 'assets/';
+    })();
+
+    function loadScript(src) {
+      return new Promise(function (res, rej) {
+        var el = document.createElement('script');
+        el.src = src; el.onload = res; el.onerror = rej;
+        document.head.appendChild(el);
+      });
+    }
+
+    (window.lottie ? Promise.resolve() : loadScript(base + 'vendor/lottie.min.js'))
+      .then(function () { return fetch(base + 'audio/wave-dots.json').then(function (r) { return r.json(); }); })
+      .then(function (data) {
+        if (!window.lottie) return;
+        anim = window.lottie.loadAnimation({
+          container: lottieBox, renderer: 'svg', loop: true, autoplay: false,
+          animationData: data, rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+        });
+        if (!audio.paused) anim.play();
+      })
+      .catch(function () {});
   }
 
   function init() {
