@@ -1,6 +1,7 @@
 const nav=document.querySelector('.nav-links');const toggle=document.querySelector('.menu-toggle');
-if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open?'true':'false');});}
-function closeNav(){if(nav)nav.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');}
+const navCard=document.querySelector('.nav');
+if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open?'true':'false');if(navCard)navCard.classList.toggle('nav--open',open);});}
+function closeNav(){if(nav)nav.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');if(navCard)navCard.classList.remove('nav--open');}
 document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',closeNav));
 // tapping anywhere outside the menu closes it
 document.addEventListener('click',e=>{
