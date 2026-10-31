@@ -1049,3 +1049,18 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 .wave-spectrum{display:none}
 .wave-stage{height:44px}
 @media(max-width:700px){.wave-stage{height:38px}}
+/* give the Lottie band room so both dot rows sit fully inside */
+.wave-stage{height:58px;overflow:hidden;border-radius:8px}
+.wave-lottie{inset:-2px 0}
+@media(max-width:700px){.wave-stage{height:50px}}
+.audio-card .wave-stage{height:58px}
+@media(max-width:700px){.audio-card .wave-stage{height:50px}}
+.audio-card .wave-stage{height:92px}
+@media(max-width:700px){.audio-card .wave-stage{height:78px}}
+/* soft fade at the edges so the dot band dissolves instead of looking cut */
+.audio-card .wave-stage{height:64px}
+.wave-lottie{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 26%,#000 74%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 26%,#000 74%,transparent 100%);
+}
+@media(max-width:700px){.audio-card .wave-stage{height:56px}}
