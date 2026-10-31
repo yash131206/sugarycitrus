@@ -53,6 +53,7 @@
         var b = document.createElement('i');
         var h = peaks && peaks.length ? peaks[i] : 0.3;
         b.style.height = Math.max(8, Math.round(h * 100)) + '%';
+        b.style.animationDelay = ((i % 24) * 45) + 'ms';
         bars.appendChild(b);
         spans.push(b);
       }
@@ -81,11 +82,13 @@
     });
     audio.addEventListener('play', function () {
       play.classList.add('is-playing');
+      wrap.classList.add('is-playing');
       play.setAttribute('aria-label', 'Pause audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
     });
     audio.addEventListener('pause', function () {
       play.classList.remove('is-playing');
+      wrap.classList.remove('is-playing');
       play.setAttribute('aria-label', 'Play audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
     });

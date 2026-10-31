@@ -896,3 +896,16 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
   .wave-play{width:34px;height:34px}
   .wave-time{font-size:10px}
 }
+
+/* ---- v10.5: living waveform in brand orange ---- */
+@keyframes wavePulse{
+  0%{transform:scaleY(.45)}
+  100%{transform:scaleY(1.15)}
+}
+.wave-bars i{transform-origin:center;will-change:transform}
+.wave.is-playing .wave-bars i{animation:wavePulse .95s ease-in-out infinite alternate}
+.wave.is-playing .wave-play{box-shadow:0 0 0 6px rgba(255,85,32,.16)}
+.wave-play{transition:transform .18s ease,box-shadow .3s ease,background .18s ease}
+@media (prefers-reduced-motion: reduce){
+  .wave.is-playing .wave-bars i{animation:none}
+}
