@@ -909,3 +909,37 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
 @media (prefers-reduced-motion: reduce){
   .wave.is-playing .wave-bars i{animation:none}
 }
+
+/* ---- v10.6: Lottie wave, progress line, speed control ---- */
+.wave{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
+.wave-stage{position:relative;flex:1 1 auto;min-width:0;height:40px;cursor:pointer;outline:none;overflow:hidden;border-radius:8px}
+.wave-stage:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.wave-dots{position:absolute;inset:0;display:none}
+.wave-stage.has-lottie .wave-dots{display:block}
+.wave-stage.has-lottie .wave-bars{display:none}
+.wave-dots svg{width:100%!important;height:100%!important;display:block}
+.wave-bars{position:absolute;inset:0;display:flex;align-items:center;gap:1px}
+.wave-bars i{flex:1 1 0;min-width:0;max-width:3px;border-radius:1px;background:rgba(27,27,27,.16);transform-origin:center}
+html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.18)}
+.wave-bars i.is-played{background:var(--orange)}
+.wave-line{position:absolute;left:0;right:0;bottom:1px;height:2px;background:rgba(27,27,27,.10);border-radius:2px;overflow:hidden}
+.wave-line i{display:block;height:100%;width:0;background:var(--orange);border-radius:2px;transition:width .12s linear}
+html[data-theme="dark"] .wave-line{background:rgba(249,242,228,.14)}
+.wave-time{flex:0 0 auto;font:600 10.5px var(--mono);letter-spacing:.03em;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.wave-speed{
+  flex:0 0 auto;appearance:none;-webkit-appearance:none;
+  background:transparent;border:1px solid var(--line);border-radius:100px;
+  color:var(--ink);font:700 10px var(--mono);letter-spacing:.04em;
+  padding:5px 8px;cursor:pointer;
+}
+.wave-speed:hover{border-color:var(--orange);color:var(--orange)}
+html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
+@media(max-width:640px){
+  .wave{flex-wrap:wrap;gap:8px}
+  .wave-stage{flex:1 1 100%;order:2;height:34px}
+  .wave-time{order:3;margin-left:auto}
+  .wave-speed{order:4}
+  .wave-play{order:1}
+}
+.wave-stage{height:46px}
+@media(max-width:640px){.wave-stage{height:42px}}
