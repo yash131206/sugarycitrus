@@ -841,3 +841,9 @@ html[data-theme="dark"] .ticker--back{background:var(--orange)}
   .button{font-size:12px;padding:12px 20px}
   .btn-outline{font-size:12px;padding:10px 16px}
 }
+
+/* single ticker strip, original look */
+.ticker{margin:25px 0 90px;transform:rotate(-1.2deg) scale(1.02)}
+.ticker-track{animation-direction:normal;opacity:1}
+.ticker-track span,.ticker-track i svg{opacity:1}
+@media(max-width:850px){.ticker{margin:18px 0 24px;transform:rotate(-1.2deg) scale(1.02)}}
