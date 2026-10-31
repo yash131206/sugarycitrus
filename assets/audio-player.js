@@ -54,20 +54,9 @@
     stage.tabIndex = 0;
 
     var dots = document.createElement('div');
-    dots.className = 'wave-dotgrid';
-    var all = [];
-    for (var r = 0; r < ROWS; r++) {
-      var line = document.createElement('div');
-      line.className = 'wave-dotline';
-      for (var i = 0; i < PER_ROW; i++) {
-        var d = document.createElement('i');
-        d.style.animationDelay = ((i * 55) + (r * 220)) + 'ms';
-        line.appendChild(d);
-        all.push(d);
-      }
-      dots.appendChild(line);
-    }
+    dots.className = 'wave-dots';
     stage.appendChild(dots);
+    var all = [];
 
     var fill = document.createElement('span');
     fill.className = 'wave-line';
@@ -77,9 +66,9 @@
     row.appendChild(play);
     row.appendChild(stage);
 
-    wrap.appendChild(meta);
-    wrap.appendChild(row);
-    card.appendChild(wrap);
+    /* label and meta share the first row; play + wave sit underneath */
+    card.appendChild(meta);
+    card.appendChild(row);
 
     var knownDuration = 0;
 
@@ -87,8 +76,6 @@
       var d = audio.duration || knownDuration || 0;
       var p = d ? Math.min(1, audio.currentTime / d) : 0;
       fill.firstChild.style.width = (p * 100) + '%';
-      var upto = Math.round(p * all.length);
-      for (var i = 0; i < all.length; i++) all[i].classList.toggle('is-played', i < upto);
       time.textContent = fmt(audio.currentTime) + ' / ' + fmt(d);
     }
 
@@ -122,6 +109,40 @@
     });
 
     progress();
+
+    var base = (function () {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var src = scripts[i].src || '';
+        if (src.indexOf('audio-player.js') !== -1) return src.replace(/audio-player\.js.*$/, '');
+      }
+      return 'assets/';
+    })();
+
+    function loadScript(src) {
+      return new Promise(function (res, rej) {
+        var el = document.createElement('script');
+        el.src = src; el.onload = res; el.onerror = rej;
+        document.head.appendChild(el);
+      });
+    }
+
+    var anim = null;
+    (window.lottie ? Promise.resolve() : loadScript(base + 'vendor/lottie.min.js'))
+      .then(function () { return fetch(base + 'audio/wave-dots.json').then(function (r) { return r.json(); }); })
+      .then(function (data) {
+        if (!window.lottie) throw new Error('no lottie');
+        stage.classList.add('has-lottie');
+        anim = window.lottie.loadAnimation({
+          container: dots, renderer: 'svg', loop: true, autoplay: false,
+          animationData: data, rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+        });
+        if (!audio.paused) anim.play();
+        audio.addEventListener('play', function () { anim.setDirection(1); anim.play(); });
+        audio.addEventListener('pause', function () { anim.pause(); });
+        audio.addEventListener('ended', function () { anim.goToAndStop(0, true); });
+      })
+      .catch(function () { stage.classList.remove('has-lottie'); });
   }
 
   function init() {
