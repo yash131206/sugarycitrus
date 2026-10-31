@@ -293,3 +293,64 @@ html[data-theme="dark"] .select-menu [role="option"][aria-selected="true"]{backg
 .faq-blurb{color:#6c6862;margin:0 0 18px;font-size:14px}
 html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
 .page-hero--compact{min-height:0;padding-bottom:40px}
+
+/* ============================================================
+   v6.0 — spacing scale + footer bar alignment
+   One rhythm for the whole site. Change these and everything follows.
+   ============================================================ */
+:root{
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:24px;
+  --space-6:32px;
+  --space-7:48px;
+  --space-8:64px;
+  --space-9:96px;
+  --gutter:clamp(18px,4vw,32px);   /* page side padding */
+  --section-y:clamp(56px,8vw,110px); /* vertical space between sections */
+}
+
+/* container + vertical rhythm */
+.container{width:min(var(--max),calc(100% - (var(--gutter) * 2)))}
+.section{padding:var(--section-y) 0}
+.content-section{padding:var(--space-7) 0 var(--section-y)}
+.page-hero{padding:clamp(120px,14vw,190px) 0 var(--space-8)}
+.page-hero--compact{padding-bottom:var(--space-6)}
+.cta-band{padding:var(--section-y) clamp(22px,5vw,68px);margin:var(--space-6) auto var(--space-8)}
+.section-head{margin-bottom:var(--space-7)}
+.section-head h2{margin:var(--space-4) 0 0}
+
+/* grids + cards */
+.services-grid{gap:var(--space-3)}
+.blog-grid{gap:var(--space-4)}
+.blog-grid--posts{margin-top:var(--space-4)}
+.service-card{padding:var(--space-6);gap:var(--space-5)}
+.service-card h3{margin:var(--space-5) 0 var(--space-2)}
+.blog-body{padding:var(--space-5);gap:var(--space-3)}
+.post-card--featured .post-body{padding:clamp(24px,3.4vw,48px);gap:var(--space-4)}
+.form-card{padding:clamp(22px,3vw,38px)}
+.form-card-head{margin-bottom:var(--space-5)}
+.form-card .form{gap:var(--space-4)}
+.faq-list{gap:var(--space-3);margin:var(--space-5) 0 var(--space-7)}
+.faq-card summary{padding:var(--space-4) var(--space-5)}
+.faq-answer{padding:0 var(--space-5) var(--space-5)}
+.related-links{gap:var(--space-3);margin:var(--space-5) 0 var(--space-6)}
+.footer-card{padding:clamp(30px,4.5vw,64px)}
+.footer-top{gap:clamp(28px,5vw,80px);padding-bottom:var(--space-7)}
+.footer-cols{gap:clamp(18px,3vw,46px)}
+.footer-col{gap:var(--space-3)}
+.footer-bottom{padding-top:var(--space-4)}
+.content-section h2{margin-top:var(--space-7)}
+.hero-meta{margin-top:var(--space-7);padding-top:var(--space-4)}
+.process article{padding:var(--space-5) var(--space-5) 0 0;margin-right:var(--space-5)}
+
+/* footer bar: copyright left, tagline always right */
+.footer-bottom{display:flex;flex-direction:row;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:var(--space-2) var(--space-4)}
+.footer-tagline{margin-left:auto;text-align:right}
+@media(max-width:640px){
+  .footer-bottom{flex-direction:row;align-items:center}
+  .footer-tagline{margin-left:auto;text-align:right;font-size:9px;letter-spacing:.06em}
+}
