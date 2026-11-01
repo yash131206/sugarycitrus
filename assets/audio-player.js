@@ -21,19 +21,39 @@
     time.className = 'wave-time';
     time.textContent = '0:00 / 0:00';
 
-    var speed = document.createElement('select');
+    /* custom speed menu: a native <select> renders its own OS-styled popup,
+       which we cannot colour, so the list is ours */
+    var speedWrap = document.createElement('div');
+    speedWrap.className = 'wave-speed-wrap';
+
+    var speed = document.createElement('button');
+    speed.type = 'button';
     speed.className = 'wave-speed';
     speed.setAttribute('aria-label', 'Playback speed');
+    speed.setAttribute('aria-haspopup', 'listbox');
+    speed.setAttribute('aria-expanded', 'false');
+    speed.innerHTML = '<span>1x</span><svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+
+    var speedMenu = document.createElement('div');
+    speedMenu.className = 'wave-speed-menu';
+    speedMenu.setAttribute('role', 'listbox');
+    var options = [];
     SPEEDS.forEach(function (v) {
-      var o = document.createElement('option');
-      o.value = v;
+      var o = document.createElement('button');
+      o.type = 'button';
+      o.className = 'wave-speed-opt' + (v === 1 ? ' is-current' : '');
+      o.setAttribute('role', 'option');
+      o.dataset.v = v;
       o.textContent = (v === 1 ? '1x' : v + 'x');
-      speed.appendChild(o);
+      speedMenu.appendChild(o);
+      options.push(o);
     });
-    speed.value = '1';
+
+    speedWrap.appendChild(speed);
+    speedWrap.appendChild(speedMenu);
 
     meta.appendChild(time);
-    meta.appendChild(speed);
+    meta.appendChild(speedWrap);
 
     var row = document.createElement('div');
     row.className = 'wave-row';
@@ -161,7 +181,27 @@
     audio.addEventListener('timeupdate', progress);
     audio.addEventListener('loadedmetadata', function () { knownDuration = audio.duration || knownDuration; progress(); });
 
-    speed.addEventListener('change', function () { audio.playbackRate = parseFloat(speed.value); });
+    function closeMenu() {
+      speedWrap.classList.remove('is-open');
+      speed.setAttribute('aria-expanded', 'false');
+    }
+    speed.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = !speedWrap.classList.contains('is-open');
+      speedWrap.classList.toggle('is-open', open);
+      speed.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    options.forEach(function (o) {
+      o.addEventListener('click', function (e) {
+        e.stopPropagation();
+        audio.playbackRate = parseFloat(o.dataset.v);
+        speed.querySelector('span').textContent = o.textContent;
+        options.forEach(function (x) { x.classList.toggle('is-current', x === o); });
+        closeMenu();
+      });
+    });
+    document.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
     stage.addEventListener('click', seek);
     stage.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
