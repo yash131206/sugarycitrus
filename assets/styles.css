@@ -1095,3 +1095,15 @@ html[data-theme="dark"] .wave-speed-menu{background:#1A1917;border-color:rgba(24
 html[data-theme="dark"] .wave-speed-opt{color:var(--cream)}
 html[data-theme="dark"] .wave-speed-opt:hover{background:rgba(255,85,32,.18);color:var(--orange)}
 html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);color:#1B1B1B}
+
+/* ---- v12.1: article FAQ cards need breathing room ---- */
+.article-body .faq-card{margin:0 0 12px}
+.article-body .faq-card:last-child{margin-bottom:0}
+.article-body .faq-card summary{padding:18px 20px}
+.article-body .faq-card .faq-answer{padding:0 20px 18px}
+.article-body h2 + .faq-card{margin-top:6px}
+@media(max-width:640px){
+  .article-body .faq-card{margin-bottom:10px}
+  .article-body .faq-card summary{padding:16px 16px}
+  .article-body .faq-card .faq-answer{padding:0 16px 16px}
+}
