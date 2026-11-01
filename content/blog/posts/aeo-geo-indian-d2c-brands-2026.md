@@ -16,7 +16,7 @@ Answer engine optimisation (AEO) and generative engine optimisation (GEO) are th
 
 ## What is actually happening in India
 
-The adoption numbers are no longer early-adopter numbers. A McKinsey survey published in October 2026, covering around 21,000 consumers across 11 markets, found that 76 per cent of Indian consumers already use AI tools to search for products, compare options or make purchase decisions. Only China was ahead, at 80 per cent. The global average was 53 per cent. The same study found that 87 per cent of Indian AI users trust AI chat and search tools, against a global average of 73 per cent.
+The adoption numbers are no longer early-adopter numbers. A [McKinsey survey published in October 2026](https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/who-wins-when-ai-does-the-shopping-new-evidence-on-agentic-commerce), covering around 21,000 consumers across 11 markets, found that 76 per cent of Indian consumers already use AI tools to search for products, compare options or make purchase decisions. Only China was ahead, at 80 per cent. The global average was 53 per cent. The same study found that 87 per cent of Indian AI users trust AI chat and search tools, against a global average of 73 per cent.
 
 That trust shows up in purchase behaviour. A BCG study reported by The Economic Times in October 2026 put AI search influence at roughly a quarter of all purchase journeys in India, and in 65 per cent of those journeys shoppers said the AI answer influenced their final brand choice. LLMs are now among the top three sources of discovery for Indian consumers, alongside social media and traditional search.
 
@@ -26,7 +26,7 @@ YouGov's July 2026 study of Indian online searchers adds the habit layer: six in
 
 This is where most brand teams guess wrong. The common assumption is that AI reads your website and summarises it. In Indian D2C, that is usually not what happens.
 
-The Cited Index, published in July 2026, tracked 226 Indian brands across ten categories through five engines and captured 760 citations. In D2C categories, marketplaces and aggregators accounted for 33 to 57 per cent of all citations, and Amazon.in was the single most-cited domain in almost every consumer category. Community and social sources, led by Reddit, YouTube and Instagram, made up another 19 to 29 per cent. Earned media was just 3 per cent.
+The [Cited Index](https://www.getcited.in/blog/state-of-ai-search-indian-brands-2026), published in July 2026, tracked 226 Indian brands across ten categories through five engines and captured 760 citations. In its original reading, marketplaces and aggregators accounted for 33 to 57 per cent of citations in D2C categories, community and social sources for 19 to 29 per cent, and earned media for about 3 per cent. Worth knowing: the publishers revised that citation layer in August 2026, after finding their first method read publisher names out of answer prose instead of the URLs the engines actually cited. On the corrected data marketplaces carry a smaller share and brand sites become the largest single source. Treat the split as directionally useful, not settled.
 
 Global studies point the same way. A large-scale analysis of more than 100,000 AI responses found that only about 2.9 per cent of citations point at the brand's own domain, while roughly three quarters point at third-party corporate and peer-brand pages. When engines do cite content, the ranked best-of listicle is the single most-cited format, at about 35.7 per cent of content citations.
 
@@ -34,7 +34,7 @@ The practical implication is uncomfortable but useful: if your product page is w
 
 ## AEO, GEO and SEO are one job with three names
 
-Google's 2026 guidance is blunt about this: optimising for generative AI search is still search engine optimisation, because AI features retrieve pages through the core ranking systems. A page has to be indexed and eligible to appear with a snippet before any AI feature can use it. Indexing is never guaranteed.
+Google's [2026 guidance](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) is blunt about this: optimising for generative AI search is still search engine optimisation, because AI features retrieve pages through the core ranking systems. A page has to be indexed and eligible to appear with a snippet before any AI feature can use it. Indexing is never guaranteed.
 
 So treat the three terms as layers of one system:
 
@@ -127,3 +127,13 @@ Audit what the engines already say about you and your category, fix the marketpl
 Start with a citation audit of twenty prompts in your category, not with a content calendar. Fix the facts that are wrong or missing, because an assistant that describes you inaccurately will not recommend you confidently. Then earn two or three credible mentions on domains the engines already trust in your category, and rebuild your five highest-intent pages around direct answers.
 
 AI visibility is not a channel you buy. It is a by-product of being clearly and consistently documented across the places machines read.
+
+## Sources
+
+- McKinsey, *Who wins when AI does the shopping? New evidence on agentic commerce*, 28 October 2026 — https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/who-wins-when-ai-does-the-shopping-new-evidence-on-agentic-commerce
+- Google Search Central, *Optimizing your website for generative AI features on Google Search*, 2026 — https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
+- Cited, *The State of AI Search for Indian Brands*, 30 July 2026 (citation figures revised August 2026) — https://www.getcited.in/blog/state-of-ai-search-indian-brands-2026
+- BCG study on AI search and purchase journeys in India, reported by The Economic Times, October 2026.
+- YouGov study of Indian online searchers, July 2026.
+- Analysis of more than 100,000 AI responses on citation sources, 2026.
+- Study of 10,000 real-world queries on quotes, statistics and AI visibility, 2026.

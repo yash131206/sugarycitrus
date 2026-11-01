@@ -55,10 +55,19 @@ function parseMarkdownFile(raw, file) {
   return { slug: slugify(path.basename(file, '.md')), title: front.title,
     seo_title: front.seo_title || '' || path.basename(file, '.md'), image: front.featured_image || '', category: front.category || 'Insight', author: front.author || 'Sugary Citrus', date: front.publish_date || '', description: front.description || '', body };
 }
+
+function inlineMd(t){
+  return esc(t)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (m,label,href)=>`<a href="${href}" target="_blank" rel="noopener">${label}</a>`)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, (m,pre,url)=>`${pre}<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a>`);
+}
+
 function markdownToHtml(src='') {
   const lines=String(src).split(/\r?\n/);let out='',para=[],list=false;
-  const flush=()=>{if(para.length){out+=`<p>${para.map(esc).join('<br>')}</p>`;para=[];}};
-  for(const line of lines){if(/^#{1,3}\s/.test(line)){flush();if(list){out+='</ul>';list=false;}const n=line.match(/^#+/)[0].length;out+=`<h${n}>${esc(line.replace(/^#{1,3}\s/,''))}</h${n}>`;}else if(/^[-*]\s/.test(line)){flush();if(!list){out+='<ul>';list=true;}out+=`<li>${esc(line.replace(/^[-*]\s/,''))}</li>`;}else if(!line.trim()){flush();if(list){out+='</ul>';list=false;}}else para.push(line);}
+  const flush=()=>{if(para.length){out+=`<p>${para.map(inlineMd).join('<br>')}</p>`;para=[];}};
+  for(const line of lines){if(/^#{1,3}\s/.test(line)){flush();if(list){out+='</ul>';list=false;}const n=line.match(/^#+/)[0].length;out+=`<h${n}>${inlineMd(line.replace(/^#{1,3}\s/,''))}</h${n}>`;}else if(/^[-*]\s/.test(line)){flush();if(!list){out+='<ul>';list=true;}out+=`<li>${inlineMd(line.replace(/^[-*]\s/,''))}</li>`;}else if(!line.trim()){flush();if(list){out+='</ul>';list=false;}}else para.push(line);}
   flush();if(list)out+='</ul>';return out;
 }
 async function getPublishedFromSupabase() {
