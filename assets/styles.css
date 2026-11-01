@@ -1118,3 +1118,36 @@ html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);colo
   .hero{padding-top:128px}
   .hero .button{margin-top:16px}
 }
+
+/* ---- v12.3: footer copyright readable on phones ---- */
+@media(max-width:850px){
+  .footer-bottom{
+    font-size:12px;
+    letter-spacing:.05em;
+    color:#d5cfc4;
+    gap:8px;
+    padding-top:20px;
+  }
+  .footer-bottom span{font-size:12px}
+  .footer-tagline{font-size:11.5px;color:#c5c0b7}
+}
+@media(max-width:400px){
+  .footer-bottom,.footer-bottom span{font-size:11.5px}
+}
+
+/* footer bottom: one clean column, copyright big enough to read */
+@media(max-width:850px){
+  .footer-bottom{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding-top:20px;
+    font-size:12.5px;
+    letter-spacing:.02em;
+    line-height:1.5;
+    color:#e9e2d5;
+  }
+  .footer-bottom>span{font-size:12.5px;white-space:nowrap;color:#e9e2d5}
+  .footer-bottom .footer-tagline{font-size:11px;letter-spacing:.04em;color:#a8a29a}
+}
