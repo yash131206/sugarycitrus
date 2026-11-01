@@ -1107,3 +1107,14 @@ html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);colo
   .article-body .faq-card summary{padding:16px 16px}
   .article-body .faq-card .faq-answer{padding:0 16px 16px}
 }
+
+/* ---- v12.2: hero breathing room on phones ---- */
+@media(max-width:850px){
+  .hero{padding-top:136px}
+  .hero-copy{margin-bottom:26px}
+  .hero .button{margin-top:18px}
+}
+@media(max-width:400px){
+  .hero{padding-top:128px}
+  .hero .button{margin-top:16px}
+}
