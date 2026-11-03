@@ -50,3 +50,14 @@ document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().g
     sync();
   });}
 })();
+
+/* nav goes slightly more solid once the page moves */
+(function(){
+  var wrap = document.querySelector('.nav-wrap');
+  if(!wrap) return;
+  var onScroll = function(){
+    wrap.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();

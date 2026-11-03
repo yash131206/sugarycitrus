@@ -1308,3 +1308,45 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 .article-hero{background:var(--cream)!important}
 .article-hero img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover}
 .article-hero{position:relative}
+
+/* ---- v15.5: the navigation bar in glass ---- */
+.nav{
+  background:rgba(255,255,255,.58)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  backdrop-filter:blur(22px) saturate(180%);
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 14px 42px rgba(27,27,27,.10), inset 0 1px 0 rgba(255,255,255,.85);
+  transition:background .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+/* a touch more solid once the page has scrolled, so text stays readable */
+.nav-wrap.is-scrolled .nav{
+  background:rgba(255,255,255,.78)!important;
+  box-shadow:0 16px 46px rgba(27,27,27,.13), inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* the open menu on phones matches the bar */
+.nav-links{
+  background:rgba(255,255,255,.72)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  backdrop-filter:blur(22px) saturate(180%);
+  border-color:rgba(255,255,255,.72)!important;
+}
+
+.nav-links a,.nav-cta,.brand{transition:color .2s ease,opacity .2s ease,transform .2s ease}
+.nav-links a:hover{color:var(--orange)}
+.nav-cta:hover{transform:translateY(-1px)}
+
+html[data-theme="dark"] .nav{
+  background:rgba(24,23,21,.62)!important;
+  border-color:rgba(249,242,228,.16)!important;
+  box-shadow:0 14px 42px rgba(0,0,0,.46), inset 0 1px 0 rgba(249,242,228,.08);
+}
+html[data-theme="dark"] .nav-wrap.is-scrolled .nav{background:rgba(24,23,21,.82)!important}
+html[data-theme="dark"] .nav-links{
+  background:rgba(24,23,21,.82)!important;
+  border-color:rgba(249,242,228,.16)!important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .nav,.nav-links a,.nav-cta,.brand{transition:none!important}
+}
