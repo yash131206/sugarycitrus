@@ -1188,3 +1188,6 @@ html[data-theme="dark"] .tool-submit:hover{color:#11100E}
   .footer-cols{grid-template-columns:repeat(4,minmax(0,auto));gap:18px}
   .footer-col a{font-size:12px}
 }
+
+/* one card fills the row instead of sitting in a half-empty grid */
+.blog-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}

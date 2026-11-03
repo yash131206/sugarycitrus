@@ -6,9 +6,15 @@
   var cfg = window.SUGARY_SUPABASE;
   if (!cfg || !cfg.url || !cfg.publishableKey) return;
 
+  var slug = null;
   var match = location.pathname.match(/\/articles\/([^\/?#]+)/);
-  if (!match) return;
-  var slug = decodeURIComponent(match[1]).replace(/\.html$/, '');
+  if (match) {
+    slug = decodeURIComponent(match[1]).replace(/\.html$/, '');
+  } else {
+    var q = new URLSearchParams(location.search).get('slug');
+    if (q && /article/.test(location.pathname)) slug = q;
+  }
+  if (!slug) return;
   if (document.querySelector('.audio-card')) return;
 
   var anchor = document.querySelector('.article .intro') || document.querySelector('.article h1');
