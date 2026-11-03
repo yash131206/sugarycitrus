@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Sugary Citrus">
+  <circle cx="54" cy="68" r="46" fill="#FF5520"/>
+  <text x="54" y="68" text-anchor="middle" dominant-baseline="central"
+        font-family="Manrope, 'DM Sans', system-ui, -apple-system, Segoe UI, sans-serif"
+        font-weight="800" font-size="38" letter-spacing="-2.4" fill="#11100E">SC</text>
+  <g stroke="#FF5520" stroke-width="3.2" stroke-linecap="round">
+    <path d="M100 8v13M93.5 14.5h13M95.4 9.9l9.2 9.2M104.6 9.9l-9.2 9.2"/>
+  </g>
+</svg>

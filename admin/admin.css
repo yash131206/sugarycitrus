@@ -92,3 +92,17 @@ html,body{max-width:100%;overflow-x:hidden}
   .app-shell .brand{padding-bottom:6px}
   .app-shell .brand .brand-badge{width:34px;height:34px;font-size:12px;line-height:34px}
 }
+
+/* real logo file in the sidebar and the welcome card */
+.app-shell .brand{font-size:0;display:flex;justify-content:center;line-height:1}
+.app-shell .brand .brand-logo{
+  display:block!important;width:38px;height:38px;
+  transition:transform .18s ease;
+}
+.app-shell .brand:hover .brand-logo{transform:scale(1.06)}
+@media(max-width:900px){
+  .app-shell .brand .brand-logo{width:34px;height:34px}
+}
+.welcome-art{background:transparent!important}
+.welcome-art img{width:100%;height:100%;display:block;border-radius:50%}
+@media(max-width:560px){.welcome-art{display:none}}
