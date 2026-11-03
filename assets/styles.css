@@ -1217,3 +1217,10 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
   .wave-skip{padding:4px 6px;gap:1px}
   .wave-skip span{font-size:8px}
 }
+
+/* read + listen side by side on insight cards */
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.listen-btn{cursor:pointer;gap:6px}
+.listen-btn svg{opacity:.9}
+.listen-btn:hover{background:var(--orange);border-color:var(--orange);color:#11100E}
+#listen{scroll-margin-top:90px}

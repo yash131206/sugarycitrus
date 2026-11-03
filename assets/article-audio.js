@@ -23,6 +23,7 @@
   /* --- shell first, so space is reserved before the network answers --- */
   var card = document.createElement('div');
   card.className = 'audio-card is-loading';
+  card.id = 'listen';
   card.setAttribute('aria-busy', 'true');
 
   var label = document.createElement('div');
