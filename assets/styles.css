@@ -1293,3 +1293,18 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 @media(max-width:560px){
   .article-body img{margin:18px 0;border-radius:12px}
 }
+
+/* the cover must sit flush inside its frame — no sliver of background on the right */
+.post-media{background:var(--cream)!important}
+.post-media img{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.article-hero{background:var(--cream)!important}
+.article-hero img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover}
+.article-hero{position:relative}
