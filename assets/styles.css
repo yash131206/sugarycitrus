@@ -1196,3 +1196,24 @@ html[data-theme="dark"] .tool-submit:hover{color:#11100E}
 .blog-card{background:#fff}
 .blog-card .blog-body{background:#fff}
 .post-card--featured{background:#fff}
+
+/* audio skip controls */
+.wave-skip{
+  display:inline-flex;align-items:center;gap:3px;flex:0 0 auto;
+  background:transparent;border:1px solid rgba(27,27,27,.14);border-radius:100px;
+  padding:5px 9px;cursor:pointer;
+  color:var(--ink);opacity:.62;transition:opacity .16s,transform .16s;
+}
+.wave-skip span{font:700 9px var(--mono);letter-spacing:-.02em;margin-top:1px}
+.wave-skip:hover{opacity:1;transform:scale(1.06)}
+.wave-skip:active{transform:scale(.94)}
+@media(max-width:420px){.wave-skip svg{width:14px;height:14px}}
+
+html[data-theme="dark"] .wave-skip{color:var(--cream);opacity:.72}
+.audio-card .wave-skip{color:var(--ink)}
+
+html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22)}
+@media(max-width:420px){
+  .wave-skip{padding:4px 6px;gap:1px}
+  .wave-skip span{font-size:8px}
+}

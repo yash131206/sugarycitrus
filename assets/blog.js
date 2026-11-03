@@ -25,7 +25,7 @@ function card(p){
   return `<a class="blog-card" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:560px) 100vw, (max-width:1080px) 50vw, 33vw')}<div class="blog-body">${meta(p)}<h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><span class="btn-outline btn-outline--sm">Read article ${ARROW}</span></div></a>`;
 }
 function featured(p){
-  return `<a class="post-card--featured" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:850px) 100vw, 50vw')}<div class="post-body">${meta(p)}<h2>${esc(p.title)}</h2><p>${esc(p.description)}</p><span class="btn-outline">Read the full article ${ARROW}</span></div></a>`;
+  return `<a class="post-card--featured" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:850px) 100vw, 50vw')}<div class="post-body">${meta(p)}<h2>${esc(p.title)}</h2><p>${esc(p.description)}</p><span class="btn-outline">Read article ${ARROW}</span></div></a>`;
 }
 
 async function loadPosts(){

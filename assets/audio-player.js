@@ -78,6 +78,18 @@
     var row = document.createElement('div');
     row.className = 'wave-row';
 
+    var back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'wave-skip';
+    back.setAttribute('aria-label', 'Back 15 seconds');
+    back.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 4 12l7 7"/><path d="M20 5l-7 7 7 7"/></svg><span>15</span>';
+
+    var fwd = document.createElement('button');
+    fwd.type = 'button';
+    fwd.className = 'wave-skip';
+    fwd.setAttribute('aria-label', 'Forward 15 seconds');
+    fwd.innerHTML = '<span>15</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 5l7 7-7 7"/><path d="M4 5l7 7-7 7"/></svg>';
+
     var play = document.createElement('button');
     play.type = 'button';
     play.className = 'wave-play';
@@ -99,7 +111,9 @@
     fill.innerHTML = '<i></i>';
     stage.appendChild(fill);
 
+    row.appendChild(back);
     row.appendChild(play);
+    row.appendChild(fwd);
     row.appendChild(stage);
     card.appendChild(meta);
     card.appendChild(row);
@@ -217,6 +231,14 @@
     });
     document.addEventListener('click', closeMenu);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+    back.addEventListener('click', function () {
+      audio.currentTime = Math.max(0, audio.currentTime - 15);
+      progress();
+    });
+    fwd.addEventListener('click', function () {
+      audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15);
+      progress();
+    });
     stage.addEventListener('click', seek);
     stage.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
