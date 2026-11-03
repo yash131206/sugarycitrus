@@ -8,6 +8,28 @@
   var ROWS = 2;
   var SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
+  /* start both downloads immediately so the wave is ready before anyone
+     presses play, instead of after */
+  var BASE = (function () {
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+      var src = scripts[i].src || '';
+      if (src.indexOf('audio-player.js') !== -1) return src.replace(/audio-player\.js.*$/, '');
+    }
+    return 'assets/';
+  })();
+
+  var LIB = window.lottie ? Promise.resolve() : new Promise(function (res, rej) {
+    var el = document.createElement('script');
+    el.src = BASE + 'vendor/lottie.min.js';
+    el.onload = res; el.onerror = rej;
+    document.head.appendChild(el);
+  });
+
+  var WAVE = LIB.then(function () {
+    return fetch(BASE + 'audio/wave-dots.json').then(function (r) { return r.json(); });
+  });
+
   function fmt(sec) {
     if (!isFinite(sec) || sec < 0) sec = 0;
     var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
@@ -68,9 +90,9 @@
     stage.setAttribute('aria-label', 'Seek');
     stage.tabIndex = 0;
 
-    var canvas = document.createElement('canvas');
-    canvas.className = 'wave-canvas';
-    stage.appendChild(canvas);
+    var lottieBox = document.createElement('div');
+    lottieBox.className = 'wave-lottie';
+    stage.appendChild(lottieBox);
 
     var fill = document.createElement('span');
     fill.className = 'wave-line';
@@ -81,23 +103,6 @@
     row.appendChild(stage);
     card.appendChild(meta);
     card.appendChild(row);
-
-    var ctx2d = canvas.getContext('2d');
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
-    var w = 0, h = 0;
-
-    function size() {
-      var r = stage.getBoundingClientRect();
-      w = Math.max(1, Math.round(r.width));
-      h = Math.max(1, Math.round(r.height));
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    size();
-    window.addEventListener('resize', size);
 
     var knownDuration = 0;
     var actx = null, analyser = null, source = null, freq = null, raf = null;
@@ -141,66 +146,25 @@
       }
     }
 
-    function paint() {
-      ctx2d.clearRect(0, 0, w, h);
+    var anim = null;
+    var level = 0;
+    var raf = null;
 
-      var colW = w / COLS;
-      var gapY = h / (ROWS + 1);
-      var baseR = Math.max(1.1, Math.min(2.4, colW * 0.16));
-      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      var idleCol = isDark ? 'rgba(249,242,228,0.22)' : 'rgba(249,242,228,0.30)';
-      var hot = 'rgb(255,85,32)';
-
-      for (var c = 0; c < COLS; c++) {
-        var lv = levels[c];
-        var cx = colW * c + colW / 2;
-        for (var r = 0; r < ROWS; r++) {
-          var cy = gapY * (r + 1);
-          var rad = baseR + lv * baseR * 1.9;
-          ctx2d.beginPath();
-          ctx2d.arc(cx, cy, rad, 0, Math.PI * 2);
-          if (lv > 0.04) {
-            ctx2d.fillStyle = hot;
-            ctx2d.globalAlpha = 0.45 + Math.min(0.55, lv);
-          } else {
-            ctx2d.fillStyle = idleCol;
-            ctx2d.globalAlpha = 1;
-          }
-          ctx2d.fill();
-        }
-      }
-      ctx2d.globalAlpha = 1;
+    function driver() {
+      raf = requestAnimationFrame(driver);
+      if (!analyser || audio.paused) return;
+      analyser.getByteFrequencyData(freq);
+      var sum = 0, n = 0;
+      for (var i = 1; i < 24 && i < freq.length; i++) { sum += freq[i]; n++; }
+      var target = n ? Math.min(1, ((sum / n) / 255) * 2.8) : 0;
+      level = level * 0.55 + target * 0.45;
+      if (anim) anim.setSpeed(Math.max(0.3, Math.min(2.8, 0.45 + level * 3.2)));
+      lottieBox.style.opacity = (0.72 + level * 0.28).toFixed(3);
+      lottieBox.style.transform = 'scaleY(' + (0.94 + level * 0.18).toFixed(3) + ')';
     }
 
-    function loop() {
-      raf = requestAnimationFrame(loop);
-      idle += 0.05;
-
-      if (analyser && !audio.paused) {
-        analyser.getByteFrequencyData(freq);
-        /* map the 30 columns across the bands that carry speech, skipping DC */
-        var usable = Math.min(freq.length - 1, 96);
-        for (var c = 0; c < COLS; c++) {
-          var from = Math.floor((c / COLS) * usable) + 1;
-          var to = Math.max(from + 1, Math.floor(((c + 1) / COLS) * usable) + 1);
-          var sum = 0, n = 0;
-          for (var i = from; i < to && i < freq.length; i++) { sum += freq[i]; n++; }
-          var target = n ? (sum / n) / 255 : 0;
-          target = Math.min(1, Math.pow(target, 0.72) * 2.1);
-          levels[c] = levels[c] * 0.62 + target * 0.38;
-        }
-      } else {
-        /* paused: a slow breath so the grid never looks dead */
-        for (var k = 0; k < COLS; k++) {
-          var wave = 0.5 + 0.5 * Math.sin(idle * 0.6 + k * 0.35);
-          levels[k] = levels[k] * 0.86 + (0.05 + wave * 0.07) * 0.14;
-        }
-      }
-      paint();
-    }
-
-    function startLoop() { if (!raf) loop(); }
-    function stopLoop() { if (raf) cancelAnimationFrame(raf); raf = null; }
+    function startLoop() { if (!raf) driver(); }
+    function stopLoop() { if (raf) cancelAnimationFrame(raf); raf = null; level = 0; if (anim) anim.setSpeed(1); lottieBox.style.transform = ''; }
 
     play.addEventListener('click', function () {
       if (audio.paused) {
@@ -216,10 +180,13 @@
       play.setAttribute('aria-label', 'Pause audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
       if (setupAnalyser() && actx.state === 'suspended') actx.resume();
+      if (anim) anim.play();
       startLoop();
     });
     audio.addEventListener('pause', function () {
       card.classList.remove('is-playing');
+      if (anim) anim.pause();
+      stopLoop();
       play.setAttribute('aria-label', 'Play audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
     });
@@ -256,6 +223,17 @@
 
     progress();
     startLoop();
+
+    /* attach the animation as soon as it is available */
+    WAVE.then(function (data) {
+      if (!window.lottie || anim) return;
+      anim = window.lottie.loadAnimation({
+        container: lottieBox, renderer: 'svg', loop: true, autoplay: false,
+        animationData: data,
+        rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+      });
+      if (!audio.paused) anim.play();
+    }).catch(function () {});
   }
 
   function upgrade(card) {
