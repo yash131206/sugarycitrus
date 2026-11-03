@@ -158,9 +158,9 @@
       for (var i = 1; i < 24 && i < freq.length; i++) { sum += freq[i]; n++; }
       var target = n ? Math.min(1, ((sum / n) / 255) * 2.8) : 0;
       level = level * 0.55 + target * 0.45;
-      if (anim) anim.setSpeed(Math.max(0.3, Math.min(2.8, 0.45 + level * 3.2)));
+      if (anim) anim.setSpeed(Math.max(0.25, Math.min(1.15, 0.3 + level * 0.9)));
       lottieBox.style.opacity = (0.72 + level * 0.28).toFixed(3);
-      lottieBox.style.transform = 'scaleY(' + (0.94 + level * 0.18).toFixed(3) + ')';
+      lottieBox.style.transform = 'scaleY(' + (0.96 + level * 0.12).toFixed(3) + ')';
     }
 
     function startLoop() { if (!raf) driver(); }

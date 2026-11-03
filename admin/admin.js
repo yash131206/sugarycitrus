@@ -97,24 +97,60 @@ let reviewList = [];
   $('postForm').addEventListener('submit',async e=>{e.preventDefault();const p=formData();const previous=posts.find(x=>x.id===$('postId').value);const needsRebuild=p.status==='published'||previous?.status==='published';$('saveButton').disabled=true;$('saveState').textContent='Saving to cloud…';let result; if($('postId').value){const {created_by,...updates}=p;result=await supabase.from('articles').update(updates).eq('id',$('postId').value).select().single();}else result=await supabase.from('articles').insert(p).select().single();$('saveButton').disabled=false;if(result.error){$('saveState').textContent='Save failed';toast(result.error.message,true);return;} $('postId').value=result.data.id;$('saveState').textContent='Saved securely · '+new Date().toLocaleTimeString();$('editorHeading').textContent='Edit article';toast(p.status==='published'?'Article published.':'Draft saved.');await refresh();if(needsRebuild)await triggerRebuild();});
   $('resetForm').onclick=reset;
   $('image').addEventListener('input',()=>{const v=$('image').value.trim();if(v){$('imagePreview').src=v;$('imagePreview').classList.remove('hidden')}else $('imagePreview').classList.add('hidden')});
-  $('imageFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024){toast('Image must be 5 MB or smaller.',true);return;}if(!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)){toast('Use JPG, PNG, WebP or AVIF.',true);return;}const path=`featured/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'-')}`;toast('Uploading image…');const {error}=await supabase.storage.from('cms-images').upload(path,file,{cacheControl:'31536000',upsert:false,contentType:file.type});
+  $('imageFile').addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    if(file.size>5*1024*1024){toast('Image must be 5 MB or smaller.',true);return;}
+    if(!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)){toast('Use JPG, PNG, WebP or AVIF.',true);return;}
+    const path=`featured/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'-')}`;
+    setUploadState('image','Uploading image…',8);
+    const {error}=await supabase.storage.from('cms-images').upload(path,file,{cacheControl:'31536000',upsert:false,contentType:file.type});
+    if(error){setUploadState('image','Upload failed: '+error.message,0,true);toast('Upload failed: '+error.message,true);return;}
+    const {data}=supabase.storage.from('cms-images').getPublicUrl(path);
+    $('image').value=data.publicUrl;$('imagePreview').src=data.publicUrl;$('imagePreview').classList.remove('hidden');
+    setUploadState('image','Image ready',100);
+    toast('Featured image uploaded.');e.target.value='';
+  });
 
-$('audioFile') && $('audioFile').addEventListener('change', async e => {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  try {
-    toast('Uploading audio…');
-    const ext = (file.name.split('.').pop() || 'mp3').toLowerCase();
-    const path = `audio/${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/, ''))}.${ext}`;
-    const { error } = await supabase.storage.from('cms-audio').upload(path, file, { cacheControl: '31536000', upsert: false, contentType: file.type || 'audio/mpeg' });
-    if (error) throw error;
-    const { data } = supabase.storage.from('cms-audio').getPublicUrl(path);
-    $('audio').value = data.publicUrl;
-    toast('Audio uploaded');
-  } catch (err) {
-    toast('Audio upload failed: ' + err.message, true);
+  $('audioFile') && $('audioFile').addEventListener('change',async e=>{
+    const file=e.target.files && e.target.files[0];
+    if(!file) return;
+    if(file.size>40*1024*1024){setUploadState('audio','Audio must be 40 MB or smaller.',0,true);toast('Audio must be 40 MB or smaller.',true);return;}
+    if(!/^audio\//.test(file.type) && !/\.(mp3|m4a|aac|wav|ogg)$/i.test(file.name)){
+      setUploadState('audio','Use MP3, M4A, AAC, WAV or OGG.',0,true);return;
+    }
+    const ext=(file.name.split('.').pop()||'mp3').toLowerCase();
+    const path=`audio/${Date.now()}-${slugify(file.name.replace(/\.[^.]+$/,''))}.${ext}`;
+    setUploadState('audio','Uploading audio… 0%',5);
+    let pct=5;
+    const tick=setInterval(()=>{pct=Math.min(92,pct+Math.max(1,Math.round((92-pct)*0.18)));setUploadState('audio','Uploading audio… '+pct+'%',pct);},220);
+    try{
+      const {error}=await supabase.storage.from('cms-audio').upload(path,file,{cacheControl:'31536000',upsert:false,contentType:file.type||'audio/mpeg'});
+      if(error) throw error;
+      clearInterval(tick);
+      const {data}=supabase.storage.from('cms-audio').getPublicUrl(path);
+      $('audio').value=data.publicUrl;
+      const prev=$('audioPreview');
+      if(prev){prev.src=data.publicUrl;prev.classList.remove('hidden');prev.load();}
+      setUploadState('audio','Audio ready · '+(file.size/1048576).toFixed(1)+' MB',100);
+      toast('Audio uploaded.');
+      e.target.value='';
+    }catch(err){
+      clearInterval(tick);
+      setUploadState('audio','Upload failed: '+err.message,0,true);
+      toast('Audio upload failed: '+err.message,true);
+    }
+  });
+
+  function setUploadState(which,text,pct,isError){
+    const el=$('status_'+which); if(!el) return;
+    el.textContent=text;
+    el.classList.remove('hidden','is-error','is-done');
+    if(isError) el.classList.add('is-error');
+    else if(pct>=100) el.classList.add('is-done');
+    const bar=$('bar_'+which);
+    if(bar){bar.style.width=Math.max(0,Math.min(100,pct))+'%';bar.parentElement.classList.toggle('hidden',pct<=0);}
   }
-});if(error){toast('Upload failed: '+error.message,true);return;}const {data}=supabase.storage.from('cms-images').getPublicUrl(path);$('image').value=data.publicUrl;$('imagePreview').src=data.publicUrl;$('imagePreview').classList.remove('hidden');toast('Featured image uploaded.');e.target.value='';});
+
   $('previewPost').onclick=()=>{const p=formData();$('previewContent').innerHTML=`${p.featured_image?`<img class="hero-image" src="${esc(p.featured_image)}" alt="">`:''}<div class="eyebrow">${esc(p.category)} · ${esc(p.publish_date)}</div><h1>${esc(p.title||'Article title')}</h1><p>${esc(p.description)}</p><pre class="markdown-preview">${esc(p.body)}</pre>`;$('preview').classList.remove('hidden');}; $('closePreview').onclick=()=>$('preview').classList.add('hidden');
   document.addEventListener('click',e=>{if(e.target.closest('#fbRefresh')){refresh();return;}
 const rv=e.target.closest('[data-reviews]');if(rv){const pn=document.querySelector(`[data-panel="${rv.dataset.reviews}"]`);if(pn){pn.classList.toggle('hidden');}return;}});
