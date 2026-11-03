@@ -59,9 +59,47 @@
       '<button class="tool-btn" type="button" data-vote="yes">' + stroke('<path d="M7 20V9l4-5 1 1v4h6a2 2 0 0 1 2 2.3l-1 6A2 2 0 0 1 17 20H7z"/><path d="M3 20h4V9H3z"/>') + 'Yes</button>' +
       '<button class="tool-btn" type="button" data-vote="no">' + stroke('<path d="M17 4v11l-4 5-1-1v-4H6a2 2 0 0 1-2-2.3l1-6A2 2 0 0 1 7 4h10z"/><path d="M21 4h-4v11h4z"/>') + 'Not really</button>';
 
+    var review = document.createElement('div');
+    review.className = 'tool-review';
+    review.innerHTML =
+      '<label class="tool-review-label" for="sc-review">Anything you want to add?</label>' +
+      '<textarea id="sc-review" class="tool-textarea" rows="3" maxlength="1200" ' +
+        'placeholder="A line on what was useful, what was missing, or what you would test first."></textarea>' +
+      '<div class="tool-review-foot">' +
+        '<input class="tool-input" type="text" maxlength="60" placeholder="Name (optional)" aria-label="Name">' +
+        '<button class="tool-btn tool-submit" type="button" data-submit>Send</button>' +
+        '<span class="tool-note" data-review-note></span>' +
+      '</div>';
+
     wrap.appendChild(share);
     wrap.appendChild(vote);
+    wrap.appendChild(review);
     anchor.insertAdjacentElement('afterend', wrap);
+
+    review.querySelector('[data-submit]').addEventListener('click', function () {
+      var ta = review.querySelector('#sc-review');
+      var nm = review.querySelector('.tool-input');
+      var note = review.querySelector('[data-review-note]');
+      var text = (ta.value || '').trim();
+
+      if (text.length < 3) { note.textContent = 'Write a line first.'; return; }
+
+      var c = cfg();
+      if (!c || !c.url) { note.textContent = 'Could not send — try again.'; return; }
+
+      note.textContent = 'Sending…';
+      fetch(c.url + '/rest/v1/rpc/submit_article_review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: c.key, Authorization: 'Bearer ' + c.key },
+        body: JSON.stringify({ p_slug: slugValue, p_body: text, p_name: (nm.value || '').trim() || null }),
+        keepalive: true
+      }).then(function (r) {
+        if (!r.ok) throw new Error('bad');
+        note.textContent = 'Got it — thank you.';
+        ta.value = ''; nm.value = '';
+        ta.disabled = true;
+      }).catch(function () { note.textContent = 'Could not send — try again.'; });
+    });
 
     wrap.querySelector('[data-copy]').addEventListener('click', function () {
       var btn = this;

@@ -8,11 +8,13 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SITE = (process.env.SITE_URL || 'https://yash131206.github.io/sugarycitrus').replace(/\/$/, '');
 
-const SKIP = new Set(['404.html', 'thank-you.html', 'article.html']);
+const SKIP = new Set(['404.html', 'thank-you.html', 'article.html', 'admin__index.html']);
 
 function urlFor(file) {
   // articles/foo.html -> /articles/foo ; index.html -> /
   let p = file.split(path.sep).join('/');
+  p = p.replace('__', '/');   // flattened local copies, e.g. articles__foo.html
+  if (p.startsWith('admin/')) return null;
   if (p === 'index.html') return SITE + '/';
   p = p.replace(/\.html$/, '');
   return SITE + '/' + p;
@@ -23,6 +25,7 @@ function collect() {
   for (const name of fs.readdirSync(ROOT)) {
     if (!name.endsWith('.html')) continue;
     if (SKIP.has(name)) continue;
+    if (name.startsWith('admin__')) continue;
     out.push(name);
   }
   const artDir = path.join(ROOT, 'articles');
@@ -37,7 +40,14 @@ function collect() {
 const files = collect();
 const today = new Date().toISOString().slice(0, 10);
 
-const body = files
+const seen = new Set();
+const files2 = files.filter(f => {
+  const u = urlFor(f);
+  if (!u || seen.has(u)) return false;
+  seen.add(u);
+  return true;
+});
+const body = files2
   .map(f => `  <url><loc>${urlFor(f)}</loc><lastmod>${today}</lastmod></url>`)
   .join('\n');
 
