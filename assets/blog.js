@@ -58,6 +58,17 @@ async function loadPosts(){
   target.innerHTML=featured(first)+(rest.length?`<div class="blog-grid blog-grid--posts">${rest.map(card).join('')}</div>`:'');
 }
 loadPosts();
+
+/* the player is heavy, so it is fetched the first time someone listens */
+function ensurePlayer(cb){
+  if (window.__scPlayerLoaded) return cb();
+  window.__scPlayerLoaded = true;
+  var s = document.createElement('script');
+  s.src = 'assets/audio-player.js?v=15.7';
+  s.onload = cb;
+  s.onerror = cb;
+  document.head.appendChild(s);
+}
 function openMini(url, title){
   var dock = document.getElementById('mini-player');
   if(!dock){
@@ -90,6 +101,8 @@ function openMini(url, title){
   slot.appendChild(card);
 
   dock.classList.add('is-open');
+
+  ensurePlayer(function(){});
 
   /* start it inside the click, so the browser counts it as a gesture */
   var p = audio.play();
