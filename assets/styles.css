@@ -1377,3 +1377,9 @@ html[data-theme="dark"] .nav-links{
 @media (prefers-reduced-motion: reduce){
   .nav,.nav-links a,.nav-cta,.brand{transition:none!important}
 }
+
+/* the ticker runs wider than the viewport by design; clip it instead of
+   letting the whole page scroll sideways */
+html,body{overflow-x:clip}
+@supports not (overflow:clip){ html,body{overflow-x:hidden} }
+.ticker{max-width:100%}
