@@ -6,7 +6,7 @@ async function loadLatest(){
   let data=[];
   try{
     if(supabase){
-      const r=await supabase.from('articles').select('slug,title,featured_image,category,publish_date,description').eq('status','published').order('publish_date',{ascending:false}).limit(3);
+      const r=await supabase.from('articles').select('slug,title,featured_image,category,publish_date,description').eq('status','published').order('publish_date',{ascending:true}).limit(3);
       if(r.error)throw r.error;data=r.data||[];
     }else{
       const r=await fetch('content/blog/index.json');if(!r.ok)throw new Error('no build');data=(await r.json()).map(p=>({...p,featured_image:p.image,publish_date:p.date})).slice(0,3);

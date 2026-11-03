@@ -34,7 +34,7 @@ async function loadPosts(){
   let data=[];
   try{
     if(supabase){
-      const r=await supabase.from('articles').select('slug,title,featured_image,category,publish_date,description,body').eq('status','published').order('publish_date',{ascending:false});
+      const r=await supabase.from('articles').select('slug,title,featured_image,category,publish_date,description,body').eq('status','published').order('publish_date',{ascending:true});
       if(r.error)throw r.error;
       data=r.data||[];
     }else{
