@@ -1308,3 +1308,104 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 .article-hero{background:var(--cream)!important}
 .article-hero img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover}
 .article-hero{position:relative}
+
+/* ============================================================
+   v16.0 — glass surfaces + motion
+   ============================================================ */
+
+/* soft colour fields behind the page, so the glass has something to blur */
+body::before{
+  content:"";position:fixed;inset:-20% -10% auto -10%;height:120vh;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(38% 32% at 12% 8%, rgba(255,85,32,.16), transparent 70%),
+    radial-gradient(30% 26% at 88% 4%, rgba(255,160,60,.14), transparent 70%),
+    radial-gradient(42% 36% at 70% 62%, rgba(255,85,32,.07), transparent 72%);
+  filter:saturate(115%);
+}
+html[data-theme="dark"] body::before{
+  background:
+    radial-gradient(38% 32% at 12% 8%, rgba(255,85,32,.22), transparent 70%),
+    radial-gradient(30% 26% at 88% 4%, rgba(120,60,255,.10), transparent 70%),
+    radial-gradient(42% 36% at 70% 62%, rgba(255,85,32,.10), transparent 72%);
+}
+
+/* the glass recipe, applied to every raised surface */
+.nav,
+.blog-card,
+.post-card--featured,
+.service-card,
+.footer-card,
+.audio-card,
+.article-tools,
+.faq-card,
+.form-card,
+.visual-panel,
+.latest-card,
+.stat-card,
+.contact-card,
+.panel{
+  background:rgba(255,255,255,.64)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.7)!important;
+  box-shadow:0 12px 38px rgba(27,27,27,.08), inset 0 1px 0 rgba(255,255,255,.75);
+}
+html[data-theme="dark"] .nav,
+html[data-theme="dark"] .blog-card,
+html[data-theme="dark"] .post-card--featured,
+html[data-theme="dark"] .service-card,
+html[data-theme="dark"] .footer-card,
+html[data-theme="dark"] .audio-card,
+html[data-theme="dark"] .article-tools,
+html[data-theme="dark"] .faq-card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .visual-panel,
+html[data-theme="dark"] .panel{
+  background:rgba(24,23,21,.66)!important;
+  border-color:rgba(249,242,228,.14)!important;
+  box-shadow:0 14px 44px rgba(0,0,0,.42), inset 0 1px 0 rgba(249,242,228,.07);
+}
+
+/* the audio card stays dark, so it gets a darker glass */
+.audio-card{
+  background:rgba(26,25,23,.72)!important;
+  border-color:rgba(249,242,228,.12)!important;
+}
+
+/* --- motion --- */
+.reveal{transition:opacity .7s cubic-bezier(.22,.9,.3,1),transform .7s cubic-bezier(.22,.9,.3,1);transition-delay:calc(var(--i,0) * 70ms)}
+
+.blog-card,.post-card--featured,.service-card,.faq-card,.latest-card,.article-tools,.audio-card{
+  transition:transform .32s cubic-bezier(.22,.9,.3,1),box-shadow .32s ease,background .25s ease,border-color .25s ease;
+}
+.blog-card:hover,.service-card:hover,.latest-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 26px 60px rgba(27,27,27,.14), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.post-card--featured:hover{transform:translateY(-4px);box-shadow:0 26px 60px rgba(27,27,27,.14)}
+html[data-theme="dark"] .blog-card:hover,
+html[data-theme="dark"] .service-card:hover,
+html[data-theme="dark"] .post-card--featured:hover{box-shadow:0 26px 60px rgba(0,0,0,.55)}
+
+/* buttons: lift, press, and a light sweep on hover */
+.button,.btn-outline,.nav-cta,.primary,.ghost,.tool-btn,.upload-button{
+  transition:transform .18s ease,box-shadow .24s ease,background .22s ease,color .22s ease,border-color .22s ease;
+}
+.button:hover,.btn-outline:hover,.nav-cta:hover,.primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,85,32,.24)}
+.button:active,.btn-outline:active,.nav-cta:active,.primary:active,.ghost:active,.tool-btn:active{transform:translateY(0) scale(.98)}
+
+/* images ease in as their card arrives */
+.post-media img,.article-hero img{transition:transform .6s cubic-bezier(.22,.9,.3,1)}
+.blog-card:hover .post-media img{transform:scale(1.03)}
+
+/* anchor scrolling feels deliberate */
+html{scroll-behavior:smooth}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .blog-card,.post-card--featured,.service-card,.faq-card,.latest-card,.audio-card,
+  .button,.btn-outline,.nav-cta,.primary,.ghost,.tool-btn,.post-media img,.article-hero img{
+    transition:none!important;transform:none!important;
+  }
+  body::before{display:none}
+}
