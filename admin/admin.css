@@ -246,3 +246,13 @@ html,body{max-width:100%;overflow-x:hidden}
   .dock .side-link span{font-size:7.5px!important}
 }
 .dock .side-link:before{content:none!important;display:none!important}
+
+/* ---- v14.4: publish is its own button, not a dropdown value ---- */
+.editor-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.publish-btn{background:var(--orange)!important;color:#11100E!important}
+.publish-btn:hover{background:#e64a1a!important;color:#11100E!important}
+.status-select{display:none!important}
+@media(max-width:560px){
+  .editor-actions{width:100%;justify-content:stretch}
+  .editor-actions .ghost,.editor-actions .primary{flex:1 1 0;min-width:0;text-align:center}
+}

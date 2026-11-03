@@ -96,6 +96,17 @@ let reviewList = [];
   $('logoutBtn').onclick=async()=>{await supabase.auth.signOut();currentUser=null;$('appShell').classList.add('hidden');$('loginScreen').classList.remove('hidden');};
   document.querySelectorAll('[data-view],[data-go]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view||b.dataset.go)));
   $('postForm').addEventListener('submit',async e=>{e.preventDefault();const p=formData();const previous=posts.find(x=>x.id===$('postId').value);const needsRebuild=p.status==='published'||previous?.status==='published';$('saveButton').disabled=true;$('saveState').textContent='Saving to cloud…';let result; if($('postId').value){const {created_by,...updates}=p;result=await supabase.from('articles').update(updates).eq('id',$('postId').value).select().single();}else result=await supabase.from('articles').insert(p).select().single();$('saveButton').disabled=false;if(result.error){$('saveState').textContent='Save failed';toast(result.error.message,true);return;} $('postId').value=result.data.id;$('saveState').textContent='Saved securely · '+new Date().toLocaleTimeString();$('editorHeading').textContent='Edit article';toast(p.status==='published'?'Article published.':'Draft saved.');await refresh();if(needsRebuild)await triggerRebuild();});
+
+  const pubBtn=$('publishButton');
+  if(pubBtn){
+    pubBtn.addEventListener('click',()=>{
+      const sel=$('status');
+      const wasPublished = sel.value==='published';
+      sel.value='published';
+      $('postForm').requestSubmit();
+      if(!wasPublished) sel.value='published';
+    });
+  }
   $('resetForm').onclick=reset;
   $('image').addEventListener('input',()=>{const v=$('image').value.trim();if(v){$('imagePreview').src=v;$('imagePreview').classList.remove('hidden')}else $('imagePreview').classList.add('hidden')});
   $('imageFile').addEventListener('change',async e=>{
@@ -157,7 +168,7 @@ let reviewList = [];
 const rv=e.target.closest('[data-reviews]');if(rv){const pn=document.querySelector(`[data-panel="${rv.dataset.reviews}"]`);if(pn){pn.classList.toggle('hidden');}return;}});
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-edit],[data-toggle],[data-delete]');if(!b)return;const id=b.dataset.edit||b.dataset.toggle||b.dataset.delete;const p=posts.find(x=>x.id===id);if(!p)return;if(b.dataset.edit){fill(p);return;}if(b.dataset.toggle){const status=p.status==='published'?'draft':'published';const {error}=await supabase.from('articles').update({status}).eq('id',id);if(error)toast(error.message,true);else{toast(status==='published'?'Article published.':'Article moved to drafts.');await refresh();await triggerRebuild();}}if(b.dataset.delete&&confirm(`Permanently delete “${p.title}”?`)){const {error}=await supabase.from('articles').delete().eq('id',id);if(error)toast(error.message,true);else{toast('Article deleted.');await refresh();if(p.status==='published')await triggerRebuild();}}});
   const statusSel=$('status'), saveBtn=$('saveButton');
-  if(statusSel&&saveBtn){const label=()=>{saveBtn.textContent=statusSel.value==='published'?'Publish article':'Save draft';};statusSel.addEventListener('change',label);label();}
+  if(statusSel&&saveBtn){const label=()=>{saveBtn.textContent='Save changes';};statusSel.addEventListener('change',label);label();}
   $('year').textContent=new Date().getFullYear();
   if(!configured){$('loginMessage').textContent='CMS backend not connected yet. Add your Supabase project URL and publishable key in admin/supabase-config.js.';}else{const {data:{session}}=await supabase.auth.getSession();if(session?.user)await enter(session.user);supabase.auth.onAuthStateChange((_event,session)=>{if(!session){currentUser=null;$('appShell').classList.add('hidden');$('loginScreen').classList.remove('hidden');}});}
 })();
