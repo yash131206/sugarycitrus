@@ -1,6 +1,7 @@
 /* Sugary Citrus — article share row and "was this helpful?" vote.
-   Both are injected client-side so the static pages stay clean.
-   The vote stores only a count per article: no IP, no identifier. */
+   Sits at the end of the article. Real brand glyphs, inline so nothing
+   extra is fetched. The vote stores only a count per article: no IP,
+   no identifier. */
 (function () {
   function slug() {
     var m = location.pathname.match(/\/articles\/([^\/?#]+)/);
@@ -11,18 +12,29 @@
   }
 
   function cfg() {
-    var c = window.SUGARY_SUGARBASE || window.SUGARY_SUPABASE || null;
+    var c = window.SUGARY_SUPABASE || null;
     if (!c) return null;
     return { url: (c.url || '').replace(/\/$/, ''), key: c.publishableKey || c.anonKey || c.key };
   }
 
-  function icon(path) {
-    return '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
+  /* brand marks: filled paths, 24x24 */
+  var GLYPH = {
+    whatsapp: 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.463 3.488',
+    linkedin: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
+    x: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'
+  };
+
+  function brand(name) {
+    return '<svg class="brand-glyph" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="' + GLYPH[name] + '"/></svg>';
+  }
+
+  function stroke(path) {
+    return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
   }
 
   function build(slugValue) {
-    var host = document.querySelector('.article-meta');
-    if (!host || document.getElementById('sc-share')) return;
+    var anchor = document.querySelector('.article-body') || document.querySelector('.article-meta');
+    if (!anchor || document.getElementById('sc-share')) return;
 
     var url = location.origin + location.pathname;
     var title = (document.querySelector('h1') || {}).textContent || document.title;
@@ -31,44 +43,38 @@
     wrap.id = 'sc-share';
     wrap.className = 'article-tools';
 
-    // ---- share ----
     var share = document.createElement('div');
     share.className = 'tool-row';
     share.innerHTML =
       '<span class="tool-label">Share</span>' +
-      '<a class="tool-btn" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(title + ' — ' + url) + '">' +
-        icon('<path d="M20 12a8 8 0 1 1-3.2-6.4L21 4l-1.2 4A8 8 0 0 1 20 12z"/><path d="M3 21l3.4-1.6"/>') + 'WhatsApp</a>' +
-      '<a class="tool-btn" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url) + '">' +
-        icon('<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.6v.1M11.5 16.5v-3.2a2 2 0 0 1 4 0v3.2"/>') + 'LinkedIn</a>' +
-      '<a class="tool-btn" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodeURIComponent(url) + '">' +
-        icon('<path d="M4 4l16 16M20 4L4 20"/>') + 'X</a>' +
-      '<button class="tool-btn" type="button" data-copy>' +
-        icon('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/>') + 'Copy link</button>';
+      '<a class="tool-btn" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(title + ' — ' + url) + '">' + brand('whatsapp') + 'WhatsApp</a>' +
+      '<a class="tool-btn" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url) + '">' + brand('linkedin') + 'LinkedIn</a>' +
+      '<a class="tool-btn" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodeURIComponent(url) + '">' + brand('x') + 'X</a>' +
+      '<button class="tool-btn" type="button" data-copy>' + stroke('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/>') + 'Copy link</button>';
 
-    // ---- helpful vote ----
     var vote = document.createElement('div');
     vote.className = 'tool-row';
     vote.innerHTML =
       '<span class="tool-label">Was this helpful?</span>' +
-      '<button class="tool-btn" type="button" data-vote="yes">' + icon('<path d="M7 20V9l4-5 1 1v4h6a2 2 0 0 1 2 2.3l-1 6A2 2 0 0 1 17 20H7z"/><path d="M3 20h4V9H3z"/>') + 'Yes</button>' +
-      '<button class="tool-btn" type="button" data-vote="no">' + icon('<path d="M17 4v11l-4 5-1-1v-4H6a2 2 0 0 1-2-2.3l1-6A2 2 0 0 1 7 4h10z"/><path d="M21 4h-4v11h4z"/>') + 'Not really</button>';
+      '<button class="tool-btn" type="button" data-vote="yes">' + stroke('<path d="M7 20V9l4-5 1 1v4h6a2 2 0 0 1 2 2.3l-1 6A2 2 0 0 1 17 20H7z"/><path d="M3 20h4V9H3z"/>') + 'Yes</button>' +
+      '<button class="tool-btn" type="button" data-vote="no">' + stroke('<path d="M17 4v11l-4 5-1-1v-4H6a2 2 0 0 1-2-2.3l1-6A2 2 0 0 1 7 4h10z"/><path d="M21 4h-4v11h4z"/>') + 'Not really</button>';
 
     wrap.appendChild(share);
     wrap.appendChild(vote);
-    host.insertAdjacentElement('afterend', wrap);
+    anchor.insertAdjacentElement('afterend', wrap);
 
-    // copy
-    var copyBtn = wrap.querySelector('[data-copy]');
-    copyBtn.addEventListener('click', function () {
+    wrap.querySelector('[data-copy]').addEventListener('click', function () {
+      var btn = this;
       var done = function () {
-        copyBtn.textContent = 'Copied';
-        setTimeout(function () { copyBtn.innerHTML = icon('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/>') + 'Copy link'; }, 1800);
+        btn.textContent = 'Copied';
+        setTimeout(function () {
+          btn.innerHTML = stroke('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/>') + 'Copy link';
+        }, 1800);
       };
       if (navigator.clipboard) navigator.clipboard.writeText(url).then(done).catch(done);
       else done();
     });
 
-    // vote
     wrap.addEventListener('click', function (e) {
       var b = e.target.closest('[data-vote]');
       if (!b) return;
@@ -94,11 +100,10 @@
   function start() {
     var s = slug();
     if (!s) return;
-    if (document.querySelector('.article-meta')) { build(s); return; }
-    // dynamic article page renders after load
+    if (document.querySelector('.article-body')) { build(s); return; }
     var tries = 0;
     var t = setInterval(function () {
-      if (document.querySelector('.article-meta')) { clearInterval(t); build(s); }
+      if (document.querySelector('.article-body')) { clearInterval(t); build(s); }
       if (++tries > 40) clearInterval(t);
     }, 250);
   }
