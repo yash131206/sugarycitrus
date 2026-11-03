@@ -186,3 +186,63 @@ html,body{max-width:100%;overflow-x:hidden}
   .post-tools{border-radius:14px!important;padding:5px!important;gap:4px!important}
   .post-tools .ghost{font-size:9px!important;padding:9px 4px!important;letter-spacing:.03em}
 }
+
+/* ---- v14.3: bottom dock on every device, no left rail ---- */
+.app-shell .sidebar{display:none!important}
+.app-shell .main{margin-left:0!important;max-width:none;padding:26px clamp(16px,4vw,60px) 120px!important}
+
+.dock{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+  z-index:9;display:flex;align-items:center;gap:4px;
+  padding:7px;border-radius:26px;
+  background:rgba(27,27,27,.96);
+  box-shadow:0 14px 40px rgba(27,27,27,.28);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  max-width:calc(100vw - 24px);
+}
+.dock .side-link{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  width:auto;min-width:78px;padding:10px 14px;margin:0;
+  border:0;border-radius:19px;background:transparent;
+  color:#A9A398;font:700 8.5px var(--mono,ui-monospace,monospace);
+  letter-spacing:.10em;text-transform:uppercase;line-height:1;cursor:pointer;
+  transition:background .18s,color .18s;
+}
+.dock .side-link span{display:block}
+.dock .side-link:hover{background:rgba(249,242,228,.08);color:#F9F2E4}
+.dock .side-link.active{background:rgba(255,85,32,.16);color:#FF5520}
+.dock .side-link.active span{color:#FF5520}
+@media(max-width:420px){
+  .dock{left:12px;right:12px;transform:none;justify-content:space-between;bottom:12px;padding:6px}
+  .dock .side-link{min-width:0;flex:1;padding:9px 4px;font-size:7.5px;letter-spacing:.06em}
+}
+
+/* topbar brand + sign out */
+.top-brand{display:inline-flex;align-items:center;justify-content:center;margin-right:14px;flex:0 0 auto}
+.top-brand img{display:block;width:30px;height:30px}
+.topbar{display:flex;align-items:center}
+.topbar>div{flex:1;min-width:0}
+.top-logout{border:1px solid var(--line)!important;background:#fff!important;color:var(--ink)!important;padding:9px 14px!important;font:700 10px var(--mono,monospace)!important;letter-spacing:.04em;margin-right:12px;border-radius:99px}
+.top-logout:hover{border-color:var(--orange)!important;color:var(--orange)!important}
+@media(max-width:560px){.top-logout{display:none}}
+
+/* keep toasts clear of the dock */
+.toast{bottom:104px!important;top:auto!important}
+
+/* phone: keep a way to sign out, drop the website link instead */
+@media(max-width:560px){
+  .view-site{display:none!important}
+  .top-logout{display:inline-block!important;margin-right:0;padding:8px 12px!important;font-size:9px!important}
+  .dock .side-link{font-size:8px;gap:6px;padding:10px 2px}
+  .dock .side-link span{font-size:8px;letter-spacing:.05em}
+  .app-shell .main{padding:20px 14px 128px!important}
+}
+
+/* bigger icons, smaller labels in the dock */
+.dock .side-link{font-size:16px!important;line-height:1}
+.dock .side-link span{font-size:8.5px!important;letter-spacing:.08em!important;line-height:1}
+@media(max-width:420px){
+  .dock .side-link{font-size:15px!important}
+  .dock .side-link span{font-size:7.5px!important}
+}
+.dock .side-link:before{content:none!important;display:none!important}
