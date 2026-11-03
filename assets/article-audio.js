@@ -31,6 +31,7 @@
 
   var audio = document.createElement('audio');
   audio.preload = 'metadata';
+  audio.crossOrigin = 'anonymous';
   audio.setAttribute('controls', '');
   audio.style.visibility = 'hidden';
   audio.style.height = '0';

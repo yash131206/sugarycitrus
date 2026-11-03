@@ -1191,3 +1191,8 @@ html[data-theme="dark"] .tool-submit:hover{color:#11100E}
 
 /* one card fills the row instead of sitting in a half-empty grid */
 .blog-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+
+/* every insight card sits on the same white surface */
+.blog-card{background:#fff}
+.blog-card .blog-body{background:#fff}
+.post-card--featured{background:#fff}

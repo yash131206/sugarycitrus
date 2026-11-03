@@ -166,9 +166,11 @@
     function startLoop() { if (!raf) driver(); }
     function stopLoop() { if (raf) cancelAnimationFrame(raf); raf = null; level = 0; if (anim) anim.setSpeed(1); lottieBox.style.transform = ''; }
 
-    play.addEventListener('click', function () {
+    play.addEventListener('click', async function () {
       if (audio.paused) {
-        if (setupAnalyser() && actx.state === 'suspended') actx.resume();
+        if (setupAnalyser() && actx.state !== 'running') {
+          try { await actx.resume(); } catch (e) {}
+        }
         audio.play();
       } else {
         audio.pause();
@@ -242,7 +244,7 @@
     if (!audio) return;
     card.setAttribute('data-wave', 'on');
     audio.removeAttribute('controls');
-    audio.style.display = 'none';
+    audio.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
     try { build(card, audio); }
     catch (err) { audio.setAttribute('controls', ''); audio.style.display = ''; }
   }
