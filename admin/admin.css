@@ -150,3 +150,39 @@ html,body{max-width:100%;overflow-x:hidden}
   .post-tools{flex-wrap:nowrap}
   .post-tools .ghost{font-size:9.5px;padding:9px 4px}
 }
+
+/* ---- v14.2: one consistent card language across the whole CMS ---- */
+.stats{gap:12px!important;align-items:stretch}
+.stats article{
+  border-radius:20px!important;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:104px;
+}
+.stats strong{font-size:34px;line-height:1}
+.panel{border-radius:20px!important}
+.welcome{border-radius:20px!important;gap:24px}
+.welcome-art{flex:0 0 auto!important;max-width:clamp(90px,16vw,180px);max-height:clamp(90px,16vw,180px);aspect-ratio:1;overflow:hidden}
+.welcome-art img{width:100%!important;height:100%!important;object-fit:contain}
+.welcome>div:first-child{min-width:0}
+
+/* equal cards at every width */
+@media(max-width:1024px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #viewOverview .stats article:last-child{grid-column:1/-1}
+  #viewFeedback .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #viewFeedback .stats article:last-child{grid-column:auto}
+}
+@media(max-width:420px){
+  .stats{grid-template-columns:1fr!important}
+  #viewFeedback .stats{grid-template-columns:1fr!important}
+  .stats article{min-height:0}
+  .stats strong{font-size:28px}
+}
+/* the article card keeps its bottom bar on every screen */
+.post-item{padding:18px 20px 14px!important}
+.post-tools{margin-top:14px!important;width:100%!important}
+@media(max-width:560px){
+  .post-item{padding:15px 14px 12px!important;border-radius:18px!important}
+  .post-tools{border-radius:14px!important;padding:5px!important;gap:4px!important}
+  .post-tools .ghost{font-size:9px!important;padding:9px 4px!important;letter-spacing:.03em}
+}
