@@ -1,12 +1,9 @@
 :root{--orange:#FF5520;--cream:#F9F2E4;--ink:#1B1B1B;--white:#fff;--muted:#77746e;--line:rgba(27,27,27,.14);--serif:Georgia,serif;--sans:'Manrope','DM Sans',sans-serif;--mono:'DM Mono',monospace;--max:1240px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button,a{-webkit-tap-highlight-color:transparent}.container{width:min(var(--max),calc(100% - 64px));margin:auto}.eyebrow{font:11px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);display:flex;align-items:center;gap:10px}.eyebrow:before{content:'';width:7px;height:7px;background:var(--orange);border-radius:50%}.nav-wrap{position:fixed;z-index:50;top:20px;left:0;width:100%;pointer-events:none}.nav{pointer-events:auto;width:min(1160px,calc(100% - 48px));margin:auto;background:rgba(249,242,228,.88);backdrop-filter:blur(18px);border:1px solid rgba(27,27,27,.12);border-radius:18px;padding:10px 14px 10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(27,27,27,.07)}.brand{font-weight:800;letter-spacing:-.035em;font-size:19px}.brand span{color:var(--orange)}.nav-links{display:flex;align-items:center;gap:27px;font-size:12px;color:#4f4b45}.nav-links a{transition:color .2s}.nav-links a:hover,.nav-links a.active{color:var(--orange)}.nav-cta,.button{display:inline-flex;align-items:center;justify-content:center;gap:12px;background:var(--ink);color:var(--cream);border:0;border-radius:100px;padding:14px 20px;font-size:12px;font-weight:700;transition:transform .25s,background .25s;cursor:pointer}.nav-cta:hover,.button:hover{transform:translateY(-3px);background:var(--orange)}.menu-toggle{display:none;background:none;border:0;font-size:22px}.hero{min-height:790px;padding:190px 0 90px;display:flex;align-items:center;position:relative;overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;align-items:end;gap:40px}.hero h1{font-size:clamp(64px,9vw,132px);line-height:.98;letter-spacing:-.055em;margin:34px 0 28px;font-weight:700;max-width:900px}.hero h1 em{font-family:var(--serif);font-weight:400;color:var(--orange);letter-spacing:-.04em}.hero-copy{max-width:370px;margin:0 0 14px auto;font-size:15px;line-height:1.75;color:#5c5851}.hero-copy .button{margin-top:24px}.hero-orb{position:absolute;width:420px;height:420px;border-radius:50%;background:var(--orange);right:-170px;top:-30px;opacity:.95;filter:blur(0);z-index:-1}.hero-orb:after{content:'';position:absolute;inset:22px;border:1px solid rgba(255,255,255,.45);border-radius:50%}.hero-meta{display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;margin-top:70px;font:10px var(--mono);text-transform:uppercase;color:var(--muted);letter-spacing:.08em}.ticker{overflow:hidden;background:var(--orange);color:var(--ink);padding:17px 0;transform:rotate(-1.2deg) scale(1.02);margin:25px 0 90px}.ticker-track{display:flex;white-space:nowrap;gap:30px;animation:marquee 28s linear infinite;font-size:14px;font-weight:800;letter-spacing:-.02em}.ticker-track span{display:flex;align-items:center;gap:30px}.ticker-track i{font-style:normal;font-size:20px}@keyframes marquee{to{transform:translateX(-50%)}}.section{padding:110px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:55px}.section-head h2{font-size:clamp(42px,6vw,76px);letter-spacing:-.045em;line-height:1.04;margin:18px 0 0;max-width:750px}.section-head p{max-width:300px;color:var(--muted);font-size:13px;line-height:1.7}.manifesto{background:var(--ink);color:var(--cream);padding:115px 0}.manifesto h2{font-size:clamp(42px,7vw,92px);line-height:1.04;letter-spacing:-.05em;max-width:1000px;margin:28px 0}.manifesto h2 em{font-family:var(--serif);font-weight:400;color:var(--orange)}.manifesto p{max-width:440px;color:#bcb7ad;line-height:1.8;font-size:14px;margin-left:auto}.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.service-card{border:1px solid var(--line);border-radius:20px;padding:30px;min-height:270px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s,transform .3s}.service-card:hover{background:#fff8ed;transform:translateY(-5px)}.service-card .num{font:11px var(--mono);color:var(--orange)}.service-card h3{font-size:29px;letter-spacing:-.035em;margin:38px 0 10px}.service-card p{font-size:13px;color:var(--muted);line-height:1.7;max-width:420px;margin:0}.service-card .arrow{align-self:flex-end;font-size:22px}.split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}.visual-panel{min-height:500px;border-radius:24px;background:var(--orange);position:relative;overflow:hidden;padding:35px;display:flex;align-items:end}.visual-panel:before,.visual-panel:after{content:'';position:absolute;border:1px solid rgba(27,27,27,.35);border-radius:50%;width:420px;height:420px;top:-110px;right:-70px}.visual-panel:after{width:300px;height:300px;top:-50px;right:-10px}.visual-panel strong{font-size:clamp(42px,6vw,76px);line-height:.98;letter-spacing:-.045em;position:relative;z-index:1;max-width:420px}.split-copy h2{font-size:clamp(42px,5vw,68px);letter-spacing:-.045em;line-height:1.04;margin:22px 0}.split-copy p{font-size:14px;line-height:1.8;color:var(--muted);max-width:470px}.text-link{display:inline-flex;gap:15px;align-items:center;margin-top:22px;font-size:12px;font-weight:800;border-bottom:1px solid var(--orange);padding-bottom:8px}.process{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}.process article{padding:25px 22px 0 0;border-right:1px solid var(--line);margin-right:22px}.process article:last-child{border:0}.process b{font:11px var(--mono);color:var(--orange)}.process h3{font-size:21px;letter-spacing:-.03em;margin:28px 0 10px}.process p{font-size:12px;color:var(--muted);line-height:1.7}.cta-band{background:var(--orange);padding:clamp(44px,6vw,86px) clamp(22px,5vw,68px);border-radius:24px;margin:30px auto 100px}.cta-band h2{font-size:clamp(46px,7vw,88px);letter-spacing:-.05em;line-height:1.02;max-width:850px;margin:20px 0 30px}.cta-band .button{background:var(--ink);color:var(--cream)}.footer{padding:0 16px 26px}.footer-card{max-width:var(--max);margin:0 auto;background:var(--ink);color:var(--cream);border-radius:30px;padding:clamp(30px,4.5vw,64px);box-shadow:0 24px 60px rgba(27,27,27,.16)}.footer-top{display:flex;justify-content:space-between;gap:50px;padding-bottom:clamp(34px,5vw,64px)}.footer-eyebrow{color:#aaa49a}.footer-brand{flex:1 1 auto}.footer-title{font-size:clamp(40px,6vw,76px);letter-spacing:-.05em;line-height:1.02;max-width:650px}.footer-title em{font-family:var(--serif);font-weight:400;color:var(--orange)}.footer-links{display:grid;grid-template-columns:repeat(2,130px);gap:14px 35px;font-size:12px;color:#c5c0b7}.footer-bottom{border-top:1px solid rgba(255,255,255,.16);padding-top:18px;display:flex;justify-content:space-between;font:10px var(--mono);color:#aaa49a;text-transform:uppercase}.page-hero{padding:190px 0 85px;min-height:540px}.page-hero h1{font-size:clamp(58px,9vw,112px);line-height:.99;letter-spacing:-.05em;max-width:1000px;margin:30px 0}.page-hero h1 em{font-family:var(--serif);font-weight:400;color:var(--orange)}.page-hero .intro{max-width:580px;font-size:16px;line-height:1.8;color:var(--muted)}.content-section{padding:55px 0 110px}.content-section h2{font-size:clamp(34px,5vw,58px);letter-spacing:-.04em;line-height:1.06;margin:0 0 25px}.content-section p,.content-section li{font-size:14px;line-height:1.9;color:#625e57;max-width:760px}.content-section h3{font-size:23px;letter-spacing:-.05em;margin-top:40px}.service-list{border-top:1px solid var(--line)}.service-row{display:grid;grid-template-columns:80px 1fr 1fr 30px;gap:25px;padding:27px 0;border-bottom:1px solid var(--line);align-items:start}.service-row .num{font:11px var(--mono);color:var(--orange)}.service-row h3{margin:0;font-size:25px;letter-spacing:-.035em}.service-row p{margin:0;font-size:12px;line-height:1.7;color:var(--muted)}.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.blog-card{border:1px solid var(--line);border-radius:18px;overflow:hidden}.blog-image{height:210px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:50px;color:var(--ink)}.blog-body{padding:22px}.blog-body small{font:10px var(--mono);color:var(--orange);text-transform:uppercase}.blog-body h3{font-size:22px;letter-spacing:-.03em;line-height:1.1;margin:14px 0}.blog-body p{font-size:12px;line-height:1.7;color:var(--muted)}.contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}.form{display:grid;gap:16px}.form label{font:10px var(--mono);text-transform:uppercase;color:var(--muted)}.form input,.form textarea,.form select{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:13px 0;outline:none;color:var(--ink);border-radius:0}.form textarea{min-height:120px;resize:vertical}.form input:focus,.form textarea:focus{border-color:var(--orange)}.notice{font-size:11px;color:var(--muted);line-height:1.6}.article{max-width:780px;margin:auto}.article h1{font-size:clamp(32px,4.4vw,56px);letter-spacing:-.035em;line-height:1.1}.article-body{font-size:16px;line-height:1.9;color:#514d46}.article-body h2{margin-top:55px;color:var(--ink)}.article-body a{color:var(--orange);text-decoration:underline}.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}.reveal.visible{opacity:1;transform:none}.not-found{padding:220px 0 120px}.not-found h1{font-size:90px;letter-spacing:-.05em;margin:20px 0}
 @media(max-width:850px){.container{width:min(100% - 40px,var(--max))}.nav{width:calc(100% - 28px);padding:10px 14px}.menu-toggle{display:block}.nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:20px;flex-direction:column;align-items:flex-start;gap:20px}.nav-links.open{display:flex}.nav-cta{display:none}.hero{min-height:760px;padding-top:165px}.hero-grid,.split,.contact-grid{grid-template-columns:1fr;gap:30px}.hero h1{font-size:clamp(60px,15vw,100px)}.hero-copy{margin:0;max-width:500px}.hero-orb{display:none}.hero-meta{margin-top:55px}.section{padding:80px 0}.section-head{display:block}.section-head p{margin-top:20px}.manifesto{padding:85px 0}.manifesto p{margin-left:0}.process{grid-template-columns:repeat(2,1fr);row-gap:35px}.process article:nth-child(2){border-right:0}.visual-panel{min-height:370px}.blog-grid{grid-template-columns:repeat(2,1fr)}.footer-top{display:block}.footer-links{margin-top:45px}.service-row{grid-template-columns:40px 1fr 25px}.service-row p{grid-column:2}.service-row .arrow{grid-column:3;grid-row:1}.page-hero{padding-top:160px}}
 @media(max-width:560px){.container{width:calc(100% - 36px)}.hero{min-height:700px;padding-bottom:55px}.hero h1{font-size:clamp(55px,16vw,82px)}.hero-meta{font-size:8px;gap:10px}.section-head h2{font-size:48px}.services-grid,.blog-grid{grid-template-columns:1fr}.service-card{min-height:230px}.process{grid-template-columns:1fr}.process article{border-right:0;border-bottom:1px solid var(--line);padding-bottom:20px}.process article:last-child{border:0}.cta-band{padding:65px 0;margin-bottom:65px;border-radius:16px}.footer-bottom{display:flex;flex-direction:column;gap:6px;line-height:1.6}.footer-links{grid-template-columns:repeat(2,1fr)}.page-hero{min-height:450px}.page-hero h1{font-size:58px}.visual-panel{min-height:300px}.service-row{gap:12px}.service-row h3{font-size:20px}}
-
 .ico-arrow{display:inline-block;vertical-align:-.13em;flex:0 0 auto}
 .section-head h2 em{font-family:var(--serif);font-weight:400;color:var(--orange);letter-spacing:-.035em}
 .latest-empty{border:1px dashed var(--line);border-radius:18px;padding:34px;font-size:13px;color:var(--muted);line-height:1.8}
-
-/* ---- responsive refinements (v3.7) ---- */
 img,svg{max-width:100%}
 @media(max-width:1080px){
   .services-grid{grid-template-columns:1fr}
@@ -47,8 +44,6 @@ img,svg{max-width:100%}
   .hero{padding-top:150px}
   .cta-band h2{font-size:clamp(28px,10vw,40px)}
 }
-
-/* ---- contrast + rhythm fixes (v3.9) ---- */
 .cta-band .eyebrow{color:rgba(27,27,27,.72)}
 .cta-band .eyebrow:before{background:var(--ink)}
 .manifesto .eyebrow{color:#c9c4ba}
@@ -62,11 +57,8 @@ img,svg{max-width:100%}
   .service-card{padding:22px;min-height:0}
   .hero-meta{font-size:8px;letter-spacing:.06em}
 }
-
 .article .intro{font-size:16px;line-height:1.75;color:#5c5851;margin:18px 0 34px}
 .article .eyebrow{margin-bottom:14px}
-
-/* ---- long-form service page components (v4.5) ---- */
 .content-section ul{margin:12px 0 0;padding-left:20px}
 .content-section ul li{margin:9px 0;max-width:760px;font-size:14px;line-height:1.85;color:#625e57}
 .content-section h2{margin-top:48px}
@@ -81,8 +73,6 @@ img,svg{max-width:100%}
 .content-section .service-row .text-link{font-size:11px;margin-top:0;white-space:nowrap;justify-self:start}
 .page-hero .button{margin-top:26px}
 @media(max-width:560px){.content-section .service-row{grid-template-columns:34px 1fr}.content-section .service-row .text-link{grid-column:2;margin-top:6px}.faq-item h3{font-size:17px}}
-
-/* ---- blog and article media (v4.6) ---- */
 .post-media{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--orange);display:flex;align-items:center;justify-content:center}
 .post-media img{width:100%;height:100%;object-fit:cover;display:block}
 .post-media--empty span{font-size:44px;color:var(--ink)}
@@ -113,8 +103,6 @@ img,svg{max-width:100%}
   .post-card--featured h2{font-size:22px}
 }
 .posts-wrap{display:block}
-
-/* ---- footer layout (v4.7) ---- */
 .footer-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(24px,4vw,64px);align-items:start;padding-bottom:clamp(30px,4vw,56px)}
 .footer-brand{display:flex;flex-direction:column;align-items:flex-start}
 .footer-cta{display:inline-flex;align-items:center;gap:10px;margin-top:26px;background:var(--cream);color:var(--ink);border-radius:100px;padding:13px 22px;font-size:12px;font-weight:700;transition:transform .2s,background .2s,color .2s}
@@ -136,14 +124,10 @@ img,svg{max-width:100%}
   .footer-bottom{flex-direction:column;gap:7px;align-items:flex-start}
 }
 @media(max-width:380px){.footer-cols{grid-template-columns:1fr}}
-
-/* ---- brand mark (v4.9) ---- */
 .brand{display:inline-flex;align-items:center;gap:9px}
 .brand-mark{width:16px;height:26px;flex:0 0 auto;background:currentColor;
   -webkit-mask:url(logo-mark-mask.png) center/contain no-repeat;
   mask:url(logo-mark-mask.png) center/contain no-repeat}
-
-/* ---- theme toggle ---- */
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;
   border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;
   transition:background .2s,color .2s,border-color .2s}
@@ -151,8 +135,6 @@ img,svg{max-width:100%}
 .theme-toggle .i-sun{display:none}
 html[data-theme="dark"] .theme-toggle .i-sun{display:block}
 html[data-theme="dark"] .theme-toggle .i-moon{display:none}
-
-/* ---- dark theme ---- */
 html[data-theme="dark"]{
   --cream:#11100E;
   --ink:#F2ECE0;
@@ -212,8 +194,6 @@ html[data-theme="dark"] .faq-item h3,
 html[data-theme="dark"] .content-section h2,
 html[data-theme="dark"] .content-section h3{color:var(--ink)}
 @media(max-width:850px){.theme-toggle{width:34px;height:34px}}
-
-/* ---- mobile nav ordering (v5.0) ---- */
 @media(max-width:850px){
   .nav{gap:8px}
   .brand{order:0;margin-right:auto}
@@ -222,8 +202,6 @@ html[data-theme="dark"] .content-section h3{color:var(--ink)}
   .nav-links{order:3}
   .nav-cta{order:4}
 }
-
-/* ---- contact form card (v5.2) ---- */
 .form-card{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,3vw,38px);box-shadow:0 18px 50px rgba(27,27,27,.06)}
 .form-card-head{margin-bottom:24px}
 .form-card-head h3{font-size:clamp(22px,2.4vw,30px);letter-spacing:-.035em;line-height:1.1;margin:12px 0 8px}
@@ -241,14 +219,10 @@ html[data-theme="dark"] .form-card .form textarea,
 html[data-theme="dark"] .form-card .form select{background:rgba(255,255,255,.04)}
 @media(max-width:850px){.form-card{border-radius:20px;padding:20px 18px}}
 .form-card .form .button{font-size:13px;letter-spacing:.01em}
-
-/* ---- footer tagline link (v5.5) ---- */
 .footer-tagline{color:var(--orange);text-decoration:none;letter-spacing:.08em;transition:opacity .2s}
 .footer-tagline:hover{opacity:.75;text-decoration:underline;text-underline-offset:3px}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 @media(max-width:640px){.footer-bottom{align-items:flex-start}}
-
-/* ---- FAQ accordion cards ---- */
 .faq-list{display:grid;gap:10px;border:0;margin:20px 0 42px}
 .faq-card{border:1px solid var(--line);border-radius:16px;background:var(--white);overflow:hidden;transition:border-color .2s,box-shadow .2s}
 .faq-card[open]{border-color:var(--orange);box-shadow:0 10px 30px rgba(27,27,27,.06)}
@@ -267,8 +241,6 @@ html[data-theme="dark"] .faq-answer p{color:#B7B1A6}
   .faq-card summary{font-size:15px;padding:15px 16px}
   .faq-answer{padding:0 16px 16px}
 }
-
-/* ---- brand-coloured select (v5.5) ---- */
 .select{position:relative}
 .select-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
   background:rgba(27,27,27,.03);border:1px solid var(--line);border-radius:12px;padding:13px 14px;
@@ -292,11 +264,6 @@ html[data-theme="dark"] .select-menu [role="option"][aria-selected="true"]{backg
 .faq-blurb{color:#6c6862;margin:0 0 18px;font-size:14px}
 html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
 .page-hero--compact{min-height:0;padding-bottom:40px}
-
-/* ============================================================
-   v6.0 — spacing scale + footer bar alignment
-   One rhythm for the whole site. Change these and everything follows.
-   ============================================================ */
 :root{
   --space-1:4px;
   --space-2:8px;
@@ -307,11 +274,9 @@ html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
   --space-7:48px;
   --space-8:64px;
   --space-9:96px;
-  --gutter:clamp(18px,4vw,32px);   /* page side padding */
-  --section-y:clamp(56px,8vw,110px); /* vertical space between sections */
+  --gutter:clamp(18px,4vw,32px);
+  --section-y:clamp(56px,8vw,110px);
 }
-
-/* container + vertical rhythm */
 .container{width:min(var(--max),calc(100% - (var(--gutter) * 2)))}
 .section{padding:var(--section-y) 0}
 .content-section{padding:var(--space-7) 0 var(--section-y)}
@@ -320,8 +285,6 @@ html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
 .cta-band{padding:var(--section-y) clamp(22px,5vw,68px);margin:var(--space-6) auto var(--space-8)}
 .section-head{margin-bottom:var(--space-7)}
 .section-head h2{margin:var(--space-4) 0 0}
-
-/* grids + cards */
 .services-grid{gap:var(--space-3)}
 .blog-grid{gap:var(--space-4)}
 .blog-grid--posts{margin-top:var(--space-4)}
@@ -344,8 +307,6 @@ html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
 .content-section h2{margin-top:var(--space-7)}
 .hero-meta{margin-top:var(--space-7);padding-top:var(--space-4)}
 .process article{padding:var(--space-5) var(--space-5) 0 0;margin-right:var(--space-5)}
-
-/* footer bar: copyright left, tagline always right */
 .footer-bottom{display:flex;flex-direction:row;justify-content:space-between;align-items:center;
   flex-wrap:wrap;gap:var(--space-2) var(--space-4)}
 .footer-tagline{margin-left:auto;text-align:right}
@@ -353,8 +314,6 @@ html[data-theme="dark"] .faq-blurb{color:#B7B1A6}
   .footer-bottom{flex-direction:row;align-items:center}
   .footer-tagline{margin-left:auto;text-align:right;font-size:9px;letter-spacing:.06em}
 }
-
-/* ---- process steps as cards (v6.1) ---- */
 .process{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);border-top:0;margin-top:var(--space-6)}
 .process article{position:relative;background:var(--white);border:1px solid var(--line);border-radius:18px;
   padding:var(--space-5);margin:0;min-height:0;display:flex;flex-direction:column;
@@ -368,8 +327,6 @@ html[data-theme="dark"] .process article{background:#1A1917;border-color:var(--l
 html[data-theme="dark"] .process article:hover{box-shadow:0 16px 40px rgba(0,0,0,.5)}
 @media(max-width:1080px){.process{grid-template-columns:repeat(2,1fr)}.process article:nth-child(2n){border-right:1px solid var(--line);margin-right:0;padding-right:var(--space-5)}}
 @media(max-width:560px){.process{grid-template-columns:1fr}.process article{min-height:0}}
-
-/* ---- wordmark in caps (v6.6) ---- */
 .brand{letter-spacing:0}
 .brand-word{font-weight:800;font-size:15.5px;line-height:1;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
 .brand-word em{font-style:normal;color:var(--orange)}
@@ -381,11 +338,7 @@ html[data-theme="dark"] .brand-word{color:var(--ink)}
 .brand .brand-word em{color:var(--orange)}
 html[data-theme="dark"] .brand .brand-mark,
 html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
-
-/* ---- wordmark: title case (v6.8) ---- */
 .brand-word{text-transform:none;letter-spacing:-.02em;font-size:17px}
-
-/* ---- v7.1: nav sizing, bold menu, svg ticker stars ---- */
 .ticker-track i{display:inline-flex;align-items:center;font-style:normal;font-size:20px;line-height:1;color:var(--ink)}
 .ticker-track i svg{display:block}
 @media(max-width:850px){
@@ -397,21 +350,14 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .nav-wrap{top:14px}
 }
 @media(max-width:400px){.nav{width:calc(100% - 24px);padding:8px 10px 8px 12px}}
-
-/* ---- v7.2 fixes ---- */
-/* ticker star was collapsing to zero width inside the flex row */
 .ticker-track i svg{width:1em;height:1em;flex:0 0 auto}
 .ticker-track i{flex:0 0 auto}
-
-/* nav: wider on phones, and this rule is last so it wins */
 @media(max-width:850px){
   .nav-wrap .nav{width:calc(100% - 16px);padding:9px 12px 9px 15px;border-radius:16px}
 }
 @media(max-width:400px){
   .nav-wrap .nav{width:calc(100% - 12px);padding:8px 10px 8px 12px}
 }
-
-/* footer bar: copyright and tagline on one line, edges aligned */
 .footer-bottom{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:12px}
 .footer-tagline{margin-left:auto;text-align:right;white-space:nowrap}
 @media(max-width:640px){
@@ -422,8 +368,6 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .footer-bottom{font-size:8px;letter-spacing:.02em}
   .footer-tagline{font-size:8px;letter-spacing:.02em}
 }
-
-/* ---- v7.3: tighten the mobile hero rhythm ---- */
 @media(max-width:850px){
   .hero{min-height:0;padding-top:118px;padding-bottom:34px}
   .hero .eyebrow{margin-bottom:16px}
@@ -440,8 +384,6 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .content-section{padding-top:34px;padding-bottom:clamp(44px,7vw,64px)}
   .section-head{margin-bottom:30px}
 }
-
-/* ---- v7.4: nav proportions + bold footer bar ---- */
 @media(max-width:850px){
   .nav-wrap .nav{width:calc(100% - 34px);padding:14px 14px 14px 17px;border-radius:17px}
   .nav-wrap{top:16px}
@@ -450,8 +392,6 @@ html[data-theme="dark"] .brand .brand-word{color:var(--ink)}
   .nav-wrap .nav{width:calc(100% - 28px);padding:12px 12px 12px 14px}
 }
 .footer-bottom,.footer-bottom span,.footer-tagline{font-weight:700}
-
-/* ---- v7.5: near-transparent glass nav ---- */
 :root{--nav-bg:rgba(249,242,228,.14);--nav-border:rgba(27,27,27,.10)}
 html[data-theme="dark"]{--nav-bg:rgba(17,16,14,.22);--nav-border:rgba(243,237,225,.12)}
 .nav{
@@ -462,17 +402,13 @@ html[data-theme="dark"]{--nav-bg:rgba(17,16,14,.22);--nav-border:rgba(243,237,22
   box-shadow:0 8px 30px rgba(27,27,27,.06);
 }
 html[data-theme="dark"] .nav{box-shadow:0 8px 30px rgba(0,0,0,.28)}
-/* keep the wordmark and icons legible over whatever scrolls behind */
 .nav .brand-word,.nav .nav-links a,.nav .theme-toggle,.nav .menu-toggle{text-shadow:0 1px 0 rgba(249,242,228,.35)}
 html[data-theme="dark"] .nav .brand-word,
 html[data-theme="dark"] .nav .nav-links a,
 html[data-theme="dark"] .nav .theme-toggle,
 html[data-theme="dark"] .nav .menu-toggle{text-shadow:0 1px 0 rgba(0,0,0,.35)}
-/* keep the pill edge readable at very low fill */
 :root{--nav-border:rgba(27,27,27,.16)}
 html[data-theme="dark"]{--nav-border:rgba(243,237,225,.20)}
-
-/* ---- v7.7: outline buttons, boxed arrows, tighter section gaps ---- */
 .btn-outline{
   display:inline-flex;align-items:center;gap:10px;margin-top:22px;
   padding:11px 18px;border:1px solid var(--line);border-radius:100px;
@@ -483,8 +419,6 @@ html[data-theme="dark"]{--nav-border:rgba(243,237,225,.20)}
 .btn-outline--sm{margin-top:0;padding:9px 14px;font-size:11.5px}
 html[data-theme="dark"] .btn-outline{border-color:rgba(243,237,225,.22)}
 html[data-theme="dark"] .btn-outline:hover{background:var(--cream);color:#11100E;border-color:var(--cream)}
-
-/* small boxed chips around every redirect arrow */
 .ico-arrow{
   width:1em;height:1em;padding:.34em;box-sizing:content-box;
   border:1px solid rgba(27,27,27,.20);border-radius:.42em;
@@ -495,15 +429,11 @@ a:hover .ico-arrow,.btn-outline:hover .ico-arrow{border-color:currentColor}
 .button .ico-arrow,.btn-primary .ico-arrow{border-color:rgba(249,242,228,.45)}
 html[data-theme="dark"] .ico-arrow{border-color:rgba(243,237,225,.24)}
 html[data-theme="dark"] .button .ico-arrow{border-color:rgba(17,16,14,.35)}
-
-/* the two big gaps from the screenshots */
 @media(max-width:850px){
   .section{padding:clamp(34px,5.5vw,50px) 0}
   .manifesto{padding:clamp(40px,6vw,60px) 0}
   .content-section{padding-top:28px;padding-bottom:clamp(34px,5.5vw,50px)}
 }
-
-/* ---- v7.8: mobile menu opens from inside the nav card ---- */
 @media(max-width:850px){
   .nav-wrap .nav{
     flex-wrap:wrap;
@@ -554,8 +484,6 @@ html[data-theme="dark"] .button .ico-arrow{border-color:rgba(17,16,14,.35)}
   .nav-wrap .nav-links.open a:nth-child(5){transition-delay:.20s}
   .nav-wrap .nav-links a:last-child{border-bottom:0}
 }
-
-/* ---- v7.9: service cards, one-line contact heading, calmer nav ---- */
 .service-list--cards{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4);border-top:0;margin-top:var(--space-5)}
 .service-card--list{display:flex;flex-direction:column;align-items:flex-start;gap:10px;
   background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px;min-height:0;
@@ -567,18 +495,12 @@ html[data-theme="dark"] .button .ico-arrow{border-color:rgba(17,16,14,.35)}
 .service-card--list .btn-outline{margin-top:14px}
 html[data-theme="dark"] .service-card--list{background:#1A1917;border-color:var(--line)}
 @media(max-width:850px){.service-list--cards{grid-template-columns:1fr;gap:12px}}
-
-/* "Let's talk business." on one line at every size */
 .contact-h2{font-size:clamp(26px,6.4vw,58px);letter-spacing:-.045em;line-height:1.05;white-space:nowrap}
 @media(max-width:360px){.contact-h2{font-size:23px}}
-
-/* contact page: less air between hero and the form section */
 @media(max-width:850px){
   .page-hero{padding-bottom:28px}
   .contact-grid{padding-top:0}
 }
-
-/* nav: calmer glass, and solid while the menu is open */
 :root{--nav-bg:rgba(249,242,228,.74)}
 html[data-theme="dark"]{--nav-bg:rgba(20,19,17,.78)}
 .nav-wrap .nav.nav--open{background:rgba(249,242,228,.98);box-shadow:0 18px 50px rgba(27,27,27,.14)}
@@ -587,13 +509,9 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
   .nav-wrap .nav-links a{padding:11px 2px}
   .nav-wrap .nav-links.open{margin-top:10px}
 }
-
-/* ---- v8.0: eyebrows carry weight ---- */
 .eyebrow{font-weight:700}
 .eyebrow b,.eyebrow strong{font-weight:800}
 @media(max-width:850px){.eyebrow{font-weight:700;letter-spacing:.10em}}
-
-/* ---- v8.1: menu as an inset card inside the nav, smoother motion ---- */
 @media(max-width:850px){
   .nav-wrap .nav{overflow:hidden}
   .nav-wrap .nav-links{
@@ -635,8 +553,6 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
   html[data-theme="dark"] .nav-wrap .nav-links{background:rgba(243,237,225,.05)}
   html[data-theme="dark"] .nav-wrap .nav-links.open{border-color:rgba(243,237,225,.10)}
 }
-
-/* fix: the menu row must span the full nav width */
 @media(max-width:850px){
   .nav-wrap .nav{align-content:flex-start;row-gap:0}
   .nav-wrap .nav-links{width:100%;flex:0 0 100%;align-self:auto}
@@ -655,8 +571,6 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
                border-color .3s ease;
   }
 }
-
-/* ---- v8.5: article header, meta row and audio player ---- */
 .article{padding-top:112px}
 @media(max-width:850px){.article{padding-top:96px}}
 .article .eyebrow{margin-bottom:12px}
@@ -672,8 +586,6 @@ html[data-theme="dark"] .nav-wrap .nav.nav--open{background:rgba(18,17,15,.98);b
 .audio-card .audio-label span{font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .audio-card audio{flex:1 1 260px;height:36px;min-width:0}
 html[data-theme="dark"] .audio-card{background:#1A1917;border-color:var(--line)}
-
-/* ---- v8.6: trim the gaps under the ticker and on contact ---- */
 .ticker + .section{padding-top:clamp(26px,4vw,40px)}
 @media(max-width:850px){
   .hero{padding-bottom:22px}
@@ -685,8 +597,6 @@ html[data-theme="dark"] .audio-card{background:#1A1917;border-color:var(--line)}
   .ticker{margin-bottom:clamp(16px,3vw,26px)}
   .content-section{padding-top:14px}
 }
-
-/* ---- v8.8: footer colours, tablet buttons, stacked ticker ---- */
 .footer-col h4{color:var(--orange);opacity:1}
 .footer-col a{font-weight:700}
 .footer-tagline,.footer-bottom span{font-weight:700}
@@ -698,8 +608,6 @@ html[data-theme="dark"] .audio-card{background:#1A1917;border-color:var(--line)}
 @media(max-width:850px){
   .button{padding:12px 18px;font-size:11.5px}
 }
-
-/* second ticker strip, offset up at the same angle */
 .ticker{position:relative}
 .ticker--back{
   position:absolute;left:0;right:0;bottom:calc(100% + 10px);
@@ -721,11 +629,8 @@ html[data-theme="dark"] .ticker--back{background:rgba(255,85,32,.18)}
   .ticker-stack{margin-bottom:clamp(16px,3vw,26px)}
   .ticker--back{bottom:calc(100% + 6px);padding:12px 0}
 }
-
-/* ---- v9.0: grey text becomes theme-aware (white on dark, ink on light) ---- */
 :root{--muted:#57544E}
 html[data-theme="dark"]{--muted:#F1EBE0}
-/* the footer card is dark in both themes, so its greys read white */
 .footer-card .footer-col a,
 .footer-card .footer-col p,
 .footer-card .footer-bottom,
@@ -733,15 +638,11 @@ html[data-theme="dark"]{--muted:#F1EBE0}
 .footer-card .footer-meta{color:rgba(249,242,228,.94)}
 .footer-card .footer-col h4{color:var(--orange)}
 .footer-card .footer-bottom{border-top-color:rgba(249,242,228,.18)}
-/* any element left with an inline grey picks up the theme instead */
 [style*="color:#aaa49a"],[style*="color:#a29c92"],[style*="color:#8b867c"]{color:var(--muted) !important}
 html[data-theme="dark"] [style*="color:#aaa49a"],
 html[data-theme="dark"] [style*="color:#a29c92"],
 html[data-theme="dark"] [style*="color:#8b867c"]{color:#F1EBE0 !important}
-/* body copy that was grey sits at full contrast too */
 .article-body p,.post-body p,.blog-body p,.service-card p{color:var(--muted)}
-
-/* grey body text follows the theme: ink on cream, near-white on dark */
 :root{--muted:#4E4A44}
 html[data-theme="dark"]{--muted:#F1EBE0}
 .section-head p,.hero-copy p,.manifesto p,.faq-blurb,.intro,.article-body p,.post-body p,
@@ -763,11 +664,8 @@ html[data-theme="dark"] .related-links a,
 html[data-theme="dark"] .cta-band p,
 html[data-theme="dark"] .page-hero p,
 html[data-theme="dark"] .article-meta{color:var(--muted)}
-/* the footer card is dark in both themes */
 .footer-card .footer-col a,.footer-card .footer-col p,.footer-card .footer-bottom,
 .footer-card .footer-bottom span,.footer-card .footer-meta{color:#F6F0E4}
-
-/* ---- v9.2: two strips crossing like an X, opposite directions ---- */
 .ticker--back{
   position:absolute;left:0;right:0;
   bottom:auto;top:-16px;
@@ -784,7 +682,6 @@ html[data-theme="dark"] .article-meta{color:var(--muted)}
 .ticker--back{top:-30px;background:rgba(255,85,32,.42)}
 .ticker--back .ticker-track{opacity:.62}
 @media(max-width:850px){.ticker--back{top:-22px}}
-/* stronger crossing so the two strips read as an X */
 .ticker-stack{overflow:visible;padding:18px 0 4px}
 .ticker-stack .ticker{transform:rotate(-2.2deg) scale(1.03)}
 .ticker--back{transform:rotate(2.2deg) scale(1.03);top:-18px}
@@ -794,14 +691,8 @@ html[data-theme="dark"] .article-meta{color:var(--muted)}
 }
 .ticker--back{top:-26px}
 @media(max-width:850px){.ticker--back{top:-20px}}
-
-/* small breathing gap between the two ticker strips */
 .ticker--back{top:-58px}
 @media(max-width:850px){.ticker--back{top:-50px}}
-
-/* ---- v9.7: ticker strips, eyebrow rhythm, button sizing ---- */
-
-/* two parallel strips, same angle, uniform gap, opposite directions */
 .ticker-stack{padding:14px 0 0}
 .ticker-stack .ticker{transform:rotate(-2.2deg) scale(1.03)}
 .ticker--back{
@@ -820,14 +711,10 @@ html[data-theme="dark"] .ticker--back{background:var(--orange)}
 @media(max-width:850px){
   .ticker--back{top:-56px;padding:12px 0}
 }
-
-/* consistent breathing room under every eyebrow */
 .eyebrow{margin-bottom:14px}
 .eyebrow + h1,.eyebrow + h2,.eyebrow + h3{margin-top:6px}
 .section-head .eyebrow{margin-bottom:14px}
 .article .eyebrow{margin-bottom:14px}
-
-/* buttons: one size across phone, tablet and desktop */
 .button{font-size:12.5px;padding:13px 22px}
 .btn-outline{font-size:12.5px;padding:11px 18px}
 .btn-outline--sm{font-size:11.5px;padding:9px 15px}
@@ -840,14 +727,10 @@ html[data-theme="dark"] .ticker--back{background:var(--orange)}
   .button{font-size:12px;padding:12px 20px}
   .btn-outline{font-size:12px;padding:10px 16px}
 }
-
-/* single ticker strip, original look */
 .ticker{margin:25px 0 90px;transform:rotate(-1.2deg) scale(1.02)}
 .ticker-track{animation-direction:normal;opacity:1}
 .ticker-track span,.ticker-track i svg{opacity:1}
 @media(max-width:850px){.ticker{margin:18px 0 24px;transform:rotate(-1.2deg) scale(1.02)}}
-
-/* ---- v10.2: brand waveform audio player ---- */
 .audio-card{display:flex;align-items:center;gap:16px;flex-wrap:nowrap}
 .audio-card .audio-label{flex:0 0 auto;min-width:132px}
 .wave{display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0}
@@ -881,8 +764,6 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
   .wave{width:100%;flex-basis:100%}
   .wave-bars i{max-width:3px}
 }
-
-/* waveform: keep the bars inside the card on every width */
 .wave-bars{overflow:hidden;gap:2px}
 .wave-bars i{flex:1 1 0;min-width:0;max-width:4px}
 .wave-time{position:relative;z-index:1}
@@ -895,8 +776,6 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
   .wave-play{width:34px;height:34px}
   .wave-time{font-size:10px}
 }
-
-/* ---- v10.5: living waveform in brand orange ---- */
 @keyframes wavePulse{
   0%{transform:scaleY(.45)}
   100%{transform:scaleY(1.15)}
@@ -908,8 +787,6 @@ html[data-theme="dark"] .wave-bars i{background:rgba(249,242,228,.20)}
 @media (prefers-reduced-motion: reduce){
   .wave.is-playing .wave-bars i{animation:none}
 }
-
-/* ---- v10.6: Lottie wave, progress line, speed control ---- */
 .wave{display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0}
 .wave-stage{position:relative;flex:1 1 auto;min-width:0;height:40px;cursor:pointer;outline:none;overflow:hidden;border-radius:8px}
 .wave-stage:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
@@ -942,8 +819,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 }
 .wave-stage{height:46px}
 @media(max-width:640px){.wave-stage{height:42px}}
-
-/* ---- v10.8: CSS dot wave, controls grouped right ---- */
 .audio-card{display:flex;align-items:center;gap:18px;flex-wrap:nowrap}
 .audio-card .audio-label{flex:1 1 auto;min-width:0}
 .wave{flex:0 0 auto;display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:0;max-width:58%}
@@ -994,8 +869,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
   .wave-stage{height:34px}
   .wave-dotline i{max-width:5px}
 }
-
-/* ---- v10.9: Lottie wave back, meta pinned opposite the label ---- */
 .wave{flex:0 0 auto;display:flex;flex-direction:column;gap:8px;min-width:0;max-width:60%}
 .wave-meta{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .wave-stage{position:relative;flex:1 1 auto;min-width:0;height:40px;cursor:pointer;outline:none;display:flex;align-items:center;overflow:hidden;border-radius:6px}
@@ -1003,7 +876,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 .wave-stage.has-lottie .wave-dots{display:block}
 .wave-dots svg{width:100%!important;height:100%!important;display:block}
 .wave-dotgrid,.wave-dotline{display:none}
-/* keep label and time/speed on one line even on small screens */
 @media(max-width:700px){
   .audio-card{flex-wrap:wrap;gap:10px 12px}
   .audio-card .audio-label{flex:1 1 auto;min-width:0}
@@ -1014,8 +886,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
   .wave-time{font-size:10px}
   .wave-speed{padding:3px 6px;font-size:9.5px}
 }
-
-/* row 1: label left, time + speed right. row 2: play button + wave */
 .audio-card{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
 .audio-card .audio-label{flex:1 1 auto;min-width:0;order:1}
 .audio-card .wave-meta{flex:0 0 auto;order:2;margin-left:auto;display:flex;align-items:center;gap:8px}
@@ -1025,8 +895,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
   .audio-card .wave-stage{height:36px}
   .audio-card .wave-play{width:34px;height:34px}
 }
-
-/* ---- v11.1: dot wave driven by the audio spectrum ---- */
 .wave-spectrum{display:flex;flex-direction:column;justify-content:center;gap:5px;width:100%;height:100%}
 .wave-spectrum-row{display:flex;align-items:center;justify-content:space-between;gap:3px;flex:1}
 .wave-spectrum-row i{
@@ -1041,14 +909,11 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 @media (prefers-reduced-motion: reduce){
   .wave-spectrum-row i{transition:none;transform:none!important;opacity:.9!important}
 }
-
-/* ---- v11.3: the Lottie dot animation, reacting to the audio ---- */
 .wave-lottie{position:absolute;inset:0;transition:transform .12s linear;transform-origin:center}
 .wave-lottie svg{width:100%!important;height:100%!important;display:block}
 .wave-spectrum{display:none}
 .wave-stage{height:44px}
 @media(max-width:700px){.wave-stage{height:38px}}
-/* give the Lottie band room so both dot rows sit fully inside */
 .wave-stage{height:58px;overflow:hidden;border-radius:8px}
 .wave-lottie{inset:-2px 0}
 @media(max-width:700px){.wave-stage{height:50px}}
@@ -1056,7 +921,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 @media(max-width:700px){.audio-card .wave-stage{height:50px}}
 .audio-card .wave-stage{height:92px}
 @media(max-width:700px){.audio-card .wave-stage{height:78px}}
-/* soft fade at the edges so the dot band dissolves instead of looking cut */
 .audio-card .wave-stage{height:64px}
 .wave-lottie{
   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 26%,#000 74%,transparent 100%);
@@ -1064,8 +928,6 @@ html[data-theme="dark"] .wave-speed{border-color:rgba(249,242,228,.20)}
 }
 @media(max-width:700px){.audio-card .wave-stage{height:56px}}
 .wave-lottie{transform-origin:center center;transition:opacity .1s linear}
-
-/* ---- v11.9: brand-styled speed menu instead of the OS dropdown ---- */
 .wave-speed-wrap{position:relative;flex:0 0 auto}
 .wave-speed{
   display:inline-flex;align-items:center;gap:5px;
@@ -1095,8 +957,6 @@ html[data-theme="dark"] .wave-speed-menu{background:#1A1917;border-color:rgba(24
 html[data-theme="dark"] .wave-speed-opt{color:var(--cream)}
 html[data-theme="dark"] .wave-speed-opt:hover{background:rgba(255,85,32,.18);color:var(--orange)}
 html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);color:#1B1B1B}
-
-/* ---- v12.1: article FAQ cards need breathing room ---- */
 .article-body .faq-card{margin:0 0 12px}
 .article-body .faq-card:last-child{margin-bottom:0}
 .article-body .faq-card summary{padding:18px 20px}
@@ -1107,8 +967,6 @@ html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);colo
   .article-body .faq-card summary{padding:16px 16px}
   .article-body .faq-card .faq-answer{padding:0 16px 16px}
 }
-
-/* ---- v12.2: hero breathing room on phones ---- */
 @media(max-width:850px){
   .hero{padding-top:136px}
   .hero-copy{margin-bottom:26px}
@@ -1118,8 +976,6 @@ html[data-theme="dark"] .wave-speed-opt.is-current{background:var(--orange);colo
   .hero{padding-top:128px}
   .hero .button{margin-top:16px}
 }
-
-/* ---- v12.8: article share row + helpful vote ---- */
 .article-tools{display:flex;flex-direction:column;gap:10px;margin:36px 0 8px;padding-top:26px;border-top:1px solid var(--line)}
 .tool-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .tool-label{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
@@ -1144,10 +1000,7 @@ html[data-theme="dark"] .tool-btn:hover{border-color:var(--orange);color:var(--o
   .tool-btn{font-size:10px;padding:6px 10px}
   .tool-label{width:100%;margin-bottom:2px}
 }
-
 html[data-theme="dark"] .article-tools{border-top-color:rgba(249,242,228,.14)}
-
-/* review box */
 .tool-review{display:flex;flex-direction:column;gap:8px;margin-top:6px;max-width:560px}
 .tool-review-label{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .tool-textarea,.tool-input{
@@ -1162,41 +1015,27 @@ html[data-theme="dark"] .article-tools{border-top-color:rgba(249,242,228,.14)}
 .tool-submit:hover{background:var(--orange);color:var(--cream)}
 html[data-theme="dark"] .tool-textarea,html[data-theme="dark"] .tool-input{color:var(--cream);border-color:rgba(249,242,228,.18)}
 html[data-theme="dark"] .tool-submit:hover{color:#11100E}
-
-/* footer legal links */
 .footer-col h4{white-space:nowrap}
-
-/* CMS review panel */
 .review-panel{margin-top:10px;display:flex;flex-direction:column;gap:8px}
 .review-panel.hidden{display:none}
 .review-item{border-left:2px solid var(--orange);padding:6px 0 6px 12px}
 .review-item p{margin:0 0 4px;font:400 13px/1.6 var(--sans);color:var(--ink)}
 .review-item span{font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .linkish{background:none;border:0;padding:0;color:var(--orange);font:inherit;cursor:pointer;text-decoration:underline}
-
-/* v13.3: canvas dot grid for the audio wave */
 .wave-lottie{position:absolute;inset:-2px 0;transform-origin:center;transition:opacity .12s linear,transform .12s linear}
 .wave-lottie svg{width:100%!important;height:100%!important;display:block}
 .audio-card.is-loading{opacity:.55}
 .audio-card.is-loading .audio-label span::after{content:" · loading";}
-
-/* CMS feedback view */
 .slug-line{font:500 10px var(--mono);letter-spacing:.04em;color:var(--muted);margin:4px 0 0}
 .review-body{margin:6px 0 0;font:400 13.5px/1.65 var(--sans);color:var(--ink)}
-
 @media(min-width:721px) and (max-width:1080px){
   .footer-cols{grid-template-columns:repeat(4,minmax(0,auto));gap:18px}
   .footer-col a{font-size:12px}
 }
-
-/* one card fills the row instead of sitting in a half-empty grid */
 .blog-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
-
-/* every insight card sits on the same white surface */
 .blog-card{background:#fff}
 .blog-card .blog-body{background:#fff}
 .post-card--featured{background:#fff}
-/* dark mode: the same surfaces, not white */
 html[data-theme="dark"] .blog-card,
 html[data-theme="dark"] .blog-card .blog-body,
 html[data-theme="dark"] .post-card--featured,
@@ -1223,8 +1062,6 @@ html[data-theme="dark"] .post-card--featured .btn-outline svg{color:#F9F2E4}
 html[data-theme="dark"] .blog-card .btn-outline:hover,
 html[data-theme="dark"] .post-card--featured .btn-outline:hover{color:var(--orange);border-color:var(--orange)}
 html[data-theme="dark"] .blog-card .post-media{background:#111110!important}
-
-/* audio skip controls */
 .wave-skip{
   display:inline-flex;align-items:center;gap:3px;flex:0 0 auto;
   background:transparent;border:1px solid rgba(27,27,27,.14);border-radius:100px;
@@ -1235,31 +1072,23 @@ html[data-theme="dark"] .blog-card .post-media{background:#111110!important}
 .wave-skip:hover{opacity:1;transform:scale(1.06)}
 .wave-skip:active{transform:scale(.94)}
 @media(max-width:420px){.wave-skip svg{width:14px;height:14px}}
-
 html[data-theme="dark"] .wave-skip{color:var(--cream);opacity:.72}
 .audio-card .wave-skip{color:var(--ink)}
-
 html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22)}
 @media(max-width:420px){
   .wave-skip{padding:4px 6px;gap:1px}
   .wave-skip span{font-size:8px}
 }
-
-/* read + listen side by side on insight cards */
 .card-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px}
 .listen-btn{cursor:pointer;gap:6px}
 .listen-btn svg{opacity:.9}
 .listen-btn:hover{background:var(--orange);border-color:var(--orange);color:#11100E}
 #listen{scroll-margin-top:90px}
-
-/* insights: articles first, the explanation sits under them */
 .insights-about{margin-top:clamp(40px,6vw,72px);padding-top:clamp(28px,4vw,44px);border-top:1px solid var(--line)}
 .insights-about h2{font-size:clamp(20px,2.2vw,26px);margin:0 0 10px}
 .insights-about h2 + p{margin-top:0}
 .insights-about p{max-width:62ch;color:var(--muted);line-height:1.75;margin-bottom:26px}
 .insights-about h2:not(:first-child){margin-top:34px}
-
-/* ---- mini player dock ---- */
 .mini-player{
   position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);
   width:min(560px,calc(100vw - 24px));z-index:60;
@@ -1294,8 +1123,6 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
   .mini-player{bottom:10px;padding:10px 12px 12px;border-radius:18px}
   .mini-title{font-size:10px}
 }
-
-/* ---- covers keep the same 16:9 frame on every device ---- */
 .post-media,
 .post-card--featured .post-media{
   aspect-ratio:16/9!important;
@@ -1320,8 +1147,6 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 @media(max-width:560px){
   .article-body img{margin:18px 0;border-radius:12px}
 }
-
-/* the cover must sit flush inside its frame — no sliver of background on the right */
 .post-media{background:var(--cream)!important}
 .post-media img{
   position:absolute!important;
@@ -1335,8 +1160,6 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 .article-hero{background:var(--cream)!important}
 .article-hero img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover}
 .article-hero{position:relative}
-
-/* ---- v15.5: the navigation bar in glass ---- */
 .nav{
   background:rgba(255,255,255,.58)!important;
   -webkit-backdrop-filter:blur(22px) saturate(180%);
@@ -1345,24 +1168,19 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
   box-shadow:0 14px 42px rgba(27,27,27,.10), inset 0 1px 0 rgba(255,255,255,.85);
   transition:background .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
-/* a touch more solid once the page has scrolled, so text stays readable */
 .nav-wrap.is-scrolled .nav{
   background:rgba(255,255,255,.78)!important;
   box-shadow:0 16px 46px rgba(27,27,27,.13), inset 0 1px 0 rgba(255,255,255,.9);
 }
-
-/* the open menu on phones matches the bar */
 .nav-links{
   background:rgba(255,255,255,.72)!important;
   -webkit-backdrop-filter:blur(22px) saturate(180%);
   backdrop-filter:blur(22px) saturate(180%);
   border-color:rgba(255,255,255,.72)!important;
 }
-
 .nav-links a,.nav-cta,.brand{transition:color .2s ease,opacity .2s ease,transform .2s ease}
 .nav-links a:hover{color:var(--orange)}
 .nav-cta:hover{transform:translateY(-1px)}
-
 html[data-theme="dark"] .nav{
   background:rgba(24,23,21,.62)!important;
   border-color:rgba(249,242,228,.16)!important;
@@ -1373,13 +1191,9 @@ html[data-theme="dark"] .nav-links{
   background:rgba(24,23,21,.82)!important;
   border-color:rgba(249,242,228,.16)!important;
 }
-
 @media (prefers-reduced-motion: reduce){
   .nav,.nav-links a,.nav-cta,.brand{transition:none!important}
 }
-
-/* the ticker runs wider than the viewport by design; clip it instead of
-   letting the whole page scroll sideways */
 html,body{overflow-x:clip}
 @supports not (overflow:clip){ html,body{overflow-x:hidden} }
 .ticker{max-width:100%}
