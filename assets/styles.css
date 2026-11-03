@@ -1267,3 +1267,29 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
   .mini-player{bottom:10px;padding:10px 12px 12px;border-radius:18px}
   .mini-title{font-size:10px}
 }
+
+/* ---- covers keep the same 16:9 frame on every device ---- */
+.post-media,
+.post-card--featured .post-media{
+  aspect-ratio:16/9!important;
+  height:auto!important;
+  min-height:0!important;
+  width:100%;
+}
+.post-media img,
+.post-card--featured .post-media img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.article-hero{aspect-ratio:16/9!important}
+.article-hero img{width:100%!important;height:100%!important;object-fit:cover;display:block}
+.article-body img{
+  max-width:100%;height:auto;display:block;
+  margin:24px 0;border-radius:14px;
+}
+@media(max-width:560px){
+  .article-body img{margin:18px 0;border-radius:12px}
+}
