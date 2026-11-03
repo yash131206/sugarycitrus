@@ -25,7 +25,7 @@
   };
 
   function brand(name) {
-    return '<svg class="brand-glyph" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="' + GLYPH[name] + '"/></svg>';
+    return '<svg class="brand-glyph g-' + name + '" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="' + GLYPH[name] + '"/></svg>';
   }
 
   function stroke(path) {
@@ -75,23 +75,40 @@
       else done();
     });
 
+    var chosen = null;
+
     wrap.addEventListener('click', function (e) {
       var b = e.target.closest('[data-vote]');
       if (!b) return;
       var helpful = b.dataset.vote === 'yes';
-      var key = 'sc_fb_' + slugValue;
-      try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, '1'); } catch (err) {}
+      var previous = chosen;
 
-      vote.innerHTML = '<span class="tool-note">' +
-        (helpful ? 'Thanks — glad it was useful.' : 'Thanks for saying so. It helps me decide what to write next.') +
-        '</span>';
+      chosen = helpful;
+      vote.querySelectorAll('[data-vote]').forEach(function (btn) {
+        btn.classList.toggle('is-chosen', (btn.dataset.vote === 'yes') === helpful);
+      });
+
+      var note = vote.querySelector('.tool-note');
+      if (!note) {
+        note = document.createElement('span');
+        note.className = 'tool-note';
+        vote.appendChild(note);
+      }
+      note.textContent = helpful
+        ? 'Thanks — glad it was useful. You can change this if you want.'
+        : 'Thanks for saying so. You can change this if you want.';
+
+      if (previous === helpful) return; // same choice, nothing to record
 
       var c = cfg();
       if (!c || !c.url) return;
+      var payload = { p_slug: slugValue, p_helpful: helpful };
+      if (previous !== null) payload.p_previous = previous;
+
       fetch(c.url + '/rest/v1/rpc/record_article_feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', apikey: c.key, Authorization: 'Bearer ' + c.key },
-        body: JSON.stringify({ p_slug: slugValue, p_helpful: helpful }),
+        body: JSON.stringify(payload),
         keepalive: true
       }).catch(function () {});
     });
