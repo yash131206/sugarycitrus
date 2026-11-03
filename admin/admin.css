@@ -106,3 +106,47 @@ html,body{max-width:100%;overflow-x:hidden}
 .welcome-art{background:transparent!important}
 .welcome-art img{width:100%;height:100%;display:block;border-radius:50%}
 @media(max-width:560px){.welcome-art{display:none}}
+
+/* ---- article rows become cards, action bar sits at the bottom ---- */
+.post-list{border-top:0}
+.post-item{
+  display:block!important;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px 20px 14px;
+  margin-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.post-item h3{margin:0 0 6px}
+.post-item p{margin:0}
+.post-tools{
+  display:flex!important;
+  gap:6px;
+  width:100%;
+  margin-top:14px;
+  padding:6px;
+  background:#1B1B1B;
+  border:0;
+  border-radius:16px;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.post-tools .ghost{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#F9F2E4;
+  font:700 10px var(--mono,ui-monospace,monospace);
+  letter-spacing:.05em;
+  padding:10px 8px;
+}
+.post-tools .ghost:hover{background:rgba(255,85,32,.20);color:#FF5520}
+.post-tools .ghost.danger{color:#F2A79E}
+.post-tools .ghost.danger:hover{background:rgba(200,40,30,.22);color:#FF7B6B}
+@media(max-width:720px){
+  .post-tools{flex-wrap:nowrap}
+  .post-tools .ghost{font-size:9.5px;padding:9px 4px}
+}
