@@ -1224,3 +1224,10 @@ html[data-theme="dark"] .audio-card .wave-skip{border-color:rgba(249,242,228,.22
 .listen-btn svg{opacity:.9}
 .listen-btn:hover{background:var(--orange);border-color:var(--orange);color:#11100E}
 #listen{scroll-margin-top:90px}
+
+/* insights: articles first, the explanation sits under them */
+.insights-about{margin-top:clamp(40px,6vw,72px);padding-top:clamp(28px,4vw,44px);border-top:1px solid var(--line)}
+.insights-about h2{font-size:clamp(20px,2.2vw,26px);margin:0 0 10px}
+.insights-about h2 + p{margin-top:0}
+.insights-about p{max-width:62ch;color:var(--muted);line-height:1.75;margin-bottom:26px}
+.insights-about h2:not(:first-child){margin-top:34px}
