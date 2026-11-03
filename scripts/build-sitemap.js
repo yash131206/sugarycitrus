@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = (process.env.SITE_URL || 'https://yash131206.github.io/sugarycitrus').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://sugarycitrus.in').replace(/\/$/, '');
 
 const SKIP = new Set(['404.html', 'thank-you.html', 'article.html', 'admin__index.html']);
 
