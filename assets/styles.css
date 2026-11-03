@@ -1179,3 +1179,7 @@ html[data-theme="dark"] .tool-submit:hover{color:#11100E}
 .wave-lottie svg{width:100%!important;height:100%!important;display:block}
 .audio-card.is-loading{opacity:.55}
 .audio-card.is-loading .audio-label span::after{content:" · loading";}
+
+/* CMS feedback view */
+.slug-line{font:500 10px var(--mono);letter-spacing:.04em;color:var(--muted);margin:4px 0 0}
+.review-body{margin:6px 0 0;font:400 13.5px/1.65 var(--sans);color:var(--ink)}

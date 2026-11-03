@@ -40,3 +40,9 @@ html,body{max-width:100%;overflow-x:hidden}
 .upload-row input[type="file"]{display:none !important}
 .upload-row{gap:8px}
 .upload-row .upload-button{flex:0 0 auto;white-space:nowrap}
+
+/* ---- feedback view ---- */
+.slug-line{font:500 10px/1.5 var(--mono,ui-monospace,monospace);letter-spacing:.04em;color:var(--muted,#8a8578);margin:4px 0 0}
+.review-body{margin:6px 0 0;font:400 13.5px/1.65 var(--sans,system-ui,sans-serif);color:inherit}
+#viewFeedback .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+#viewFeedback .post-item h3{font-size:15px}

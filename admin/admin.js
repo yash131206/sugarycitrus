@@ -11,13 +11,14 @@ let reviewList = [];
   const toast = (message, bad=false) => { const el=$('toast'); el.textContent=message; el.classList.toggle('error',bad); el.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),3600); };
   const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const slugify = s => String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'article';
-  const setView = name => { ['Overview','Articles','Editor'].forEach(v=>$('view'+v).classList.toggle('hidden',v.toLowerCase()!==name)); document.querySelectorAll('.side-link').forEach(b=>b.classList.toggle('active',b.dataset.view===name)); $('pageTitle').innerHTML=(name==='editor'?'Content editor':name[0].toUpperCase()+name.slice(1))+'<span>.</span>'; if(name==='articles'||name==='overview') refresh(); };
+  const setView = name => { ['Overview','Feedback','Articles','Editor'].forEach(v=>$('view'+v).classList.toggle('hidden',v.toLowerCase()!==name)); document.querySelectorAll('.side-link').forEach(b=>b.classList.toggle('active',b.dataset.view===name)); $('pageTitle').innerHTML=(name==='editor'?'Content editor':name[0].toUpperCase()+name.slice(1))+'<span>.</span>'; if(name==='articles'||name==='overview') refresh(); };
   async function isAdmin(user){ const {data,error}=await supabase.from('cms_admins').select('user_id').eq('user_id',user.id).maybeSingle(); if(error) throw error; return !!data; }
   async function enter(user){ try { if(!await isAdmin(user)){ await supabase.auth.signOut(); $('loginMessage').textContent='This account does not have CMS administrator access.'; return; } currentUser=user; $('loginScreen').classList.add('hidden'); $('appShell').classList.remove('hidden'); await refresh(); } catch(e){ $('loginMessage').textContent='CMS access check failed: '+e.message; } }
   async function triggerRebuild(){ try { const {data:{session}}=await supabase.auth.getSession(); if(!session?.access_token)return; const r=await fetch('/api/rebuild',{method:'POST',headers:{Authorization:`Bearer ${session.access_token}`}}); if(!r.ok){const body=await r.json().catch(()=>({})); toast('Article saved. Static article page is generated on the next build (npm run build).');return;} toast('Website rebuild requested.'); } catch { toast('Article saved. Static article page is generated on the next build (npm run build).'); } }
   async function refresh(){ if(!currentUser)return; const {data,error}=await supabase.from('articles').select('*').order('updated_at',{ascending:false}); if(error){toast('Could not load articles: '+error.message,true);return;} posts=data||[]; try{const {data:st}=await supabase.from('article_stats').select('slug,views'); viewStats={}; (st||[]).forEach(r=>viewStats[r.slug]=Number(r.views)||0);}catch(e){viewStats={};}
   try{const {data:fb}=await supabase.from('article_feedback').select('slug,helpful,not_helpful'); fbStats={}; (fb||[]).forEach(r=>fbStats[r.slug]=r);}catch(e){fbStats={};}
-  try{const {data:rv}=await supabase.from('article_reviews').select('slug,body,name,created_at').order('created_at',{ascending:false}); reviewList=rv||[];}catch(e){reviewList=[];} const published=posts.filter(p=>p.status==='published').length; $('totalCount').textContent=posts.length; $('publishedCount').textContent=published; $('draftCount').textContent=posts.length-published; $('recentList').innerHTML=renderList(posts.slice(0,5)); $('articleList').innerHTML=renderList(posts); }
+  try{const {data:rv}=await supabase.from('article_reviews').select('slug,body,name,created_at').order('created_at',{ascending:false}); reviewList=rv||[];}catch(e){reviewList=[];}
+  renderFeedback(); const published=posts.filter(p=>p.status==='published').length; $('totalCount').textContent=posts.length; $('publishedCount').textContent=published; $('draftCount').textContent=posts.length-published; $('recentList').innerHTML=renderList(posts.slice(0,5)); $('articleList').innerHTML=renderList(posts); }
   
   function fbLine(slug){
     const f = fbStats[slug] || {helpful:0, not_helpful:0};
@@ -32,6 +33,46 @@ let reviewList = [];
     if (!reviews.length) return '';
     return `<div class="review-panel hidden" data-panel="${esc(slug)}">` + reviews.map(r =>
       `<div class="review-item"><p>${esc(r.body)}</p><span>${esc(r.name||'Anonymous')} · ${esc((r.created_at||'').slice(0,10))}</span></div>`).join('') + '</div>';
+  }
+
+  function renderFeedback(){
+    const bySlug = {};
+    posts.forEach(p=>{ bySlug[p.slug] = p.title; });
+    const slugs = new Set([...Object.keys(viewStats), ...Object.keys(fbStats), ...reviewList.map(r=>r.slug)]);
+    let tv=0, th=0, tn=0;
+    const rows = [];
+    slugs.forEach(slug=>{
+      const v = viewStats[slug] || 0;
+      const f = fbStats[slug] || {helpful:0, not_helpful:0};
+      const rc = reviewList.filter(r=>r.slug===slug).length;
+      tv += v; th += Number(f.helpful)||0; tn += Number(f.not_helpful)||0;
+      rows.push({slug, v, h:Number(f.helpful)||0, n:Number(f.not_helpful)||0, rc, title:bySlug[slug] || slug});
+    });
+    rows.sort((a,b)=>b.v-a.v);
+
+    const set = (id, val) => { const el=$(id); if (el) el.textContent = val; };
+    set('fbViews', tv.toLocaleString('en-IN'));
+    set('fbHelpful', th.toLocaleString('en-IN'));
+    set('fbNot', tn.toLocaleString('en-IN'));
+    set('fbReviews', reviewList.length.toLocaleString('en-IN'));
+
+    const table = $('fbTable');
+    if (table) {
+      table.innerHTML = rows.length ? rows.map(r=>`<article class="post-item"><div><h3>${esc(r.title)}</h3>
+        <p>${r.v.toLocaleString('en-IN')} views · ${r.h} helpful · ${r.n} not helpful · ${r.rc} review${r.rc===1?'':'s'}</p>
+        <p class="slug-line">/articles/${esc(r.slug)}</p></div></article>`).join('')
+        : '<div class="empty">No data yet. Views and votes appear here as readers arrive.</div>';
+    }
+
+    const list = $('fbReviewsList');
+    if (list) {
+      list.innerHTML = reviewList.length ? reviewList.map(r=>`<article class="post-item"><div>
+        <h3>${esc((bySlug[r.slug]||r.slug))}</h3>
+        <p class="review-body">${esc(r.body)}</p>
+        <p class="slug-line">${esc(r.name||'Anonymous')} · ${esc((r.created_at||'').slice(0,10))} · /articles/${esc(r.slug)}</p>
+        </div></article>`).join('')
+        : '<div class="empty">No reviews yet. The box under each article sends them here.</div>';
+    }
   }
   function renderList(items){ if(!items.length)return '<div class="empty">No articles yet. Create your first one.</div>'; return items.map(p=>`<article class="post-item"><div><h3>${esc(p.title)}</h3><p>${esc(p.category)} · ${esc(p.publish_date)} · <span class="pill ${p.status}">${p.status==='published'?'Published':'Draft'}</span> · ${(viewStats[p.slug]||0).toLocaleString('en-IN')} views${fbLine(p.slug)}</p>${reviewBlock(p.slug)}</div><div class="post-tools"><button class="ghost" data-edit="${p.id}">Edit</button><button class="ghost" data-toggle="${p.id}">${p.status==='published'?'Unpublish':'Publish'}</button><button class="ghost danger" data-delete="${p.id}">Delete</button></div></article>`).join(''); }
   function reset(){ $('postForm').reset(); $('postId').value=''; $('author').value='Sugary Citrus'; $('status').value='draft'; $('editorHeading').textContent='Create an article'; $('saveState').textContent='Cloud CMS · Ready'; $('imagePreview').classList.add('hidden'); $('preview').classList.add('hidden'); }
@@ -75,7 +116,8 @@ $('audioFile') && $('audioFile').addEventListener('change', async e => {
   }
 });if(error){toast('Upload failed: '+error.message,true);return;}const {data}=supabase.storage.from('cms-images').getPublicUrl(path);$('image').value=data.publicUrl;$('imagePreview').src=data.publicUrl;$('imagePreview').classList.remove('hidden');toast('Featured image uploaded.');e.target.value='';});
   $('previewPost').onclick=()=>{const p=formData();$('previewContent').innerHTML=`${p.featured_image?`<img class="hero-image" src="${esc(p.featured_image)}" alt="">`:''}<div class="eyebrow">${esc(p.category)} · ${esc(p.publish_date)}</div><h1>${esc(p.title||'Article title')}</h1><p>${esc(p.description)}</p><pre class="markdown-preview">${esc(p.body)}</pre>`;$('preview').classList.remove('hidden');}; $('closePreview').onclick=()=>$('preview').classList.add('hidden');
-  document.addEventListener('click',e=>{const rv=e.target.closest('[data-reviews]');if(rv){const pn=document.querySelector(`[data-panel="${rv.dataset.reviews}"]`);if(pn){pn.classList.toggle('hidden');}return;}});
+  document.addEventListener('click',e=>{if(e.target.closest('#fbRefresh')){refresh();return;}
+const rv=e.target.closest('[data-reviews]');if(rv){const pn=document.querySelector(`[data-panel="${rv.dataset.reviews}"]`);if(pn){pn.classList.toggle('hidden');}return;}});
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-edit],[data-toggle],[data-delete]');if(!b)return;const id=b.dataset.edit||b.dataset.toggle||b.dataset.delete;const p=posts.find(x=>x.id===id);if(!p)return;if(b.dataset.edit){fill(p);return;}if(b.dataset.toggle){const status=p.status==='published'?'draft':'published';const {error}=await supabase.from('articles').update({status}).eq('id',id);if(error)toast(error.message,true);else{toast(status==='published'?'Article published.':'Article moved to drafts.');await refresh();await triggerRebuild();}}if(b.dataset.delete&&confirm(`Permanently delete “${p.title}”?`)){const {error}=await supabase.from('articles').delete().eq('id',id);if(error)toast(error.message,true);else{toast('Article deleted.');await refresh();if(p.status==='published')await triggerRebuild();}}});
   const statusSel=$('status'), saveBtn=$('saveButton');
   if(statusSel&&saveBtn){const label=()=>{saveBtn.textContent=statusSel.value==='published'?'Publish article':'Save draft';};statusSel.addEventListener('change',label);label();}
