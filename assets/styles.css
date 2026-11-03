@@ -1196,6 +1196,33 @@ html[data-theme="dark"] .tool-submit:hover{color:#11100E}
 .blog-card{background:#fff}
 .blog-card .blog-body{background:#fff}
 .post-card--featured{background:#fff}
+/* dark mode: the same surfaces, not white */
+html[data-theme="dark"] .blog-card,
+html[data-theme="dark"] .blog-card .blog-body,
+html[data-theme="dark"] .post-card--featured,
+html[data-theme="dark"] .latest-card{
+  background:#1A1917!important;
+  border-color:rgba(249,242,228,.14)!important;
+}
+html[data-theme="dark"] .blog-card h1,
+html[data-theme="dark"] .blog-card h2,
+html[data-theme="dark"] .blog-card h3,
+html[data-theme="dark"] .post-card--featured h1,
+html[data-theme="dark"] .post-card--featured h2,
+html[data-theme="dark"] .post-card--featured h3{color:#F9F2E4!important}
+html[data-theme="dark"] .blog-card p,
+html[data-theme="dark"] .post-card--featured p{color:#B9B2A6!important}
+html[data-theme="dark"] .blog-card small,
+html[data-theme="dark"] .blog-card time,
+html[data-theme="dark"] .post-card--featured small,
+html[data-theme="dark"] .post-card--featured time{color:#8E887D!important}
+html[data-theme="dark"] .blog-card .btn-outline,
+html[data-theme="dark"] .post-card--featured .btn-outline{color:#F9F2E4!important;border-color:rgba(249,242,228,.28)!important}
+html[data-theme="dark"] .blog-card .btn-outline svg,
+html[data-theme="dark"] .post-card--featured .btn-outline svg{color:#F9F2E4}
+html[data-theme="dark"] .blog-card .btn-outline:hover,
+html[data-theme="dark"] .post-card--featured .btn-outline:hover{color:var(--orange);border-color:var(--orange)}
+html[data-theme="dark"] .blog-card .post-media{background:#111110!important}
 
 /* audio skip controls */
 .wave-skip{
