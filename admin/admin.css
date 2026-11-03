@@ -74,3 +74,21 @@ html,body{max-width:100%;overflow-x:hidden}
 .upload-bar i{display:block;height:100%;background:var(--orange);border-radius:99px;transition:width .22s ease}
 .audio-preview{width:100%;margin-top:8px;height:34px}
 .hidden{display:none!important}
+
+/* ---- sidebar logo: beats the mobile rule that hides every span in .brand ---- */
+.app-shell .brand{font-size:0;display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1}
+.app-shell .brand .brand-badge{
+  display:block!important;width:36px;height:36px;border-radius:50%;
+  background:var(--orange);color:#11100E;
+  font:800 13px/36px var(--sans,system-ui,sans-serif);
+  letter-spacing:-.4px;text-align:center;
+  transition:transform .18s ease;
+}
+.app-shell .brand .brand-star{
+  display:block!important;font-size:10px;color:var(--cream);opacity:.6;line-height:1;
+}
+.app-shell .brand:hover .brand-badge{transform:scale(1.06)}
+@media(max-width:900px){
+  .app-shell .brand{padding-bottom:6px}
+  .app-shell .brand .brand-badge{width:34px;height:34px;font-size:12px;line-height:34px}
+}
