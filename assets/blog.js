@@ -24,9 +24,8 @@ function meta(p){
 }
 function listenBtn(p, big){
   if(!p.audio_url) return '';
-  const href = 'articles/' + encodeURIComponent(p.slug) + '#listen';
   const cls = big ? 'btn-outline' : 'btn-outline btn-outline--sm';
-  return `<span class="${cls} listen-btn" data-listen="${href}" role="button" tabindex="0">Listen article ${LISTEN_ICON}</span>`;
+  return `<span class="${cls} listen-btn" data-listen="${esc(p.audio_url)}" data-title="${esc(p.title)}" role="button" tabindex="0">Listen article ${LISTEN_ICON}</span>`;
 }
 function card(p){
   return `<a class="blog-card" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:560px) 100vw, (max-width:1080px) 50vw, 33vw')}<div class="blog-body">${meta(p)}<h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><span class="card-actions"><span class="btn-outline btn-outline--sm">Read article ${ARROW}</span>${listenBtn(p,false)}</span></div></a>`;
@@ -59,15 +58,53 @@ async function loadPosts(){
   target.innerHTML=featured(first)+(rest.length?`<div class="blog-grid blog-grid--posts">${rest.map(card).join('')}</div>`:'');
 }
 loadPosts();
+function openMini(url, title){
+  var dock = document.getElementById('mini-player');
+  if(!dock){
+    dock = document.createElement('div');
+    dock.id = 'mini-player';
+    dock.className = 'mini-player';
+    dock.innerHTML = '<div class="mini-top"><span class="mini-title"></span>' +
+      '<button class="mini-close" type="button" aria-label="Close player">&times;</button></div>' +
+      '<div class="mini-slot"></div>';
+    document.body.appendChild(dock);
+    dock.querySelector('.mini-close').addEventListener('click', function(){
+      var a = dock.querySelector('audio');
+      if(a) a.pause();
+      dock.classList.remove('is-open');
+    });
+  }
+
+  dock.querySelector('.mini-title').textContent = title || 'Listen to this article';
+
+  var slot = dock.querySelector('.mini-slot');
+  slot.innerHTML = '';
+
+  var card = document.createElement('div');
+  card.className = 'audio-card';
+  var audio = document.createElement('audio');
+  audio.preload = 'metadata';
+  audio.crossOrigin = 'anonymous';
+  audio.src = url;
+  card.appendChild(audio);
+  slot.appendChild(card);
+
+  dock.classList.add('is-open');
+
+  /* start it inside the click, so the browser counts it as a gesture */
+  var p = audio.play();
+  if(p && p.catch) p.catch(function(){});
+}
+
 document.addEventListener('click', function(e){
   var b = e.target.closest('[data-listen]');
   if(!b) return;
   e.preventDefault(); e.stopPropagation();
-  location.href = b.getAttribute('data-listen');
+  openMini(b.getAttribute('data-listen'), b.getAttribute('data-title'));
 });
 document.addEventListener('keydown', function(e){
   if(e.key !== 'Enter' && e.key !== ' ') return;
   var b = e.target.closest('[data-listen]');
   if(!b) return;
-  e.preventDefault(); location.href = b.getAttribute('data-listen');
+  e.preventDefault(); openMini(b.getAttribute('data-listen'), b.getAttribute('data-title'));
 });
