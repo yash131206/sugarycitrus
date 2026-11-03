@@ -1,7 +1,8 @@
 /* Sugary Citrus audio player.
-   The wave is a dot grid that reacts to the real audio spectrum: each column of
-   dots follows one frequency band of the playing audio. Time and speed sit
-   opposite the label; the play button shares the row with the wave. */
+   The wave is a dot grid drawn on a canvas and driven by the real audio
+   spectrum: each column of dots follows one frequency band, so the shape
+   tracks the voice instead of looping on a timer. No animation library and
+   no extra JSON to download, which is why the card is interactive at once. */
 (function () {
   var COLS = 30;
   var ROWS = 2;
@@ -21,8 +22,6 @@
     time.className = 'wave-time';
     time.textContent = '0:00 / 0:00';
 
-    /* custom speed menu: a native <select> renders its own OS-styled popup,
-       which we cannot colour, so the list is ours */
     var speedWrap = document.createElement('div');
     speedWrap.className = 'wave-speed-wrap';
 
@@ -44,14 +43,13 @@
       o.className = 'wave-speed-opt' + (v === 1 ? ' is-current' : '');
       o.setAttribute('role', 'option');
       o.dataset.v = v;
-      o.textContent = (v === 1 ? '1x' : v + 'x');
+      o.textContent = v + 'x';
       speedMenu.appendChild(o);
       options.push(o);
     });
 
     speedWrap.appendChild(speed);
     speedWrap.appendChild(speedMenu);
-
     meta.appendChild(time);
     meta.appendChild(speedWrap);
 
@@ -70,9 +68,9 @@
     stage.setAttribute('aria-label', 'Seek');
     stage.tabIndex = 0;
 
-    var lottieBox = document.createElement('div');
-    lottieBox.className = 'wave-lottie';
-    stage.appendChild(lottieBox);
+    var canvas = document.createElement('canvas');
+    canvas.className = 'wave-canvas';
+    stage.appendChild(canvas);
 
     var fill = document.createElement('span');
     fill.className = 'wave-line';
@@ -81,12 +79,30 @@
 
     row.appendChild(play);
     row.appendChild(stage);
-
     card.appendChild(meta);
     card.appendChild(row);
 
+    var ctx2d = canvas.getContext('2d');
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var w = 0, h = 0;
+
+    function size() {
+      var r = stage.getBoundingClientRect();
+      w = Math.max(1, Math.round(r.width));
+      h = Math.max(1, Math.round(r.height));
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    size();
+    window.addEventListener('resize', size);
+
     var knownDuration = 0;
-    var ctx = null, analyser = null, source = null, data = null, raf = null;
+    var actx = null, analyser = null, source = null, freq = null, raf = null;
+    var levels = new Array(COLS).fill(0);
+    var idle = 0;
 
     function progress() {
       var d = audio.duration || knownDuration || 0;
@@ -104,59 +120,91 @@
     }
 
     function setupAnalyser() {
-      if (ctx) return true;
+      if (actx) return true;
       var AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return false;
       try {
-        ctx = new AC();
-        source = ctx.createMediaElementSource(audio);
-        analyser = ctx.createAnalyser();
-        analyser.fftSize = 128;
-        analyser.smoothingTimeConstant = 0.75;
-        data = new Uint8Array(analyser.frequencyBinCount);
+        actx = new AC();
+        source = actx.createMediaElementSource(audio);
+        analyser = actx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.72;
+        analyser.minDecibels = -85;
+        analyser.maxDecibels = -18;
+        freq = new Uint8Array(analyser.frequencyBinCount);
         source.connect(analyser);
-        analyser.connect(ctx.destination);
+        analyser.connect(actx.destination);
         return true;
       } catch (err) {
-        ctx = null;
+        actx = null; analyser = null;
         return false;
       }
     }
 
-    var anim = null;
-    var level = 0;
+    function paint() {
+      ctx2d.clearRect(0, 0, w, h);
 
-    function draw() {
-      raf = requestAnimationFrame(draw);
-      if (!analyser) return;
-      analyser.getByteFrequencyData(data);
-      // average the low-mid bands: that is where speech energy lives
-      var sum = 0, n = 0;
-      for (var i = 1; i < 24 && i < data.length; i++) { sum += data[i]; n++; }
-      var target = n ? Math.min(1, ((sum / n) / 255) * 2.8) : 0;  // gain: speech sits low, lift it
-      level = level * 0.55 + target * 0.45;             // quick enough to feel live
-      var speed = 0.25 + level * 3.4;                   // quiet = slow, loud = fast
-      if (anim) anim.setSpeed(Math.max(0.15, Math.min(3.6, speed)));
-      if (lottieBox) {
-        // the dots stretch and brighten with the voice, like a real meter
-        var sy = (0.72 + level * 0.95).toFixed(3);
-        var sx = (1 + level * 0.06).toFixed(3);
-        lottieBox.style.transform = 'scaleX(' + sx + ') scaleY(' + sy + ')';
-        lottieBox.style.opacity = (0.62 + level * 0.38).toFixed(3);
+      var colW = w / COLS;
+      var gapY = h / (ROWS + 1);
+      var baseR = Math.max(1.1, Math.min(2.4, colW * 0.16));
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      var idleCol = isDark ? 'rgba(249,242,228,0.22)' : 'rgba(249,242,228,0.30)';
+      var hot = 'rgb(255,85,32)';
+
+      for (var c = 0; c < COLS; c++) {
+        var lv = levels[c];
+        var cx = colW * c + colW / 2;
+        for (var r = 0; r < ROWS; r++) {
+          var cy = gapY * (r + 1);
+          var rad = baseR + lv * baseR * 1.9;
+          ctx2d.beginPath();
+          ctx2d.arc(cx, cy, rad, 0, Math.PI * 2);
+          if (lv > 0.04) {
+            ctx2d.fillStyle = hot;
+            ctx2d.globalAlpha = 0.45 + Math.min(0.55, lv);
+          } else {
+            ctx2d.fillStyle = idleCol;
+            ctx2d.globalAlpha = 1;
+          }
+          ctx2d.fill();
+        }
       }
+      ctx2d.globalAlpha = 1;
     }
 
-    function stopDraw() {
-      if (raf) cancelAnimationFrame(raf);
-      raf = null;
-      level = 0;
-      if (anim) anim.setSpeed(1);
-      if (lottieBox) lottieBox.style.transform = '';
+    function loop() {
+      raf = requestAnimationFrame(loop);
+      idle += 0.05;
+
+      if (analyser && !audio.paused) {
+        analyser.getByteFrequencyData(freq);
+        /* map the 30 columns across the bands that carry speech, skipping DC */
+        var usable = Math.min(freq.length - 1, 96);
+        for (var c = 0; c < COLS; c++) {
+          var from = Math.floor((c / COLS) * usable) + 1;
+          var to = Math.max(from + 1, Math.floor(((c + 1) / COLS) * usable) + 1);
+          var sum = 0, n = 0;
+          for (var i = from; i < to && i < freq.length; i++) { sum += freq[i]; n++; }
+          var target = n ? (sum / n) / 255 : 0;
+          target = Math.min(1, Math.pow(target, 0.72) * 2.1);
+          levels[c] = levels[c] * 0.62 + target * 0.38;
+        }
+      } else {
+        /* paused: a slow breath so the grid never looks dead */
+        for (var k = 0; k < COLS; k++) {
+          var wave = 0.5 + 0.5 * Math.sin(idle * 0.6 + k * 0.35);
+          levels[k] = levels[k] * 0.86 + (0.05 + wave * 0.07) * 0.14;
+        }
+      }
+      paint();
     }
+
+    function startLoop() { if (!raf) loop(); }
+    function stopLoop() { if (raf) cancelAnimationFrame(raf); raf = null; }
 
     play.addEventListener('click', function () {
       if (audio.paused) {
-        if (setupAnalyser() && ctx.state === 'suspended') ctx.resume();
+        if (setupAnalyser() && actx.state === 'suspended') actx.resume();
         audio.play();
       } else {
         audio.pause();
@@ -167,17 +215,15 @@
       card.classList.add('is-playing');
       play.setAttribute('aria-label', 'Pause audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
-      if (anim) anim.play();
-      if (setupAnalyser()) { if (ctx.state === 'suspended') ctx.resume(); if (!raf) draw(); }
+      if (setupAnalyser() && actx.state === 'suspended') actx.resume();
+      startLoop();
     });
     audio.addEventListener('pause', function () {
       card.classList.remove('is-playing');
       play.setAttribute('aria-label', 'Play audio');
       play.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
-      if (anim) anim.pause();
-      stopDraw();
     });
-    audio.addEventListener('ended', function () { stopDraw(); progress(); });
+    audio.addEventListener('ended', function () { progress(); });
     audio.addEventListener('timeupdate', progress);
     audio.addEventListener('loadedmetadata', function () { knownDuration = audio.duration || knownDuration; progress(); });
 
@@ -209,53 +255,41 @@
     });
 
     progress();
+    startLoop();
+  }
 
-    var base = (function () {
-      var scripts = document.getElementsByTagName('script');
-      for (var i = 0; i < scripts.length; i++) {
-        var src = scripts[i].src || '';
-        if (src.indexOf('audio-player.js') !== -1) return src.replace(/audio-player\.js.*$/, '');
-      }
-      return 'assets/';
-    })();
-
-    function loadScript(src) {
-      return new Promise(function (res, rej) {
-        var el = document.createElement('script');
-        el.src = src; el.onload = res; el.onerror = rej;
-        document.head.appendChild(el);
-      });
-    }
-
-    (window.lottie ? Promise.resolve() : loadScript(base + 'vendor/lottie.min.js'))
-      .then(function () { return fetch(base + 'audio/wave-dots.json').then(function (r) { return r.json(); }); })
-      .then(function (data) {
-        if (!window.lottie) return;
-        anim = window.lottie.loadAnimation({
-          container: lottieBox, renderer: 'svg', loop: true, autoplay: false,
-          animationData: data, rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
-        });
-        if (!audio.paused) anim.play();
-      })
-      .catch(function () {});
+  function upgrade(card) {
+    if (card.getAttribute('data-wave') === 'on') return;
+    var audio = card.querySelector('audio');
+    if (!audio) return;
+    card.setAttribute('data-wave', 'on');
+    audio.removeAttribute('controls');
+    audio.style.display = 'none';
+    try { build(card, audio); }
+    catch (err) { audio.setAttribute('controls', ''); audio.style.display = ''; }
   }
 
   function init() {
     var cards = document.querySelectorAll('.audio-card');
-    for (var i = 0; i < cards.length; i++) {
-      var card = cards[i];
-      if (card.getAttribute('data-wave') === 'on') continue;
-      var audio = card.querySelector('audio');
-      if (!audio) continue;
-      card.setAttribute('data-wave', 'on');
-      audio.removeAttribute('controls');
-      audio.style.display = 'none';
-      build(card, audio);
-    }
+    for (var i = 0; i < cards.length; i++) upgrade(cards[i]);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
-  setTimeout(init, 800);
-  setTimeout(init, 2000);
+
+  /* the card is inserted by article-audio.js after its fetch: catch it the
+     moment it appears instead of polling on a timer */
+  if (window.MutationObserver) {
+    new MutationObserver(function (muts) {
+      for (var i = 0; i < muts.length; i++) {
+        var added = muts[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var n = added[j];
+          if (n.nodeType !== 1) continue;
+          if (n.classList && n.classList.contains('audio-card')) upgrade(n);
+          else if (n.querySelector && n.querySelector('.audio-card')) upgrade(n.querySelector('.audio-card'));
+        }
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 })();
