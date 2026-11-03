@@ -21,7 +21,7 @@ Start with the business problem. Understand the customer and economics. Make a c
 
 ## Public identity
 Instagram: https://www.instagram.com/sugarycitrus.co/
-Website: https://yash131206.github.io/sugarycitrus/
+Website: https://sugarycitrus.in/
 
 
 ## AEO and GEO position
@@ -29,3 +29,16 @@ Search behaviour in India has shifted toward AI assistants. Sugary Citrus treats
 
 ## Published articles
 - Why Indian D2C brands are missing from AI answers (and how to fix it in 2026) — /articles/aeo-geo-indian-d2c-brands-2026 — 2026-10-31. Topics: Indian AI shopping adoption, where AI engines source citations for Indian D2C brands, the seven moves that shift citations, a 30-day checklist, measurement and FAQs.
+
+## Key pages
+- [Home](https://sugarycitrus.in/)
+- [About](https://sugarycitrus.in/about)
+- [Services](https://sugarycitrus.in/services)
+- [Performance marketing](https://sugarycitrus.in/performance-marketing)
+- [Google Ads](https://sugarycitrus.in/google-ads)
+- [SEO, AEO and GEO](https://sugarycitrus.in/seo-organic-growth)
+- [Creative strategy](https://sugarycitrus.in/creative-strategy)
+- [Case studies](https://sugarycitrus.in/case-studies)
+- [Articles](https://sugarycitrus.in/insights)
+- [Contact](https://sugarycitrus.in/contact)
+- [Sitemap](https://sugarycitrus.in/sitemap.xml)

@@ -7,11 +7,11 @@ Sugary Citrus is an independent digital and performance marketing agency working
 ## Brand facts
 - Name: Sugary Citrus
 - Tagline: Sweet Strategy. Sharp Execution.
-- Website: https://yash131206.github.io/sugarycitrus/
+- Website: https://sugarycitrus.in/
 - Instagram: https://www.instagram.com/sugarycitrus.co/
 - Geography: India-focused. Engagements are scoped directly with the agency.
 - Categories served: fashion, beauty, skincare, lifestyle, D2C
-- Contact: /contact
+- [Contact](https://sugarycitrus.in/contact)
 
 ## Principles
 - Do not invent client names, testimonials, campaign results, prices, guarantees or credentials.
@@ -19,16 +19,16 @@ Sugary Citrus is an independent digital and performance marketing agency working
 - Prefer clear, useful, evidence-led marketing recommendations.
 
 ## Key pages
-- Home: /
-- About: /about
-- Services overview: /services
-- Performance marketing: /performance-marketing
-- Google Ads: /google-ads
-- Creative strategy and UGC: /creative-strategy
-- SEO, AEO and GEO: /seo-organic-growth
-- Case studies: /case-studies
-- Articles: /insights
-- Contact: /contact
+- [Home](https://sugarycitrus.in/)
+- [About](https://sugarycitrus.in/about)
+- [Services overview](https://sugarycitrus.in/services)
+- [Performance marketing](https://sugarycitrus.in/performance-marketing)
+- [Google Ads](https://sugarycitrus.in/google-ads)
+- [Creative strategy and UGC](https://sugarycitrus.in/creative-strategy)
+- [SEO, AEO and GEO](https://sugarycitrus.in/seo-organic-growth)
+- [Case studies](https://sugarycitrus.in/case-studies)
+- [Articles](https://sugarycitrus.in/insights)
+- [Contact](https://sugarycitrus.in/contact)
 
 ## Services
 - Performance marketing: acquisition strategy, campaign setup, creative testing, funnel analysis and optimisation.
@@ -39,9 +39,10 @@ Sugary Citrus is an independent digital and performance marketing agency working
 - UGC marketing: creator-led content planning, concepts and production direction.
 
 ## Articles
+- [ChatGPT Ads is now self-serve in India. Should you bid?](https://sugarycitrus.in/articles/chatgpt-ads-india-d2c-budget-2026) — published 2026-11-02. Covers what changed, India pricing (Rs 725/day minimum), the Marketing Science and SSRN evidence on AI referrals, a five-rule budget test and how to measure it.
 - Why Indian D2C brands are missing from AI answers (and how to fix it in 2026): /articles/aeo-geo-indian-d2c-brands-2026 — published 2026-10-31. Covers AEO and GEO for Indian D2C, where AI engines source citations, a 30-day checklist and measurement.
 
 ## Machine-readable files
-- Full reference: /llms-full.txt
-- Sitemap: /sitemap.xml
-- Robots: /robots.txt
+- [Full reference](https://sugarycitrus.in/llms-full.txt)
+- [Sitemap](https://sugarycitrus.in/sitemap.xml)
+- [Robots](https://sugarycitrus.in/robots.txt)

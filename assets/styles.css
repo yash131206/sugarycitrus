@@ -1197,3 +1197,11 @@ html[data-theme="dark"] .nav-links{
 html,body{overflow-x:clip}
 @supports not (overflow:clip){ html,body{overflow-x:hidden} }
 .ticker{max-width:100%}
+/* footer column labels are labels, not document headings */
+.footer-col-title{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin:0 0 2px}
+html[data-theme="dark"] .footer-col-title{color:var(--cream)}
+
+/* the brand orange is too light for text on cream — this one passes AA */
+:root{--orange-ink:#D8430D}
+html[data-theme="dark"]{--orange-ink:#FF7A4D}
+h1 em,h2 em,h3 em,.brand em,.hero h1 em{color:var(--orange-ink)}
