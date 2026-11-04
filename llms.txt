@@ -23,7 +23,8 @@ Sugary Citrus is a performance marketing agency for Indian D2C brands. It connec
 - [About](https://sugarycitrus.in/about)
 - [Services overview](https://sugarycitrus.in/services)
 - [Performance marketing](https://sugarycitrus.in/performance-marketing)
-- [Google Ads](https://sugarycitrus.in/google-ads)
+- [Google Ads](https://sugarycitrus.in/meta-ads
+- https://sugarycitrus.in/google-ads)
 - [Creative strategy and UGC](https://sugarycitrus.in/creative-strategy)
 - [SEO, AEO and GEO](https://sugarycitrus.in/seo-organic-growth)
 - [Case studies](https://sugarycitrus.in/case-studies)
