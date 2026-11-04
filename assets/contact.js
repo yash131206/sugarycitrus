@@ -430,7 +430,17 @@
         }
         form.reset();
         say('Thanks — your enquiry is in. Taking you to the confirmation page…');
-        setTimeout(function () { location.href = 'thank-you'; }, 700);
+        var go = function () { location.href = 'thank-you'; };
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'form_submit', {
+              form: 'contact',
+              event_callback: go,
+              event_timeout: 900
+            });
+          } else { setTimeout(go, 700); }
+        } catch (e) { setTimeout(go, 700); }
+        setTimeout(go, 1200);
       } catch (err) {
         say('Sorry, that did not send (' + err.message + '). Email us directly instead.', true);
       } finally {
