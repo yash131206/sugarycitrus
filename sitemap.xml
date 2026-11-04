@@ -15,4 +15,10 @@
   <url><loc>https://sugarycitrus.in/seo-organic-growth</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://sugarycitrus.in/services</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://sugarycitrus.in/terms</loc><lastmod>2026-11-03</lastmod></url>
+  <url>
+    <loc>https://sugarycitrus.in/company-facts</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
