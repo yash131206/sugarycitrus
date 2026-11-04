@@ -3,3 +3,4 @@
 .post-skeleton .post-media img{filter:grayscale(.1)}
 :root{--muted:#77746e}
 h1 em,h2 em,h3 em,.brand em,.hero h1 em{color:var(--orange)}
+.cta-band h2 em,.cta-band h1 em,.cta-band strong em{color:var(--cream)}
