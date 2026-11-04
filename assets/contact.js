@@ -388,6 +388,7 @@
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
+    if (!data.service || !String(data.service).trim()) data.service = 'Not sure yet';
     if (window.isDisposableEmail && window.isDisposableEmail(data.email)) {
       say('Please use a permanent email address — temporary inboxes are blocked.', true);
       const field = document.getElementById('email');
@@ -450,7 +451,7 @@
   });
 })();
 
-/* brand-coloured dropdown */
+/* brand-coloured dropdown, single or multi */
 (function () {
   document.querySelectorAll('[data-select]').forEach(function (root) {
     const trigger = root.querySelector('.select-trigger');
@@ -458,24 +459,45 @@
     const menu = root.querySelector('.select-menu');
     const input = root.querySelector('input[type="hidden"]');
     if (!trigger || !menu || !input) return;
-    const options = [...menu.querySelectorAll('[role="option"]')];
 
+    const multi = root.hasAttribute('data-multi');
+    const options = [...menu.querySelectorAll('[role="option"]')];
+    const placeholder = valueEl ? valueEl.textContent : '';
+    const selected = () => options.filter(o => o.getAttribute('aria-selected') === 'true');
+
+    function label() {
+      const picks = selected();
+      if (!picks.length) { valueEl.textContent = placeholder; valueEl.classList.add('is-placeholder'); return; }
+      valueEl.classList.remove('is-placeholder');
+      if (picks.length === 1) { valueEl.textContent = picks[0].dataset.value; return; }
+      valueEl.textContent = picks[0].dataset.value + ' +' + (picks.length - 1) + ' more';
+    }
+    function sync() {
+      input.value = selected().map(o => o.dataset.value).join(', ');
+      label();
+    }
     function open() {
       root.classList.add('is-open');
       trigger.setAttribute('aria-expanded', 'true');
-      const sel = options.find(o => o.getAttribute('aria-selected') === 'true') || options[0];
-      if (sel) sel.focus();
+      const first = selected()[0] || options[0];
+      if (first) first.focus();
     }
     function close() {
       root.classList.remove('is-open');
       trigger.setAttribute('aria-expanded', 'false');
     }
     function choose(opt) {
-      options.forEach(o => o.setAttribute('aria-selected', o === opt ? 'true' : 'false'));
-      input.value = opt.dataset.value;
-      valueEl.textContent = opt.dataset.value;
-      close();
-      trigger.focus();
+      if (multi) {
+        const on = opt.getAttribute('aria-selected') === 'true';
+        opt.setAttribute('aria-selected', on ? 'false' : 'true');
+        sync();
+        opt.focus();
+      } else {
+        options.forEach(o => o.setAttribute('aria-selected', o === opt ? 'true' : 'false'));
+        sync();
+        close();
+        trigger.focus();
+      }
     }
 
     trigger.addEventListener('click', function (e) {
@@ -497,5 +519,6 @@
     });
     document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    sync();
   });
 })();
