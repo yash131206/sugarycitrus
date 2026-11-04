@@ -13,6 +13,13 @@
     return m ? m[1] : '';
   }
 
+
+  /* the thank-you page is the most reliable conversion signal: it is a page
+     view, so it cannot be lost to a redirect */
+  if (/thank-you/.test(location.pathname)) {
+    track('thank_you_view', { conversion: 'enquiry_sent' });
+  }
+
   /* an article was opened */
   if (/\/articles\//.test(location.pathname)) {
     track('read_article', { article: slug(), page_location: location.href });
