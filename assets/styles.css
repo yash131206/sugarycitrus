@@ -4,3 +4,12 @@
 :root{--muted:#77746e}
 h1 em,h2 em,h3 em,.brand em,.hero h1 em{color:var(--orange)}
 .cta-band h2 em,.cta-band h1 em,.cta-band strong em{color:var(--cream)}
+@media(max-width:850px){
+.hero h1{font-size:clamp(52px,13.5vw,92px)}
+.page-hero h1{font-size:clamp(44px,11.5vw,78px)}
+.section-head h2{font-size:clamp(38px,9vw,60px)}
+.article h1{font-size:clamp(34px,8.6vw,50px)}
+.article-body{font-size:16px;line-height:1.85}
+.content-section p,.content-section li,.faq-answer p,.post-card--featured p,.blog-body p,.service-card p{font-size:15px}
+.hero-copy,.page-hero .intro{font-size:16px}
+}
