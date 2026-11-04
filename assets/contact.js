@@ -389,13 +389,18 @@
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     data.phone = ((data.country || '') + ' ' + (data.phone || '')).trim();
+    if (data.brand_type === 'Other' && String(data.brand_type_other || '').trim()) {
+      data.brand_type = 'Other — ' + String(data.brand_type_other).trim();
+    }
 
     const missing = [];
     if (!String(data.name || '').trim()) missing.push('your name');
     if (!String(data.email || '').trim()) missing.push('work email');
     if (!String(data.phone || '').replace(/[^0-9]/g, '')) missing.push('phone');
-    if (!String(data.company || '').trim()) missing.push('brand or company');
+    if (!String(data.company || '').trim()) missing.push('brand name');
+    if (!String(data.website || '').trim()) missing.push('brand website');
     if (!String(data.brand_type || '').trim()) missing.push('brand type');
+    if (data.brand_type === 'Other' && !String(data.brand_type_other || '').trim()) missing.push('your category');
     if (!String(data.service || '').trim()) missing.push('what you need help with');
     if (!String(data.message || '').trim()) missing.push('a little about your challenge');
     if (missing.length) {
@@ -485,7 +490,10 @@
       const picks = selected();
       if (!picks.length) { valueEl.textContent = placeholder; valueEl.classList.add('is-placeholder'); return; }
       valueEl.classList.remove('is-placeholder');
-      if (picks.length === 1) { valueEl.textContent = picks[0].dataset.value; return; }
+      if (picks.length === 1) {
+        valueEl.textContent = picks[0].dataset.value;
+        return;
+      }
       valueEl.textContent = picks[0].dataset.value + ' +' + (picks.length - 1) + ' more';
     }
     function sync() {
@@ -494,6 +502,8 @@
     }
     function open() {
       root.classList.add('is-open');
+      var srch = root.querySelector('.select-search');
+      if (srch) { srch.value = ''; options.forEach(function (o) { o.style.display = ''; }); setTimeout(function () { srch.focus(); }, 40); }
       trigger.setAttribute('aria-expanded', 'true');
       const first = selected()[0] || options[0];
       if (first) first.focus();
@@ -516,10 +526,40 @@
         opt.focus();
       } else {
         options.forEach(o => o.setAttribute('aria-selected', o === opt ? 'true' : 'false'));
+        var target = opt.getAttribute('data-opens');
+        options.forEach(function (o) {
+          var box = o.getAttribute('data-opens');
+          if (!box) return;
+          var wrap = document.getElementById(box + '_wrap');
+          if (!wrap) return;
+          var on = o === opt;
+          wrap.hidden = !on;
+          var field = document.getElementById(box);
+          if (field) { field.required = on; if (on) setTimeout(function () { field.focus(); }, 60); }
+        });
         sync();
         close();
         trigger.focus();
       }
+    }
+
+    var searchEl = root.querySelector('.select-search');
+    if (searchEl) {
+      searchEl.addEventListener('input', function () {
+        var q = this.value.trim().toLowerCase();
+        options.forEach(function (o) {
+          var hit = !q || (o.dataset.name || o.dataset.value).toLowerCase().indexOf(q) > -1 || o.dataset.value.indexOf(q) > -1;
+          o.style.display = hit ? '' : 'none';
+        });
+      });
+      searchEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { close(); trigger.focus(); }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var firstVisible = options.find(function (o) { return o.style.display !== 'none'; });
+          if (firstVisible) choose(firstVisible);
+        }
+      });
     }
 
     trigger.addEventListener('click', function (e) {

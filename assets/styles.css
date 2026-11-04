@@ -48,3 +48,17 @@ html[data-theme="dark"] .select-menu[aria-multiselectable="true"] li::before{bor
 .phone-row .select-value{font-variant-numeric:tabular-nums}
 .phone-row .select-menu{min-width:120px}
 @media(max-width:420px){.phone-row{grid-template-columns:92px 1fr}.phone-row .select{width:92px}}
+.select-panel{display:none;position:absolute;z-index:60;left:0;right:0;top:calc(100% + 6px);background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.12);overflow:hidden}
+.select.is-open .select-panel{display:block}
+.select--cc{position:relative}
+.select-search{width:100%;border:0;border-bottom:1px solid var(--line);padding:12px 14px;font:500 14px var(--body,inherit);background:transparent;color:var(--ink);outline:none}
+.select-panel .select-menu{position:static;max-height:260px;overflow-y:auto;border:0;border-radius:0;box-shadow:none;margin:0;padding:6px}
+.select--cc .select-menu{position:static;max-height:none;overflow:visible;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;display:none}
+.select--cc .select-panel .select-menu{display:block}
+.select-menu[aria-multiselectable] ~ .select-panel{}
+.select--cc .select-menu li{display:flex;justify-content:space-between;gap:12px}
+.cc-dial{color:var(--muted);font-variant-numeric:tabular-nums}
+.other-wrap{margin-top:10px}
+.other-wrap[hidden]{display:none}
+html[data-theme="dark"] .select-panel{background:#1A1917;border-color:var(--line)}
+html[data-theme="dark"] .select-search{color:var(--ink);border-color:var(--line)}
