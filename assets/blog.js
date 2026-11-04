@@ -5,8 +5,30 @@ function meta(p){return`<div class="post-meta"><span class="pill">${esc(p.catego
 function listenBtn(p,big){if(!p.audio_url)return'';const cls=big?'btn-outline':'btn-outline btn-outline--sm';return`<span class="${cls} listen-btn" data-listen="${esc(p.audio_url)}" data-title="${esc(p.title)}" role="button" tabindex="0">Listen article ${LISTEN_ICON}</span>`;}
 function card(p,i){return`<a class="blog-card" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:560px) 100vw, (max-width:1080px) 50vw, 33vw',i===0)}<div class="blog-body">${meta(p)}<h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><span class="card-actions"><span class="btn-outline btn-outline--sm">Read article ${ARROW}</span>${listenBtn(p,false)}</span></div></a>`;}
 function featured(p){return`<a class="post-card--featured" href="articles/${encodeURIComponent(p.slug)}">${media(p.featured_image,p.title,'(max-width:850px) 100vw, 50vw')}<div class="post-body">${meta(p)}<h2>${esc(p.title)}</h2><p>${esc(p.description)}</p><span class="card-actions"><span class="btn-outline">Read article ${ARROW}</span>${listenBtn(p,true)}</span></div></a>`;}
+
+function domMatches(data){
+  var target=document.getElementById('posts');if(!target)return false;
+  var links=[].slice.call(target.querySelectorAll('a[href^="articles/"]'));
+  if(links.length!==data.length)return false;
+  for(var i=0;i<data.length;i++){
+    var slug=links[i].getAttribute('href').replace('articles/','');
+    if(decodeURIComponent(slug)!==data[i].slug)return false;
+  }
+  return true;
+}
+function addListen(data){
+  var target=document.getElementById('posts');if(!target)return;
+  var links=[].slice.call(target.querySelectorAll('a[href^="articles/"]'));
+  links.forEach(function(a,i){
+    var post=data[i];if(!post||!post.audio_url)return;
+    var actions=a.querySelector('.card-actions');if(!actions)return;
+    if(actions.querySelector('.listen-btn'))return;
+    var big=a.classList.contains('post-card--featured');
+    actions.insertAdjacentHTML('beforeend',listenBtn(post,big));
+  });
+}
 async function loadPosts(){const target=document.getElementById('posts');if(!target)return;let data=[];let seeded=null;const seedEl=document.getElementById('posts-seed');if(seedEl){try{seeded=JSON.parse(seedEl.textContent);if(seeded&&seeded.length)paint(seeded);}catch(e){seeded=null;}}try{if(supabase){const r=await supabase.from('articles').select('slug,title,featured_image,category,publish_date,description,body,audio_url').eq('status','published').order('publish_date',{ascending:true});if(r.error)throw r.error;data=r.data||[];}else{const r=await fetch('content/blog/index.json');if(!r.ok)throw new Error('no build');data=(await r.json()).map(p=>({...p,featured_image:p.image,publish_date:p.date}));}}catch(e){console.error('Insights load error:',e);}
-paint(data);if(seeded&&sameList(data,seeded))return;paint(data);}
+if(domMatches(data)){addListen(data);return;}paint(data);}
 function paint(data){const target=document.getElementById('posts');if(!target)return;
 if(!data.length){target.innerHTML='<div class="latest-empty"><strong>No articles yet.</strong> The first one is being written. Meanwhile, here is what we do: <a class="text-link" href="services">see the services '+ARROW+'</a></div>';return;}
 const[first,...rest]=data;target.innerHTML=featured(first)+(rest.length?`<div class="blog-grid blog-grid--posts">${rest.map((p,i)=>card(p,i)).join('')}</div>`:'');}
