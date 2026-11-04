@@ -40,7 +40,7 @@ Sugary Citrus is an independent digital and performance marketing agency working
 
 ## Articles
 - [ChatGPT Ads is now self-serve in India. Should you bid?](https://sugarycitrus.in/articles/chatgpt-ads-india-d2c-budget-2026) — published 2026-11-02. Covers what changed, India pricing (Rs 725/day minimum), the Marketing Science and SSRN evidence on AI referrals, a five-rule budget test and how to measure it.
-- Why Indian D2C brands are missing from AI answers (and how to fix it in 2026): /articles/aeo-geo-indian-d2c-brands-2026 — published 2026-10-31. Covers AEO and GEO for Indian D2C, where AI engines source citations, a 30-day checklist and measurement.
+- [Why Indian D2C brands are missing from AI answers (and how to fix it in 2026)](https://sugarycitrus.in/articles/aeo-geo-indian-d2c-brands-2026) — published 2026-10-31. Covers AEO and GEO for Indian D2C, where AI engines source citations, a 30-day checklist and measurement.
 
 ## Machine-readable files
 - [Full reference](https://sugarycitrus.in/llms-full.txt)
