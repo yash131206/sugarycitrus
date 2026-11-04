@@ -388,6 +388,22 @@
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
+    data.phone = ((data.country || '') + ' ' + (data.phone || '')).trim();
+
+    const missing = [];
+    if (!String(data.name || '').trim()) missing.push('your name');
+    if (!String(data.email || '').trim()) missing.push('work email');
+    if (!String(data.phone || '').replace(/[^0-9]/g, '')) missing.push('phone');
+    if (!String(data.company || '').trim()) missing.push('brand or company');
+    if (!String(data.brand_type || '').trim()) missing.push('brand type');
+    if (!String(data.service || '').trim()) missing.push('what you need help with');
+    if (!String(data.message || '').trim()) missing.push('a little about your challenge');
+    if (missing.length) {
+      say('Please add ' + missing.join(', ') + '.', true);
+      const first = form.querySelector('input:invalid, textarea:invalid');
+      if (first) first.focus();
+      return;
+    }
     if (!data.service || !String(data.service).trim()) data.service = 'Not sure yet';
     if (window.isDisposableEmail && window.isDisposableEmail(data.email)) {
       say('Please use a permanent email address — temporary inboxes are blocked.', true);
@@ -489,6 +505,12 @@
     function choose(opt) {
       if (multi) {
         const on = opt.getAttribute('aria-selected') === 'true';
+        const exclusive = opt.hasAttribute('data-exclusive');
+        if (!on && exclusive) {
+          options.forEach(o => { if (o !== opt) o.setAttribute('aria-selected', 'false'); });
+        } else if (!on) {
+          options.forEach(o => { if (o.hasAttribute('data-exclusive')) o.setAttribute('aria-selected', 'false'); });
+        }
         opt.setAttribute('aria-selected', on ? 'false' : 'true');
         sync();
         opt.focus();

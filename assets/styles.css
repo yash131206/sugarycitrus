@@ -42,3 +42,9 @@ html[data-theme="dark"] .facts-link:hover .facts-v{color:var(--orange-ink)}
 .select-menu[aria-multiselectable="true"] li[aria-selected="true"]::before{background:var(--orange);border-color:var(--orange);box-shadow:inset 0 0 0 2px var(--white)}
 .select-menu[aria-multiselectable="true"] li[aria-selected="true"]{color:var(--ink);font-weight:700}
 html[data-theme="dark"] .select-menu[aria-multiselectable="true"] li::before{border-color:#4A463F}
+.phone-row{display:grid;grid-template-columns:104px 1fr;gap:8px;align-items:start}
+.phone-row .select{width:104px}
+.phone-row .select-trigger{padding-left:14px;padding-right:10px}
+.phone-row .select-value{font-variant-numeric:tabular-nums}
+.phone-row .select-menu{min-width:120px}
+@media(max-width:420px){.phone-row{grid-template-columns:92px 1fr}.phone-row .select{width:92px}}
