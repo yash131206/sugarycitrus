@@ -75,3 +75,13 @@ html[data-theme="dark"] .select--cc .select-menu li:first-child{background:#1A19
 .select--cc .select-menu{max-height:200px;overflow-y:auto;overscroll-behavior:contain}
 .select--cc .select-menu li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;padding-right:14px}
 .select--cc .select-menu li span.cc-dial{flex:0 0 auto;margin-left:auto;padding-left:8px;text-align:right;white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+.price-table{display:grid;gap:10px;margin:22px 0}
+.price-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--white)}
+.price-name{display:flex;flex-direction:column;gap:3px}
+.price-name strong{font-size:16px;letter-spacing:-.02em}
+.price-name span{font-size:13px;color:var(--muted)}
+.price-amount{text-align:right;font-weight:800;font-size:17px;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.price-amount span{display:block;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+html[data-theme="dark"] .price-row{background:#1A1917;border-color:var(--line)}
+html[data-theme="dark"] .price-amount{color:var(--ink)}
+@media(max-width:520px){.price-row{flex-direction:column;align-items:flex-start;gap:8px}.price-amount{text-align:left}}
