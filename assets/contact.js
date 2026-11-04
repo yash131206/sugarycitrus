@@ -562,6 +562,14 @@
       });
     }
 
+    var phoneEl = document.getElementById('phone');
+    if (phoneEl) {
+      phoneEl.addEventListener('input', function () {
+        var v = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        if (this.value !== v) this.value = v;
+      });
+    }
+
     trigger.addEventListener('click', function (e) {
       e.stopPropagation();
       root.classList.contains('is-open') ? close() : open();

@@ -67,3 +67,11 @@ html[data-theme="dark"] .select-search{color:var(--ink);border-color:var(--line)
 .select--cc .select-menu li[aria-selected="true"]{background:rgba(255,85,32,.10)}
 .select--cc .select-menu li:first-child{position:sticky;top:0;background:var(--white);box-shadow:0 1px 0 var(--line);z-index:1;font-weight:700}
 html[data-theme="dark"] .select--cc .select-menu li:first-child{background:#1A1917}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+.field-row label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:360px){.field-row{grid-template-columns:1fr}}
+/* country panel: shorter, scrolls, and the dial code never gets clipped */
+.select--cc .select-panel{width:min(300px,80vw);right:auto}
+.select--cc .select-menu{max-height:200px;overflow-y:auto;overscroll-behavior:contain}
+.select--cc .select-menu li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;padding-right:14px}
+.select--cc .select-menu li span.cc-dial{flex:0 0 auto;margin-left:auto;padding-left:8px;text-align:right;white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
