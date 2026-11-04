@@ -472,6 +472,52 @@
   });
 })();
 
+/* country field: reuse the dial-code list, and match the phone length to the country */
+(function () {
+  var LENGTHS = {
+    '+91': [10, 10], '+1': [10, 10], '+44': [10, 11], '+61': [9, 9], '+65': [8, 8],
+    '+971': [9, 9], '+974': [8, 8], '+965': [8, 8], '+968': [8, 8], '+973': [8, 8],
+    '+966': [9, 9], '+92': [10, 10], '+880': [10, 10], '+94': [9, 9], '+977': [10, 10],
+    '+975': [8, 8], '+960': [7, 7], '+49': [10, 11], '+33': [9, 9], '+39': [9, 10],
+    '+34': [9, 9], '+31': [9, 9], '+32': [9, 9], '+41': [9, 9], '+43': [10, 11],
+    '+81': [10, 10], '+82': [9, 10], '+86': [11, 11], '+852': [8, 8], '+853': [8, 8],
+    '+886': [9, 9], '+7': [10, 10], '+20': [10, 10], '+27': [9, 9], '+234': [10, 10],
+    '+254': [9, 9], '+55': [10, 11], '+52': [10, 10], '+54': [10, 10], '+56': [9, 9],
+    '+57': [10, 10], '+60': [9, 10], '+62': [9, 12], '+63': [10, 10], '+66': [9, 9],
+    '+84': [9, 10], '+90': [10, 10], '+30': [10, 10], '+48': [9, 9], '+420': [9, 9]
+  };
+  var DEFAULT_MAX = 15;
+
+  document.querySelectorAll('[data-clone]').forEach(function (root) {
+    var from = document.querySelector('ul[aria-label="' + (root.dataset.clone === 'country' ? 'Country code' : root.dataset.clone) + '"]');
+    if (!from) return;
+    var ul = root.querySelector('.select-menu');
+    if (!ul || ul.children.length) return;
+    [].slice.call(from.children).forEach(function (li) {
+      var copy = li.cloneNode(true);
+      copy.setAttribute('aria-selected', 'false');
+      ul.appendChild(copy);
+    });
+  });
+
+  var phone = document.getElementById('phone');
+  var country = document.getElementById('country');
+  function applyLength() {
+    if (!phone) return;
+    var code = (country && country.value) || '+91';
+    var pair = LENGTHS[code] || [6, DEFAULT_MAX];
+    var max = pair[1];
+    phone.setAttribute('maxlength', String(max));
+    phone.setAttribute('pattern', '[0-9]{' + pair[0] + ',' + max + '}');
+    phone.setAttribute('placeholder', code === '+91' ? '98765 43210' : (pair[0] === max ? max + ' digits' : pair[0] + '–' + max + ' digits'));
+    if (phone.value.length > max) phone.value = phone.value.slice(0, max);
+  }
+  if (country) {
+    country.addEventListener('change', applyLength);
+    applyLength();
+  }
+})();
+
 /* brand-coloured dropdown, single or multi */
 (function () {
   document.querySelectorAll('[data-select]').forEach(function (root) {
@@ -499,6 +545,7 @@
     function sync() {
       input.value = selected().map(o => o.dataset.value).join(', ');
       label();
+      input.dispatchEvent(new Event('change', { bubbles: true }));
     }
     function open() {
       root.classList.add('is-open');
@@ -565,7 +612,8 @@
     var phoneEl = document.getElementById('phone');
     if (phoneEl) {
       phoneEl.addEventListener('input', function () {
-        var v = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        var cap = parseInt(this.getAttribute('maxlength'), 10) || 15;
+        var v = this.value.replace(/[^0-9]/g, '').slice(0, cap);
         if (this.value !== v) this.value = v;
       });
     }
